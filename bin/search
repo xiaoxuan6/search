@@ -1,0 +1,22 @@
+#!/usr/bin/env php
+<?php
+
+namespace Vinhson\Search;
+
+use Symfony\Component\Console\Application;
+use Vinhson\Search\Commands\PinCommand;
+
+$autoloads = [
+    __DIR__ . '/../vendor/autoload.php',
+    __DIR__ . '/../../../autoload.php'
+];
+foreach ($autoloads as $autoload) {
+    if (file_exists($autoload)) {
+        require_once $autoload;
+        break;
+    }
+}
+
+$app = new Application();
+$app->add(new PinCommand::class);
+$app->run();
