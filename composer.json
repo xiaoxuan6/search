@@ -1,7 +1,10 @@
 {
     "name": "james.xue/search",
     "description": "source search",
-    "license": "min",
+    "license": "MIT",
+    "type": "library",
+    "keywords": ["search", "source", "source-search"],
+    "homepage": "https://github.com/xiaoxuan6/search.git",
     "autoload": {
         "psr-4": {
             "Vinhson\\Search\\": "src/"
