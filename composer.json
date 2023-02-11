@@ -20,12 +20,14 @@
         "php": ">8.0",
         "symfony/console": "^6.0",
         "guzzlehttp/guzzle": "^7.5",
-        "illuminate/collections": "^9.50"
+        "illuminate/collections": "^9.50",
+        "deployer/deployer": "^7.0@RC"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.14"
     },
     "scripts": {
         "pint": "vendor/bin/php-cs-fixer fix"
-    }
+    },
+    "bin": ["bin/search"]
 }
