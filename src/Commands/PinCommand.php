@@ -31,9 +31,15 @@ class PinCommand extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
+        if (empty($payload = $input->getArgument('payload'))) {
+            $output->writeln('请输入需要翻译的文字');
+
+            return;
+        }
+
         $response = $this->client->post(self::URI, [
             'form_params' => [
-                'hanzi' => $input->getArgument('payload'),
+                'hanzi' => $payload,
                 'with_seperator' => $input->getOption('with_seperator'),
                 'first_letter_uppercase' => $input->getOption('first_letter_uppercase'),
                 'with_tone' => $input->getOption('with_tone'),

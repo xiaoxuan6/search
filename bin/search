@@ -5,6 +5,7 @@ namespace Vinhson\Search;
 
 use Symfony\Component\Console\Application;
 use Vinhson\Search\Commands\PinCommand;
+use Vinhson\Search\Commands\ProxyCommand;
 
 $autoloads = [
     __DIR__ . '/../vendor/autoload.php',
@@ -19,4 +20,5 @@ foreach ($autoloads as $autoload) {
 
 $app = new Application();
 $app->add(new PinCommand);
+$app->add(new ProxyCommand);
 $app->run();
