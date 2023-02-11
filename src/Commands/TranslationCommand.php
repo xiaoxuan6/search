@@ -56,7 +56,7 @@ class TranslationCommand extends BaseCommand
         QUESTION:
         if (! $input->getArgument('keyword')) {
             $helper = $this->getHelper('question');
-            $question = new Question("<error>请输入需要翻译的文本</error>");
+            $question = new Question("<error>请输入需要翻译的文本：</error>");
 
             $answer = $helper->ask($input, $output, $question);
             if (! $answer) {
