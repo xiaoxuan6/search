@@ -18,5 +18,5 @@ foreach ($autoloads as $autoload) {
 }
 
 $app = new Application();
-$app->add(new PinCommand::class);
+$app->add(new PinCommand);
 $app->run();

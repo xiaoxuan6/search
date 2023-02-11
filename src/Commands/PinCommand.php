@@ -12,20 +12,12 @@
 
 namespace Vinhson\Search\Commands;
 
-use Vinhson\Search\HttpClient;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption};
 
-class PinCommand extends Command
+class PinCommand extends BaseCommand
 {
     public const URI = 'https://api.tool.dute.me/tool/hanzi';
-
-    public function __construct(
-        protected HttpClient $client
-    ) {
-        parent::__construct();
-    }
 
     protected function configure()
     {

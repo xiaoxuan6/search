@@ -16,7 +16,7 @@ use GuzzleHttp\Client;
 
 class HttpClient
 {
-    private static Client $client;
+    private static $client;
 
     public static function getClient(): Client
     {
@@ -32,11 +32,11 @@ class HttpClient
 
     public function get(string $url): Response
     {
-        return new Response(self::$client->get($url));
+        return new Response(self::getClient()->get($url));
     }
 
     public function post(string $url, array $payload = []): Response
     {
-        return new Response(self::$client->post($url, $payload));
+        return new Response(self::getClient()->post($url, $payload));
     }
 }
