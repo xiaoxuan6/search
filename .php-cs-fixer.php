@@ -13,11 +13,13 @@ HEADER;
 $finder = PhpCsFixer\Finder::create()
     ->in([
         __DIR__ . '/src',
+        __DIR__ . '/bin',
     ])
     ->exclude([
         __DIR__ . '/vendor',
     ])
     ->name('*.php')
+    ->name('search')
     ->ignoreDotFiles(true)
     ->ignoreVCS(true);
 
