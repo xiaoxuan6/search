@@ -32,7 +32,7 @@ class PinCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
         if (empty($payload = $input->getArgument('payload'))) {
-            $output->writeln('请输入需要翻译的文字');
+            $output->writeln("<error>请输入需要翻译的文字</error>");
 
             return;
         }

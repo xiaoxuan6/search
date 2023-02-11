@@ -27,7 +27,7 @@ class ProxyCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $proxy = 'https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890';
-        $output->writeln("<comment>system exec proxy {$proxy}</comment>");
+        $output->writeln("<comment>system exec export {$proxy}</comment>");
 
         if (strtolower(mb_substr(PHP_OS, 0, 3)) == 'win') {
             system("set {$proxy}");
