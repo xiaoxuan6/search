@@ -13,15 +13,19 @@
 namespace Vinhson\Search\Commands;
 
 use Vinhson\Search\HttpClient;
+use Illuminate\Support\Collection;
 use Symfony\Component\Console\Command\Command;
 
 class BaseCommand extends Command
 {
     protected HttpClient $client;
 
-    public function __construct()
+    protected Collection $config;
+
+    public function __construct(Collection $config)
     {
         parent::__construct();
+        $this->config = $config;
         $this->client = new HttpClient();
     }
 }
