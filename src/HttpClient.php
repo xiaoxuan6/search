@@ -13,6 +13,7 @@
 namespace Vinhson\Search;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 
 class HttpClient
 {
@@ -22,7 +23,7 @@ class HttpClient
     {
         if (! self::$client) {
             self::$client = new Client([
-                'timeout' => 3,
+                'timeout' => 30,
                 'verify' => false
             ]);
         }
@@ -32,11 +33,23 @@ class HttpClient
 
     public function get(string $url): Response
     {
-        return new Response(self::getClient()->get($url));
+        try {
+            $response = self::getClient()->get($url);
+
+            return new Response($response);
+        } catch (RequestException $exception) {
+            return new Response(new \GuzzleHttp\Psr7\Response($exception->getCode(), [], null, '1.1', $exception->getMessage()));
+        }
     }
 
     public function post(string $url, array $payload = []): Response
     {
-        return new Response(self::getClient()->post($url, $payload));
+        try {
+            $response = self::getClient()->post($url, $payload);
+
+            return new Response($response);
+        } catch (RequestException $exception) {
+            return new Response(new \GuzzleHttp\Psr7\Response($exception->getCode(), [], null, '1.1', $exception->getMessage()));
+        }
     }
 }

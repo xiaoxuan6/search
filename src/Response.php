@@ -42,6 +42,6 @@ class Response
             return data_get($this->body, $key);
         }
 
-        return $this->body->get($key) ?? '';
+        return $this->body->get($key) ?? $this->response->getReasonPhrase() ?? '';
     }
 }
