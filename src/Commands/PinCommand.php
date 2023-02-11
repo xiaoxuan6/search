@@ -29,7 +29,7 @@ class PinCommand extends BaseCommand
             ->addArgument('payload', InputArgument::OPTIONAL, '需要翻译的文字');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $response = $this->client->post(self::URI, [
             'form_params' => [
@@ -43,11 +43,9 @@ class PinCommand extends BaseCommand
         if (! $response->isSuccess()) {
             $output->writeln("<error>翻译失败：{$response->getMessage('message')}</error>>");
 
-            return self::FAILURE;
+            return;
         }
 
         $output->writeln("<comment>翻译结果：{$response->getData('data.pinyin')}</comment>");
-
-        return self::SUCCESS;
     }
 }
