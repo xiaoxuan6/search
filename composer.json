@@ -20,7 +20,8 @@
         "php": ">7.0",
         "guzzlehttp/guzzle": "^7.5",
         "symfony/console": "^4.0",
-        "illuminate/collections": "^8.83"
+        "illuminate/collections": "^8.83",
+        "ext-json": "*"
     },
     "scripts": {
         "pint": "vendor/bin/php-cs-fixer fix"
