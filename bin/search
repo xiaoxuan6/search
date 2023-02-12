@@ -4,7 +4,7 @@
 namespace Vinhson\Search;
 
 use Symfony\Component\Console\Application;
-use Vinhson\Search\Commands\{PinCommand, ProxyCommand, TranslationCommand};
+use Vinhson\Search\Commands\{PinCommand, ProxyCommand, TranslationCommand, UnProxyCommand};
 
 $autoloads = [
     __DIR__ . '/../vendor/autoload.php',
@@ -30,6 +30,7 @@ $app = new Application();
 $app->add(new PinCommand($config));
 $app->add(new ProxyCommand());
 $app->add(new TranslationCommand($config));
+$app->add(new UnProxyCommand());
 
 try {
     $app->run();
