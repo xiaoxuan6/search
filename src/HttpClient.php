@@ -33,7 +33,7 @@ class HttpClient
 
     public function e($exception): \GuzzleHttp\Psr7\Response
     {
-        return new \GuzzleHttp\Psr7\Response($exception->getCode(), [], null, '1.1', $exception->getMessage());
+        return new \GuzzleHttp\Psr7\Response(500, [], null, '1.1', $exception->getMessage());
     }
 
     public function get(string $url): Response

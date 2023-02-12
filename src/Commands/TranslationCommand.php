@@ -36,8 +36,8 @@ class TranslationCommand extends BaseCommand
         $response = $this->client->get(
             sprintf(
                 "%s:%s/api/search?%s",
-                $this->config->get('host'),
-                $this->config->get('port'),
+                $input->getOption('host') ?? $this->config->get('host'),
+                $input->getOption('port') ?? $this->config->get('port'),
                 http_build_query($params)
             )
         );

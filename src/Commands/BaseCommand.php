@@ -15,6 +15,7 @@ namespace Vinhson\Search\Commands;
 use Vinhson\Search\HttpClient;
 use Illuminate\Support\Collection;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputOption;
 
 class BaseCommand extends Command
 {
@@ -27,5 +28,7 @@ class BaseCommand extends Command
         parent::__construct();
         $this->config = $config;
         $this->client = new HttpClient();
+        $this->addOption('host', 'host', InputOption::VALUE_OPTIONAL, '外网地址')
+            ->addOption('port', 'p', InputOption::VALUE_OPTIONAL, '端口');
     }
 }
