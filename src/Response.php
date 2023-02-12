@@ -38,7 +38,7 @@ class Response
 
     public function getMessage(string $key): string
     {
-        if (str_contains($key, '.')) {
+        if (strpos($key, '.') !== false) {
             return data_get($this->body, $key);
         }
 
