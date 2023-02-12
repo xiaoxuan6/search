@@ -4,7 +4,7 @@
 namespace Vinhson\Search;
 
 use Symfony\Component\Console\Application;
-use Vinhson\Search\Commands\{PinCommand, ProxyCommand, TranslationCommand, UnProxyCommand};
+use Vinhson\Search\Commands\{IdCardCommand, PinCommand, ProxyCommand, TranslationCommand, UnProxyCommand};
 
 $autoloads = [
     __DIR__ . '/../vendor/autoload.php',
@@ -31,6 +31,7 @@ $app->add(new PinCommand($config));
 $app->add(new ProxyCommand());
 $app->add(new TranslationCommand($config));
 $app->add(new UnProxyCommand());
+$app->add(new IdCardCommand($config));
 
 try {
     $app->run();

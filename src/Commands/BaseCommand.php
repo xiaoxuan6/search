@@ -12,8 +12,7 @@
 
 namespace Vinhson\Search\Commands;
 
-use Vinhson\Search\HttpClient;
-use Illuminate\Support\Collection;
+use Vinhson\Search\{Config, HttpClient};
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -21,9 +20,9 @@ class BaseCommand extends Command
 {
     protected HttpClient $client;
 
-    protected Collection $config;
+    protected Config $config;
 
-    public function __construct(Collection $config)
+    public function __construct(Config $config)
     {
         parent::__construct();
         $this->config = $config;
