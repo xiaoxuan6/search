@@ -21,18 +21,14 @@ class ProxyCommand extends Command
     protected function configure()
     {
         $this->setName('proxy')
-            ->setDescription('设置本地代理');
+            ->setDescription('设置 git 本地代理');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $proxy = 'https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890';
-        $output->writeln("<comment>system exec export {$proxy}</comment>");
+        exec('git config --global http.proxy http://127.0.0.1:7890');
+        exec('git config --global https.proxy http://127.0.0.1:7890');
 
-        if (strtolower(mb_substr(PHP_OS, 0, 3)) == 'win') {
-            system("set {$proxy}");
-        } else {
-            exec("export {$proxy}");
-        }
+        $output->writeln(PHP_EOL . "<info>git config set proxy successful</info>");
     }
 }

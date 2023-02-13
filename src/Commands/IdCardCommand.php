@@ -35,12 +35,14 @@ class IdCardCommand extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $id_card = $input->getArgument('id_card');
+
         $payload = self::ID_CARD == $this->channel ? [
             'type' => 'id_card',
-            'id_card' => $input->getArgument('id_card'),
+            'id_card' => $id_card,
         ] : [
             'type' => 'card',
-            'num' => $input->getArgument('id_card')
+            'num' => $id_card
         ];
 
         $response = $this->client->get(

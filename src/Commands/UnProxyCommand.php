@@ -21,19 +21,14 @@ class UnProxyCommand extends Command
     protected function configure()
     {
         $this->setName('un:proxy')
-            ->setAliases(['un:p'])
-            ->setDescription('删除本地代理');
+            ->setDescription('删除 git 本地代理');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $proxy = 'unset http_proxy https_proxy all_proxy';
-        $output->writeln("<comment>system exec {$proxy}</comment>");
+        exec('git config --global --unset http.proxy');
+        exec('git config --global --unset https.proxy');
 
-        if (strtolower(mb_substr(PHP_OS, 0, 3)) == 'win') {
-            system("{$proxy}");
-        } else {
-            exec("{$proxy}");
-        }
+        $output->writeln(PHP_EOL . "<info>git config unset proxy successful</info>");
     }
 }
