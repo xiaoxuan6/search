@@ -4,9 +4,7 @@
 namespace Vinhson\Search;
 
 use Symfony\Component\Console\Application;
-use Vinhson\Search\Commands\{ProxyCommand,
-    SendCommand,
-    UnProxyCommand};
+use Vinhson\Search\Commands\{ProxyCommand, SendCommand, UnProxyCommand, UserCommand};
 
 $autoloads = [
     __DIR__ . '/../vendor/autoload.php',
@@ -23,6 +21,7 @@ try {
     $app->add(new ProxyCommand());
     $app->add(new UnProxyCommand());
     $app->add(new SendCommand());
+    $app->add(new UserCommand());
     $app->run();
 } catch (\Exception $e) {
 }
