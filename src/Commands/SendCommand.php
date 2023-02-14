@@ -12,13 +12,23 @@
 
 namespace Vinhson\Search\Commands;
 
+use Vinhson\Search\HttpClient;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption};
 
-class SendCommand extends BaseCommand
+class SendCommand extends Command
 {
     public const URI = 'https://www.phprm.com/services/push/trigger/';
+
+    protected HttpClient $client;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->client = new HttpClient();
+    }
 
     protected function configure()
     {
