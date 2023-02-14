@@ -12,7 +12,7 @@
 
 namespace Vinhson\Search\Commands;
 
-use Vinhson\Search\{Config, HttpClient};
+use Vinhson\Search\HttpClient;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -20,12 +20,9 @@ class BaseCommand extends Command
 {
     protected HttpClient $client;
 
-    protected Config $config;
-
-    public function __construct(Config $config)
+    public function __construct()
     {
         parent::__construct();
-        $this->config = $config;
         $this->client = new HttpClient();
         $this->addOption('host', 'host', InputOption::VALUE_OPTIONAL, '外网地址')
             ->addOption('port', 'p', InputOption::VALUE_OPTIONAL, '端口');

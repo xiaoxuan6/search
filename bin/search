@@ -4,7 +4,10 @@
 namespace Vinhson\Search;
 
 use Symfony\Component\Console\Application;
-use Vinhson\Search\Commands\{IdCardCommand, PinCommand, ProxyCommand, SendCommand, TranslationCommand, UnProxyCommand};
+use Vinhson\Search\Commands\{BaseCommand,
+    ProxyCommand,
+    SendCommand,
+    UnProxyCommand};
 
 $autoloads = [
     __DIR__ . '/../vendor/autoload.php',
@@ -16,25 +19,11 @@ foreach ($autoloads as $autoload) {
     }
 }
 
-$path = getcwd();
-$configPath = "{$path}/config.php";
-
-if (in_array($configPath, glob("{$path}/*"))) {
-    $configuration = require_once $configPath;
-} else {
-    $configuration = require_once __DIR__ . '/../config/config.php';
-}
-$config = new Config($configuration);
-
-$app = new Application();
-$app->add(new PinCommand($config));
-$app->add(new ProxyCommand());
-$app->add(new TranslationCommand($config));
-$app->add(new UnProxyCommand());
-$app->add(new IdCardCommand($config));
-$app->add(new SendCommand($config));
-
 try {
+    $app = new Application();
+    $app->add(new ProxyCommand());
+    $app->add(new UnProxyCommand());
+    $app->add(new SendCommand());
     $app->run();
 } catch (\Exception $e) {
 }
