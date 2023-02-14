@@ -80,9 +80,8 @@ class SendCommand extends BaseCommand
 
         $token = $input->getOption('token');
         $filePath = 'C:\Users\Administrator\Desktop\\' . basename($token);
-        if (is_file($filePath)) {
-            $token = file_get_contents($filePath);
-            $input->setOption('token', trim($token));
+        if (is_file($filePath) && file_exists($filePath)) {
+            $input->setOption('token', trim(file_get_contents($filePath)));
         }
     }
 }
