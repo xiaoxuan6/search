@@ -13,22 +13,51 @@
 namespace Vinhson\Search\Commands;
 
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ChoiceQuestion;
+use Symfony\Component\Console\Input\{InputInterface, InputOption};
 
 class UnProxyCommand extends Command
 {
     protected function configure()
     {
         $this->setName('un:proxy')
-            ->setDescription('删除 git 本地代理');
+            ->setDescription('删除本地代理')
+            ->addOption('type', 't', InputOption::VALUE_OPTIONAL, '类型');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        exec('git config --global --unset http.proxy');
-        exec('git config --global --unset https.proxy');
+        switch (strtolower($input->getOption('type'))) {
+            case 'git':
+                exec('git config --global --unset http.proxy');
+                exec('git config --global --unset https.proxy');
 
-        $output->writeln(PHP_EOL . "<info>git config unset proxy successful</info>");
+                $output->writeln(PHP_EOL . "<info>git config unset proxy successful</info>");
+
+                break;
+
+            case 'composer':
+                exec('composer config -g --unset repos.packagist');
+                $output->writeln(PHP_EOL . "<info>composer config unset proxy successful</info>");
+
+                break;
+
+            default:
+                $output->writeln(PHP_EOL . "<info>Invalid type command</info>");
+
+                break;
+        }
+    }
+
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        if (! $input->getOption('type')) {
+            $helper = $this->getHelper('question');
+            $choose = new ChoiceQuestion("<comment>请选择类型：</comment>", ['git', 'composer'], 0);
+
+            $answer = $helper->ask($input, $output, $choose);
+            $input->setOption('type', $answer);
+        }
     }
 }
