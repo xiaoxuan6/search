@@ -11,15 +11,7 @@ composer global require james.xue/search
 
 > Make sure to place the ~/.composer/vendor/bin directory in your PATH so the search executable can be located by your system.
 
-## Usage
-
-You can now globally use the command `search`, eg:
-
-```bash
-search pin 我是汉字
-```
-
-## Help
+## List
 
 ```shell
 $ search list
@@ -38,10 +30,14 @@ Options:
   -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
 Available commands:
-  help      Display help for a command
-  list      List commands
-  proxy     设置 git 本地代理
-  send      给公众号发送消息
+  config          设置配置信息
+  help            Displays help for a command
+  list            Lists commands
+  send            给公众号发送消息
+  user            生成用户信息
+ proxy
+  proxy:composer  设置 composer 本地代理
+  proxy:git       设置 git 本地代理
  un
-  un:proxy  删除 git 本地代理
+  un:proxy        删除本地代理
 ```
