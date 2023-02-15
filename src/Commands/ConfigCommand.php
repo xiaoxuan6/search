@@ -38,7 +38,7 @@ class ConfigCommand extends Command
         $key = $input->getOption('key');
         $value = $input->getOption('value');
 
-        if (mb_substr($key, 7) != self::PREFIX) {
+        if (mb_substr($key, 0, 7) != self::PREFIX) {
             $key = self::PREFIX . $key;
         }
 
