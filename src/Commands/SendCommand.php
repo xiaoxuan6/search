@@ -47,16 +47,14 @@ class SendCommand extends BaseCommand
             return;
         }
 
-        $payload = [
-            'body' => $input->getArgument('data')
-        ];
-
         $response = $this->client->get(
             sprintf(
                 "%s%s?%s",
                 self::URI,
                 $token,
-                http_build_query($payload)
+                http_build_query([
+                    'body' => $input->getArgument('data')
+                ])
             )
         );
 

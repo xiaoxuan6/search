@@ -34,12 +34,10 @@ class UserCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $arguments = [
+        $this->call('config', [
             'attribute' => 'get',
             '--key' => 'user.url',
-        ];
-
-        $this->call('config', $arguments);
+        ]);
 
         if (! $host = Di::get()) {
             $output->writeln(PHP_EOL . "<error>Invalid url, Please set git config `user.url`</error>");
