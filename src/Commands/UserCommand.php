@@ -12,27 +12,44 @@
 
 namespace Vinhson\Search\Commands;
 
+use Vinhson\Search\Di;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Exception\ExceptionInterface;
 use Symfony\Component\Console\Input\{InputInterface, InputOption};
 
 class UserCommand extends BaseCommand
 {
+    use CallTrait;
+
     protected function configure()
     {
         $this->setName('user')
             ->setDescription('生成用户信息')
-            ->addOption('host', 'host', InputOption::VALUE_OPTIONAL, '请求地址')
             ->addOption('address', 'a', InputOption::VALUE_OPTIONAL, '是否显示出生地', false);
     }
 
+    /**
+     * @throws ExceptionInterface
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $host = $input->getOption('host');
+        $arguments = [
+            'attribute' => 'get',
+            '--key' => 'user.url',
+        ];
+
+        $this->call('config', $arguments);
+
+        if (! $host = Di::get()) {
+            $output->writeln(PHP_EOL . "<error>Invalid url, Please set git config `user.url`</error>");
+
+            return;
+        }
+
         $url = strpos($host, 'http');
         if ($url === false) {
-            $url = 'https://' . $host;
+            $url = 'https://www.' . $host;
         }
 
         $response = $this->client->post(
@@ -70,22 +87,5 @@ class UserCommand extends BaseCommand
         }
 
         $output->writeln("<error>请求失败：{$response->getMessage('status')}</error>");
-    }
-
-    protected function interact(InputInterface $input, OutputInterface $output)
-    {
-        QUESTION:
-        if (! $input->getOption('host')) {
-            $helper = $this->getHelper('question');
-
-            $question = new Question("<comment>请输入请求地址：</comment>");
-            $answer = $helper->ask($input, $output, $question);
-
-            if (! $answer) {
-                goto QUESTION;
-            }
-
-            $input->setOption('host', $answer);
-        }
     }
 }

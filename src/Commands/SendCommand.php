@@ -12,24 +12,41 @@
 
 namespace Vinhson\Search\Commands;
 
+use Vinhson\Search\Di;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Exception\ExceptionInterface;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption};
 
 class SendCommand extends BaseCommand
 {
+    use CallTrait;
+
     public const URI = 'https://www.phprm.com/services/push/trigger/';
 
     protected function configure()
     {
         $this->setName('send')
             ->setDescription('给公众号发送消息')
-            ->addArgument('data', InputArgument::OPTIONAL, '消息内容')
-            ->addOption('token', 't', InputOption::VALUE_OPTIONAL, '公众号 token', './token.txt');
+            ->addArgument('data', InputArgument::OPTIONAL, '消息内容');
     }
 
+    /**
+     * @throws ExceptionInterface
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->call('config', [
+            'attribute' => 'get',
+            '--key' => 'send.token',
+        ]);
+
+        if (! $token = Di::get()) {
+            $output->writeln(PHP_EOL . "<error>Invalid token, Please set git config `send.token`</error>");
+
+            return;
+        }
+
         $payload = [
             'body' => $input->getArgument('data')
         ];
@@ -38,7 +55,7 @@ class SendCommand extends BaseCommand
             sprintf(
                 "%s%s?%s",
                 self::URI,
-                $input->getOption('token'),
+                $token,
                 http_build_query($payload)
             )
         );
@@ -64,24 +81,6 @@ class SendCommand extends BaseCommand
             }
 
             $input->setArgument('data', trim($answer));
-        }
-
-        TOKEN:
-        if (! $input->getOption('token')) {
-            $question = new Question("<error>请输入 token：</error>");
-
-            $answer = $helper->ask($input, $output, $question);
-            if (! $answer) {
-                goto TOKEN;
-            }
-
-            $input->setOption('token', $answer);
-        }
-
-        $token = $input->getOption('token');
-        $filePath = 'C:\Users\Administrator\Desktop\\' . basename($token);
-        if (is_file($filePath) && file_exists($filePath)) {
-            $input->setOption('token', trim(file_get_contents($filePath)));
         }
     }
 }
