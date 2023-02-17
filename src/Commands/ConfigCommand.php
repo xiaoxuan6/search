@@ -57,7 +57,6 @@ class ConfigCommand extends Command
                 break;
 
             case 'get':
-                $out = [];
                 exec("git config {$key}", $out);
 
                 $out = current($out);
