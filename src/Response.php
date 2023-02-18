@@ -28,7 +28,12 @@ class Response
 
     public function isSuccess(): bool
     {
-        return $this->response->getStatusCode() == 200;
+        return $this->getStatusCode() == 200;
+    }
+
+    public function getStatusCode(): int
+    {
+        return $this->response->getStatusCode();
     }
 
     public function getData(string $key)
@@ -43,5 +48,10 @@ class Response
         }
 
         return $this->body->get($key) ?? $this->response->getReasonPhrase() ?? '';
+    }
+
+    public function getBody(): string
+    {
+        return $this->body->toJson();
     }
 }

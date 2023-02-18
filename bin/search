@@ -9,7 +9,8 @@ use Vinhson\Search\Commands\{ComposerProxyCommand,
     GitProxyCommand,
     SendCommand,
     UnProxyCommand,
-    UserCommand};
+    UserCommand,
+    WorkflowCommand};
 
 $autoloads = [
     __DIR__ . '/../vendor/autoload.php',
@@ -29,6 +30,7 @@ try {
     $app->add(new UserCommand());
     $app->add(new ComposerProxyCommand());
     $app->add(new ConfigCommand());
+    $app->add(new WorkflowCommand());
     $app->run();
 } catch (\Exception $e) {
 }
