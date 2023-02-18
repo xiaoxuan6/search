@@ -65,7 +65,8 @@ class WorkflowCommand extends BaseCommand
             return;
         }
 
-        $output->writeln("<error>请求失败：{$response->getBody()}</error>");
+        $response = $response->getBody() ?? $response->getReasonPhrase();
+        $output->writeln("<error>请求失败：{$response}</error>");
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

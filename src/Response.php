@@ -47,11 +47,16 @@ class Response
             return data_get($this->body, $key);
         }
 
-        return $this->body->get($key) ?? $this->response->getReasonPhrase() ?? '';
+        return $this->body->get($key) ?? $this->getReasonPhrase() ?? '';
     }
 
     public function getBody(): string
     {
         return $this->body->toJson();
+    }
+
+    public function getReasonPhrase(): string
+    {
+        return $this->response->getReasonPhrase();
     }
 }
