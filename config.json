@@ -1,0 +1,13 @@
+{
+    "search": {
+        "user": {
+            "url": "xxx"
+        },
+        "send": {
+            "token": "xxx"
+        },
+        "workflow": {
+            "token": "xxx"
+        }
+    }
+}

@@ -6,6 +6,7 @@ namespace Vinhson\Search;
 use Symfony\Component\Console\Application;
 use Vinhson\Search\Commands\{ComposerProxyCommand,
     ConfigCommand,
+    EnvCommand,
     GitProxyCommand,
     SendCommand,
     UnProxyCommand,
@@ -31,6 +32,7 @@ try {
     $app->add(new ComposerProxyCommand());
     $app->add(new ConfigCommand());
     $app->add(new WorkflowCommand());
+    $app->add(new EnvCommand());
     $app->run();
 } catch (\Exception $e) {
 }
