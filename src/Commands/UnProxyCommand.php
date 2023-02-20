@@ -19,6 +19,8 @@ use Symfony\Component\Console\Input\{InputInterface, InputOption};
 
 class UnProxyCommand extends Command
 {
+    use ProcessTrait;
+
     protected function configure()
     {
         $this->setName('un:proxy')
@@ -30,15 +32,16 @@ class UnProxyCommand extends Command
     {
         switch (strtolower($input->getOption('type'))) {
             case 'git':
-                exec('git config --global --unset http.proxy');
-                exec('git config --global --unset https.proxy');
+                $this->process(['git', 'config', '--global', '--unset', 'http.proxy']);
+                $this->process(['git', 'config', '--global', '--unset', 'https.proxy']);
 
                 $output->writeln(PHP_EOL . "<info>git config unset proxy successful</info>");
 
                 break;
 
             case 'composer':
-                exec('composer config -g --unset repos.packagist');
+                $this->process(['composer', 'config', '-g', '--unset', 'repos.packagist']);
+
                 $output->writeln(PHP_EOL . "<info>composer config unset proxy successful</info>");
 
                 break;

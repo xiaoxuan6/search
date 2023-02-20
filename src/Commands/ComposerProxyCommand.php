@@ -18,6 +18,8 @@ use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 
 class ComposerProxyCommand extends Command
 {
+    use ProcessTrait;
+
     protected function configure()
     {
         $this->setName('proxy:composer')
@@ -29,7 +31,8 @@ class ComposerProxyCommand extends Command
     {
         $url = $input->getArgument('url') ?? 'https://mirrors.aliyun.com/composer/';
 
-        exec("composer config -g repo.packagist composer {$url}");
+        $this->process(['composer', 'config', '-g', 'repo.packagist', 'composer', $url]);
+
         $output->writeln(PHP_EOL . "<info>composer config set proxy successful</info>");
     }
 }

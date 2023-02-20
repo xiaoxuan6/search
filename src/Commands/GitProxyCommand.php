@@ -18,6 +18,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class GitProxyCommand extends Command
 {
+    use ProcessTrait;
+
     protected function configure()
     {
         $this->setName('proxy:git')
@@ -26,8 +28,8 @@ class GitProxyCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        exec('git config --global http.proxy http://127.0.0.1:7890');
-        exec('git config --global https.proxy http://127.0.0.1:7890');
+        $this->process(['git', 'config', '--global', 'http.proxy', 'http://127.0.0.1:7890']);
+        $this->process(['git', 'config', '--global', 'https.proxy', 'http://127.0.0.1:7890']);
 
         $output->writeln(PHP_EOL . "<info>git config set proxy successful</info>");
     }

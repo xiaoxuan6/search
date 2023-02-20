@@ -53,13 +53,16 @@ class SendCommand extends BaseCommand
                 self::URI,
                 $token,
                 http_build_query([
+                    'head' => '通知',
                     'body' => $input->getArgument('data')
                 ])
             )
         );
 
         if (! $response->isSuccess() || ($response->isSuccess() and $response->getData('code') != 0)) {
-            $output->writeln("<comment>发送失败：{$response->getMessage('message')}</comment>");
+            $output->writeln("<error>发送失败：{$response->getMessage('message')}</error>");
+
+            return;
         }
 
         $output->writeln("<info>发送成功</info>");

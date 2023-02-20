@@ -20,6 +20,8 @@ use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption}
 
 class ConfigCommand extends Command
 {
+    use ProcessTrait;
+
     public const PREFIX = 'search.';
 
     private static array $attribute = ['set', 'get', 'unset'];
@@ -44,24 +46,23 @@ class ConfigCommand extends Command
 
         switch ($input->getArgument('attribute')) {
             case 'set':
-                exec("git config --global {$key} {$value}");
+                $this->process(['git', 'config', '--global', $key, $value]);
 
                 $output->writeln("<info>config set successful</info>");
 
                 break;
             case 'unset':
-                exec("git config --global --unset {$key}");
+                $this->process(['git', 'config', '--global', '--unset', $key]);
 
                 $output->writeln("<info>config unset successful</info>");
 
                 break;
 
             case 'get':
-                exec("git config {$key}", $out);
-
-                $out = current($out);
-                Di::set($out);
-                $output->writeln("git config {$key}：{$out}");
+                $this->process(['git', 'config', $key], function ($type, $buffer) use ($key, $output) {
+                    Di::set(trim($buffer));
+                    $output->writeln("git config {$key}：<info>{$buffer}</info>");
+                });
 
                 break;
             default:
