@@ -22,7 +22,7 @@
         "guzzlehttp/guzzle": "^7.5",
         "symfony/console": "^4.0",
         "illuminate/collections": "^8.83",
-        "symfony/process": "^5.4"
+        "symfony/process": "*"
     },
     "scripts": {
         "pint": "vendor/bin/php-cs-fixer fix"
