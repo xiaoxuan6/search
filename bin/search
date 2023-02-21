@@ -4,15 +4,15 @@
 namespace Vinhson\Search;
 
 use Symfony\Component\Console\Application;
-use Vinhson\Search\Commands\{ComposerProxyCommand,
+use Vinhson\Search\Commands\{Actions\UploadCommand,
+    Actions\PushCommand,
+    ComposerProxyCommand,
     ConfigCommand,
     EnvCommand,
     GitProxyCommand,
     SendCommand,
     UnProxyCommand,
-    UploadCommand,
-    UserCommand,
-    WorkflowCommand};
+    UserCommand};
 
 $autoloads = [
     __DIR__ . '/../vendor/autoload.php',
@@ -32,7 +32,7 @@ try {
     $app->add(new UserCommand());
     $app->add(new ComposerProxyCommand());
     $app->add(new ConfigCommand());
-    $app->add(new WorkflowCommand());
+    $app->add(new PushCommand());
     $app->add(new EnvCommand());
     $app->add(new UploadCommand());
     $app->run();

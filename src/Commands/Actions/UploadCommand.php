@@ -10,9 +10,10 @@
  *
  */
 
-namespace Vinhson\Search\Commands;
+namespace Vinhson\Search\Commands\Actions;
 
 use Vinhson\Search\Response;
+use Vinhson\Search\Commands\CallTrait;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
@@ -31,8 +32,8 @@ class UploadCommand extends ActionsCommand
 
     protected function configure()
     {
-        $this->setName('upload:img')
-            ->setDescription('上传本地图片到远程')
+        $this->setName('actions:upload')
+            ->setDescription('上传本地图片到 github')
             ->addArgument('filename', InputArgument::OPTIONAL, '图片路径');
     }
 

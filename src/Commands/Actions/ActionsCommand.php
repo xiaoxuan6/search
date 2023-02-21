@@ -10,12 +10,12 @@
  *
  */
 
-namespace Vinhson\Search\Commands;
+namespace Vinhson\Search\Commands\Actions;
 
-use Vinhson\Search\{Di, Response};
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Exception\ExceptionInterface;
+use Vinhson\Search\{Commands\BaseCommand, Commands\CallTrait, Di, Response};
 
 abstract class ActionsCommand extends BaseCommand
 {

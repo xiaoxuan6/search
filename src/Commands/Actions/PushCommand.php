@@ -10,13 +10,14 @@
  *
  */
 
-namespace Vinhson\Search\Commands;
+namespace Vinhson\Search\Commands\Actions;
 
+use Vinhson\Search\Commands\CallTrait;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 
-class WorkflowCommand extends ActionsCommand
+class PushCommand extends ActionsCommand
 {
     use CallTrait;
 
@@ -26,8 +27,8 @@ class WorkflowCommand extends ActionsCommand
 
     protected function configure()
     {
-        $this->setName('workflow')
-            ->setDescription('执行 workflow')
+        $this->setName('actions:push')
+            ->setDescription('随记提交到 github')
             ->addArgument('data', InputArgument::OPTIONAL, '提交数据内容');
     }
 

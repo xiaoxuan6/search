@@ -49,7 +49,9 @@ Available commands:
   list            List commands
   send            给公众号发送消息
   user            生成用户信息
-  workflow        执行 workflow
+ actions
+  actions:push    随记提交到 github
+  actions:upload  上传本地图片到 github
  env
   env:init        初始化配置信息
  proxy
