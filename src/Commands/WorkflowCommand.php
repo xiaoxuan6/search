@@ -12,61 +12,23 @@
 
 namespace Vinhson\Search\Commands;
 
-use Vinhson\Search\Di;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Exception\ExceptionInterface;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 
-class WorkflowCommand extends BaseCommand
+class WorkflowCommand extends ActionsCommand
 {
     use CallTrait;
+
+    protected string $event_type = 'push';
+
+    protected string $repos = 'resource';
 
     protected function configure()
     {
         $this->setName('workflow')
             ->setDescription('执行 workflow')
             ->addArgument('data', InputArgument::OPTIONAL, '提交数据内容');
-    }
-
-    /**
-     * @throws ExceptionInterface
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $this->call('config', [
-            'attribute' => 'get',
-            '--key' => 'workflow.token'
-        ]);
-        if (! $token = Di::get()) {
-            $output->writeln("<error>Invalid token, Please set git config `workflow.token`</error>");
-
-            return;
-        }
-
-        exec('git config user.name', $name);
-        $response = $this->client->post("https://api.github.com/repos/{$name[0]}/resource/dispatches", [
-            'json' => [
-                'event_type' => 'push',
-                'client_payload' => [
-                    'data' => $input->getArgument('data')
-                ]
-            ],
-            'headers' => [
-                'Accept' => 'application/vnd.github+json',
-                'Authorization' => 'token ' . $token,
-                'X-GitHub-Api-Version' => '2022-11-28'
-            ]
-        ]);
-
-        if ($response->getStatusCode() == 204) {
-            $output->writeln("<info>请求成功！</info>");
-
-            return;
-        }
-
-        $response = $response->getBody() ?? $response->getReasonPhrase();
-        $output->writeln("<error>请求失败：{$response}</error>");
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

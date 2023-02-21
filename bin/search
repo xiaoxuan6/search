@@ -10,6 +10,7 @@ use Vinhson\Search\Commands\{ComposerProxyCommand,
     GitProxyCommand,
     SendCommand,
     UnProxyCommand,
+    UploadCommand,
     UserCommand,
     WorkflowCommand};
 
@@ -33,6 +34,7 @@ try {
     $app->add(new ConfigCommand());
     $app->add(new WorkflowCommand());
     $app->add(new EnvCommand());
+    $app->add(new UploadCommand());
     $app->run();
 } catch (\Exception $e) {
 }
