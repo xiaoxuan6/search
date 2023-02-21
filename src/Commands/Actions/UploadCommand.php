@@ -13,15 +13,12 @@
 namespace Vinhson\Search\Commands\Actions;
 
 use Vinhson\Search\Response;
-use Vinhson\Search\Commands\CallTrait;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 
 class UploadCommand extends ActionsCommand
 {
-    use CallTrait;
-
     protected string $event_type = 'upload';
 
     protected string $repos = 'static';
