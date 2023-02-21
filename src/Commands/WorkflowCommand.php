@@ -43,5 +43,9 @@ class WorkflowCommand extends ActionsCommand
 
             $input->setArgument('data', $answer);
         }
+
+        $this->client_payload = [
+            'data' => $input->getArgument('data')
+        ];
     }
 }

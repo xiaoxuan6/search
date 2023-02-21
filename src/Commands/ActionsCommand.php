@@ -12,7 +12,7 @@
 
 namespace Vinhson\Search\Commands;
 
-use Vinhson\Search\Di;
+use Vinhson\Search\{Di, Response};
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Exception\ExceptionInterface;
@@ -21,14 +21,27 @@ abstract class ActionsCommand extends BaseCommand
 {
     use CallTrait;
 
-    protected string $event_type;
     protected string $repos;
+
+    protected string $event_type;
+
+    protected array $client_payload;
+
+    public function beforeExecute(InputInterface $input, OutputInterface $output)
+    {
+    }
+
+    public function afterExecute(OutputInterface $output, Response $response)
+    {
+    }
 
     /**
      * @throws ExceptionInterface
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->beforeExecute($input, $output);
+
         $this->call('config', [
             'attribute' => 'get',
             '--key' => 'workflow.token'
@@ -44,9 +57,7 @@ abstract class ActionsCommand extends BaseCommand
         $response = $this->client->post("https://api.github.com/repos/{$name[0]}/{$this->repos}/dispatches", [
             'json' => [
                 'event_type' => $this->event_type,
-                'client_payload' => [
-                    'data' => $input->getArgument('data')
-                ]
+                'client_payload' => $this->client_payload
             ],
             'headers' => [
                 'Accept' => 'application/vnd.github+json',
@@ -57,11 +68,11 @@ abstract class ActionsCommand extends BaseCommand
 
         if ($response->getStatusCode() == 204) {
             $output->writeln("<info>请求成功！</info>");
-
-            return;
+        } else {
+            $message = $response->getBody() ?? $response->getReasonPhrase();
+            $output->writeln("<error>请求失败：{$message}</error>");
         }
 
-        $response = $response->getBody() ?? $response->getReasonPhrase();
-        $output->writeln("<error>请求失败：{$response}</error>");
+        $this->afterExecute($output, $response);
     }
 }

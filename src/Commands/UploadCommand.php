@@ -12,6 +12,7 @@
 
 namespace Vinhson\Search\Commands;
 
+use Vinhson\Search\Response;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
@@ -24,14 +25,15 @@ class UploadCommand extends ActionsCommand
 
     protected string $repos = 'static';
 
+    protected string $filename;
+
     protected array $allowExt = ['jpg', 'png', 'jpeg'];
 
     protected function configure()
     {
         $this->setName('upload:img')
             ->setDescription('上传本地图片到远程')
-            ->addArgument('filename', InputArgument::OPTIONAL, '图片路径')
-            ->addArgument('data', InputArgument::OPTIONAL, '图片 base64 后的字符串');
+            ->addArgument('filename', InputArgument::OPTIONAL, '图片路径');
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -68,7 +70,20 @@ class UploadCommand extends ActionsCommand
             goto QUESTION;
         }
 
+        $this->filename = time() . '.' . $ext;
         $data = base64_encode(file_get_contents($path));
-        $input->setArgument('data', "data:image/jpeg;base64,{$data}");
+        $this->client_payload = [
+            'data' => $data,
+            'filename' => $this->filename
+        ];
+    }
+
+    public function afterExecute(OutputInterface $output, Response $response)
+    {
+        if ($response->getStatusCode() == 204) {
+            $path = date("Y/m/d");
+            exec('git config user.name', $name);
+            $output->writeln("<info>CDN图片地址：http://cdn.jsdelivr.net/gh/{$name[0]}/{$this->repos}/{$path}/{$this->filename}</info>");
+        }
     }
 }
