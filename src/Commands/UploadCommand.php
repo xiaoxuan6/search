@@ -83,7 +83,7 @@ class UploadCommand extends ActionsCommand
         if ($response->getStatusCode() == 204) {
             $path = date("Y/m/d");
             exec('git config user.name', $name);
-            $output->writeln("<info>CDN图片地址：http://cdn.jsdelivr.net/gh/{$name[0]}/{$this->repos}/{$path}/{$this->filename}</info>");
+            $output->writeln("<info>CDN图片地址：https://cdn.jsdelivr.net/gh/{$name[0]}/{$this->repos}/{$path}/{$this->filename}</info>");
         }
     }
 }
