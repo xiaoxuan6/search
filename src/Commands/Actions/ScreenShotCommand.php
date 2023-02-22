@@ -46,22 +46,13 @@ class ScreenShotCommand extends ActionsCommand
                 goto URL;
             }
 
-            if (! is_valid_url($input->getOption('url'))) {
-                goto URL;
-            }
-
             $input->setOption('url', $answer);
         }
 
-//        ELEMENT:
-//        if (! $input->getOption('element')) {
-//            $question = new Question("<error>请输入页面元素：</error>");
-//            if (! $answer = $helper->ask($input, $output, $question)) {
-//                goto ELEMENT;
-//            }
-//
-//            $input->setOption('element', $answer);
-//        }
+        if (! is_valid_url($input->getOption('url'))) {
+            $input->setOption('url', '');
+            goto URL;
+        }
 
         $this->filename = time() . '.png';
         $this->client_payload = [

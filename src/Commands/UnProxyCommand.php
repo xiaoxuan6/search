@@ -35,14 +35,14 @@ class UnProxyCommand extends Command
                 $this->process(['git', 'config', '--global', '--unset', 'http.proxy']);
                 $this->process(['git', 'config', '--global', '--unset', 'https.proxy']);
 
-                $output->writeln(PHP_EOL . "<info>git config unset proxy successful</info>");
+                $output->writeln(PHP_EOL . "<info>git config unset proxy successfully</info>");
 
                 break;
 
             case 'composer':
                 $this->process(['composer', 'config', '-g', '--unset', 'repos.packagist']);
 
-                $output->writeln(PHP_EOL . "<info>composer config unset proxy successful</info>");
+                $output->writeln(PHP_EOL . "<info>composer config unset proxy successfully</info>");
 
                 break;
 
