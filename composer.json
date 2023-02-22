@@ -8,7 +8,10 @@
     "autoload": {
         "psr-4": {
             "Vinhson\\Search\\": "src/"
-        }
+        },
+        "files": [
+            "src/helper.php"
+        ]
     },
     "authors": [
         {

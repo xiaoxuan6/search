@@ -14,8 +14,8 @@ namespace Vinhson\Search\Commands;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Input\{InputInterface, InputOption};
+use Symfony\Component\Console\Question\{ChoiceQuestion, Question};
 
 class ProxyCommand extends Command
 {
@@ -74,8 +74,8 @@ class ProxyCommand extends Command
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
+        $helper = $this->getHelper('question');
         if (! $attribute = $input->getOption('attribute') or ! in_array($attribute, $this->attributes)) {
-            $helper = $this->getHelper('question');
             $ch = new ChoiceQuestion("<comment>请选择需要设置代理的属性：</comment>", $this->attributes, 'git');
             $answer = $helper->ask($input, $output, $ch);
 
@@ -85,6 +85,16 @@ class ProxyCommand extends Command
         if (is_null($input->getOption('url'))) {
             $url = $this->urls[$input->getOption('attribute')];
             $input->setOption('url', $url);
+        }
+
+        URL:
+        if ($url = $input->getOption('url')) {
+            if (! is_valid_url($url)) {
+                $question = new Question("<comment>请输入有效的url地址：</comment>", '');
+                $answer = $helper->ask($input, $output, $question);
+                $input->setOption('url', $answer);
+                goto URL;
+            }
         }
     }
 }

@@ -41,8 +41,12 @@ class ScreenShotCommand extends ActionsCommand
 
         URL:
         if (! $input->getOption('url')) {
-            $question = new Question("<error>请输入截图url：</error>");
+            $question = new Question("<error>请输入有效的截图url：</error>");
             if (! $answer = $helper->ask($input, $output, $question)) {
+                goto URL;
+            }
+
+            if (! is_valid_url($input->getOption('url'))) {
                 goto URL;
             }
 
