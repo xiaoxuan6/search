@@ -49,15 +49,15 @@ class ScreenShotCommand extends ActionsCommand
             $input->setOption('url', $answer);
         }
 
-        ELEMENT:
-        if (! $input->getOption('element')) {
-            $question = new Question("<error>请输入页面元素：</error>");
-            if (! $answer = $helper->ask($input, $output, $question)) {
-                goto ELEMENT;
-            }
-
-            $input->setOption('element', $answer);
-        }
+//        ELEMENT:
+//        if (! $input->getOption('element')) {
+//            $question = new Question("<error>请输入页面元素：</error>");
+//            if (! $answer = $helper->ask($input, $output, $question)) {
+//                goto ELEMENT;
+//            }
+//
+//            $input->setOption('element', $answer);
+//        }
 
         $this->filename = time() . '.png';
         $this->client_payload = [
