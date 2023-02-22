@@ -28,7 +28,7 @@ class ScreenShotCommand extends ActionsCommand
     protected function configure()
     {
         $this->setName('actions:screen-shot')
-            ->setDescription('根据某个元素截取url中的位置并保存成图片')
+            ->setDescription('根据url截图并生成图片链接')
             ->addOption('url', 'u', InputOption::VALUE_OPTIONAL, '截图的URL')
             ->addOption('element', 'e', InputOption::VALUE_OPTIONAL, '页面元素')
             ->addOption('width', 'w', InputOption::VALUE_OPTIONAL, '图片宽度', 1200)

@@ -44,19 +44,18 @@ Options:
   -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
 Available commands:
-  config          设置配置信息
-  help            Display help for a command
-  list            List commands
-  send            给公众号发送消息
-  user            生成用户信息
+  config               设置配置信息
+  help                 Display help for a command
+  list                 List commands
+  proxy                设置代理
+  send                 给公众号发送消息
+  user                 生成用户信息
  actions
-  actions:push    随记提交到 github
-  actions:upload  上传本地图片到 github
+  actions:push         随记提交到 github
+  actions:screen-shot  根据url截图并生成图片链接
+  actions:upload       上传本地图片到 github
  env
-  env:init        初始化配置信息
- proxy
-  proxy:composer  设置 composer 本地代理
-  proxy:git       设置 git 本地代理
+  env:init             初始化配置信息
  un
-  un:proxy        删除本地代理
+  un:proxy             删除本地代理
 ```
