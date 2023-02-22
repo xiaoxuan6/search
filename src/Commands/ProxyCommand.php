@@ -58,13 +58,16 @@ class ProxyCommand extends Command
 
                 break;
             case 'go':
-//                if (strtolower(mb_substr(PHP_OS, 0, 3)) == 'win') {
-//                    $this->process(['go', 'env', '-w', 'GOPROXY', $url]);
-//                } else {
-//                    $this->process(['go', 'env', '-w', "GOPROXY={$url}"]);
-//                }
-//                $output->writeln(PHP_EOL . "<info>go proxy set successfully</info>");
-                $output->writeln(PHP_EOL . "<error>设置代理无效</error>");
+
+                $status = false;
+                $message = '';
+                $this->process(['go', 'env', '-w', "GOPROXY={$url}"], function ($type, $data) use (&$status, &$message) {
+                    // 在使用 PHP 输出缓冲的服务器中，此功能将无法正常工作。
+                    $status = true;
+                    $message = $data;
+                });
+
+                $output->writeln(! $status ? PHP_EOL . "<info>go proxy set successfully</info>" : "<error>go proxy set error：{$message}</error>");
 
                 break;
             default:
