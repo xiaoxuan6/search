@@ -47,6 +47,7 @@ Available commands:
   config               设置配置信息
   help                 Display help for a command
   list                 List commands
+  openai               使用 ChatGPT 搜索
   proxy                设置代理
   send                 给公众号发送消息
   user                 生成用户信息
