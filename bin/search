@@ -9,6 +9,7 @@ use Vinhson\Search\Commands\{Actions\PushCommand,
     Actions\UploadCommand,
     ConfigCommand,
     EnvCommand,
+    OpenAiCommand,
     ProxyCommand,
     SendCommand,
     UnProxyCommand,
@@ -35,6 +36,7 @@ try {
     $app->add(new EnvCommand());
     $app->add(new UploadCommand());
     $app->add(new ScreenShotCommand());
+    $app->add(new OpenAiCommand());
     $app->run();
 } catch (\Exception $e) {
 }

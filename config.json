@@ -8,6 +8,9 @@
         },
         "workflow": {
             "token": "xxx"
+        },
+        "openai": {
+            "domain": "xxx"
         }
     }
 }

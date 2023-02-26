@@ -19,16 +19,25 @@ class HttpClient
 {
     private static $client;
 
+    protected static int $time = 30;
+
     public static function getClient(): Client
     {
         if (! self::$client) {
             self::$client = new Client([
-                'timeout' => 30,
+                'time' => self::$time,
                 'verify' => false
             ]);
         }
 
         return self::$client;
+    }
+
+    public function setTimeout($time): HttpClient
+    {
+        self::$time = $time;
+
+        return $this;
     }
 
     public function e($exception): \GuzzleHttp\Psr7\Response
