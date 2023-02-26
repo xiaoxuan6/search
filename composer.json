@@ -23,7 +23,7 @@
         "php": "^7.4 | ^8.0",
         "ext-json": "*",
         "guzzlehttp/guzzle": "^7.5",
-        "symfony/console": "^4.0",
+        "symfony/console": "^4.0 || ^5.0",
         "illuminate/collections": "^8.83",
         "symfony/process": "*"
     },
