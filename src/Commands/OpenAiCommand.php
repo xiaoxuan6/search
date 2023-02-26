@@ -72,15 +72,12 @@ class OpenAiCommand extends BaseCommand
         $output->writeln(PHP_EOL . "<info>答案：{$answer}</info>");
 
         if (! $input->getOption('disable')) {
-            Di::clean();
-            Di::set($answer);
-
             return;
         }
 
         RUN:
         $helper = $this->getHelper('question');
-        $choice = new ConfirmationQuestion("<fg=white;bg=red>是否继续执行（default:true）？</>", true, '/^(y|t)/i');
+        $choice = new ConfirmationQuestion(PHP_EOL . "<fg=white;bg=red>是否继续执行（default:true）？</>", true, '/^(y|t)/i');
         if ($helper->ask($input, $output, $choice)) {
             QUESTION:
             $question = new Question("<fg=cyan>请输入问题：</>", '');
@@ -88,14 +85,10 @@ class OpenAiCommand extends BaseCommand
                 goto QUESTION;
             }
 
-            $output->writeln(PHP_EOL . "<comment>请耐心等待, ChatGPT 正在处理中……</comment>");
             $this->call('openai', [
                 'data' => $answer,
                 '--disable' => false
-            ]);
-
-            $answer = Di::get();
-            $output->writeln(PHP_EOL . "<info>答案：{$answer}</info>");
+            ], $output);
 
             goto RUN;
         }

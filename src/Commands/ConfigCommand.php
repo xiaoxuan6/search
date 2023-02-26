@@ -48,7 +48,7 @@ class ConfigCommand extends Command
             case 'set':
                 $this->process(['git', 'config', '--global', $key, $value]);
 
-                $output->writeln("<info>config set successfully</info>");
+                $output->writeln("<info>config {$key} set successfully</info>");
 
                 break;
             case 'unset':

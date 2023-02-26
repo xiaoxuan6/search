@@ -25,9 +25,4 @@ class Di
     {
         return current(self::$item);
     }
-
-    public static function clean()
-    {
-        self::$item = [];
-    }
 }
