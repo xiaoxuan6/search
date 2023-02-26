@@ -13,9 +13,9 @@
 namespace Vinhson\Search\Commands;
 
 use Vinhson\Search\Di;
-use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Exception\ExceptionInterface;
+use Symfony\Component\Console\Question\{ChoiceQuestion, Question};
 use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption};
 
 class OpenAiCommand extends BaseCommand
@@ -27,6 +27,7 @@ class OpenAiCommand extends BaseCommand
         $this->setName('openai')
             ->setDescription('使用 ChatGPT 搜索')
             ->addArgument('data', InputArgument::OPTIONAL, '问题描述')
+            ->addOption('disable', 'd', InputOption::VALUE_OPTIONAL, '是否提示继续执行', true)
             ->addOption('key', 'k', InputOption::VALUE_OPTIONAL, 'ChatGPT 中生成的 key');
     }
 
@@ -67,7 +68,37 @@ class OpenAiCommand extends BaseCommand
             return;
         }
 
-        $output->writeln(PHP_EOL . "<info>答案：{$response->getData('raw_message')}</info>");
+        $answer = $response->getData('raw_message');
+        $output->writeln(PHP_EOL . "<info>答案：{$answer}</info>");
+
+        if (! $input->getOption('disable')) {
+            Di::clean();
+            Di::set($answer);
+
+            return;
+        }
+
+        RUN:
+        $helper = $this->getHelper('question');
+        $choice = new ChoiceQuestion('是否继续执行？', ['是', '否'], 0);
+        if ($helper->ask($input, $output, $choice) == '是') {
+            QUESTION:
+            $question = new Question('请输入问题：', '');
+            if (! $answer = $helper->ask($input, $output, $question)) {
+                goto QUESTION;
+            }
+
+            $output->writeln(PHP_EOL . "<comment>请耐心等待, ChatGPT 正在处理中……</comment>");
+            $this->call('openai', [
+                'data' => $answer,
+                '--disable' => false
+            ]);
+
+            $answer = Di::get();
+            $output->writeln(PHP_EOL . "<info>答案：{$answer}</info>");
+
+            goto RUN;
+        }
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
