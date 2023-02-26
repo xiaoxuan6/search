@@ -15,7 +15,7 @@ namespace Vinhson\Search\Commands;
 use Vinhson\Search\Di;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Exception\ExceptionInterface;
-use Symfony\Component\Console\Question\{ChoiceQuestion, Question};
+use Symfony\Component\Console\Question\{ConfirmationQuestion, Question};
 use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption};
 
 class OpenAiCommand extends BaseCommand
@@ -80,10 +80,10 @@ class OpenAiCommand extends BaseCommand
 
         RUN:
         $helper = $this->getHelper('question');
-        $choice = new ChoiceQuestion('是否继续执行？', ['是', '否'], 0);
-        if ($helper->ask($input, $output, $choice) == '是') {
+        $choice = new ConfirmationQuestion("<fg=white;bg=red>是否继续执行（default:true）？</>", true, '/^(y|t)/i');
+        if ($helper->ask($input, $output, $choice)) {
             QUESTION:
-            $question = new Question('请输入问题：', '');
+            $question = new Question("<fg=cyan>请输入问题：</>", '');
             if (! $answer = $helper->ask($input, $output, $question)) {
                 goto QUESTION;
             }
@@ -106,7 +106,7 @@ class OpenAiCommand extends BaseCommand
         DATA:
         if (! $input->getArgument('data')) {
             $helper = $this->getHelper('question');
-            $question = new Question('请输入问题：', '');
+            $question = new Question('<fg=cyan>请输入问题：</>', '');
             if (! $answer = $helper->ask($input, $output, $question)) {
                 goto DATA;
             }
