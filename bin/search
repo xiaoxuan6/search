@@ -4,7 +4,8 @@
 namespace Vinhson\Search;
 
 use Symfony\Component\Console\Application;
-use Vinhson\Search\Commands\{Actions\PushCommand,
+use Vinhson\Search\Commands\{Actions\GoPackageCommand,
+    Actions\PushCommand,
     Actions\ScreenShotCommand,
     Actions\UploadCommand,
     ConfigCommand,
@@ -37,6 +38,7 @@ try {
     $app->add(new UploadCommand());
     $app->add(new ScreenShotCommand());
     $app->add(new OpenAiCommand());
+    $app->add(new GoPackageCommand());
     $app->run();
 } catch (\Exception $e) {
 }
