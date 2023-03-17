@@ -20,8 +20,11 @@ class Response
     protected Collection $body;
     protected ResponseInterface $response;
 
-    public function __construct(ResponseInterface $response)
+    public function __construct($response)
     {
+        if (! $response instanceof ResponseInterface) {
+            $response = new ErrorResponse($response);
+        }
         $this->response = $response;
         $this->body = new Collection(json_decode($response->getBody()->getContents(), true) ?? []);
     }

@@ -32,9 +32,12 @@ class SendCommand extends BaseCommand
     }
 
     /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
      * @throws ExceptionInterface
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->call('config', [
             'attribute' => 'get',
@@ -44,7 +47,7 @@ class SendCommand extends BaseCommand
         if (! $token = Di::get()) {
             $output->writeln(PHP_EOL . "<error>Invalid token, Please set git config `send.token`</error>");
 
-            return;
+            return self::FAILURE;
         }
 
         $response = $this->client->get(
@@ -62,10 +65,12 @@ class SendCommand extends BaseCommand
         if (! $response->isSuccess() || ($response->isSuccess() and $response->getData('code') != 0)) {
             $output->writeln("<error>发送失败：{$response->getMessage('message')}</error>");
 
-            return;
+            return self::FAILURE;
         }
 
         $output->writeln("<info>发送成功</info>");
+
+        return self::SUCCESS;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

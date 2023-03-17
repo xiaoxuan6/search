@@ -28,7 +28,12 @@ class UnProxyCommand extends Command
             ->addOption('type', 't', InputOption::VALUE_OPTIONAL, '类型');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         switch (strtolower($input->getOption('type'))) {
             case 'git':
@@ -51,6 +56,8 @@ class UnProxyCommand extends Command
 
                 break;
         }
+
+        return self::SUCCESS;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

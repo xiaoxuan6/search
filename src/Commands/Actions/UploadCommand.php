@@ -76,12 +76,14 @@ class UploadCommand extends ActionsCommand
         ];
     }
 
-    public function afterExecute(OutputInterface $output, Response $response)
+    public function afterExecute(OutputInterface $output, Response $response): int
     {
         if ($response->getStatusCode() == 204) {
             $path = date("Y/m/d");
             exec('git config user.name', $name);
             $output->writeln(PHP_EOL . "<info>CDN图片地址：https://cdn.jsdelivr.net/gh/{$name[0]}/{$this->repos}/{$path}/{$this->filename}</info>");
         }
+
+        return parent::afterExecute($output, $response);
     }
 }

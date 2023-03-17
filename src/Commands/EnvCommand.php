@@ -28,7 +28,12 @@ class EnvCommand extends Command
             ->addArgument('file', InputArgument::OPTIONAL, '配置文件名称');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $config = collect(json_decode(file_get_contents($input->getArgument('file')), true));
         $config->map(function ($item) {
@@ -49,6 +54,8 @@ class EnvCommand extends Command
         });
 
         $output->writeln("<info>Env init successful</info>");
+
+        return self::SUCCESS;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

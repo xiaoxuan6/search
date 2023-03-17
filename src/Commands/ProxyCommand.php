@@ -38,7 +38,12 @@ class ProxyCommand extends Command
             ->addOption('url', 'u', InputOption::VALUE_OPTIONAL, '镜像源地址');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $url = $input->getOption('url');
         switch ($input->getOption('attribute')) {
@@ -73,6 +78,8 @@ class ProxyCommand extends Command
             default:
                 break;
         }
+
+        return self::SUCCESS;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

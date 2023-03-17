@@ -1,8 +1,19 @@
 #!/usr/bin/env php
 <?php
 
+/*
+ * This file is part of james.xue/search.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ *
+ */
+
 namespace Vinhson\Search;
 
+use Exception;
 use Symfony\Component\Console\Application;
 use Vinhson\Search\Commands\{Actions\GoPackageCommand,
     Actions\PushCommand,
@@ -40,5 +51,5 @@ try {
     $app->add(new OpenAiCommand());
     $app->add(new GoPackageCommand());
     $app->run();
-} catch (\Exception $e) {
+} catch (Exception $e) {
 }

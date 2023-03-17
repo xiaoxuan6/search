@@ -30,9 +30,12 @@ class UserCommand extends BaseCommand
     }
 
     /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
      * @throws ExceptionInterface
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->call('config', [
             'attribute' => 'get',
@@ -42,7 +45,7 @@ class UserCommand extends BaseCommand
         if (! $host = Di::get()) {
             $output->writeln(PHP_EOL . "<error>Invalid url, Please set git config `user.url`</error>");
 
-            return;
+            return self::FAILURE;
         }
 
         $url = strpos($host, 'http');
@@ -81,9 +84,11 @@ class UserCommand extends BaseCommand
             $table = new Table($output);
             $table->setHeaders($headers)->setRows([$rows])->render();
 
-            return;
+            return self::SUCCESS;
         }
 
         $output->writeln("<error>请求失败：{$response->getMessage('status')}</error>");
+
+        return self::FAILURE;
     }
 }

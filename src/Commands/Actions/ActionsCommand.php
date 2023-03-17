@@ -27,15 +27,28 @@ abstract class ActionsCommand extends BaseCommand
 
     protected array $client_payload;
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     */
     public function beforeExecute(InputInterface $input, OutputInterface $output)
     {
     }
 
-    public function afterExecute(OutputInterface $output, Response $response)
+    /**
+     * @param OutputInterface $output
+     * @param Response $response
+     * @return int
+     */
+    public function afterExecute(OutputInterface $output, Response $response): int
     {
+        return self::SUCCESS;
     }
 
     /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int|void
      * @throws ExceptionInterface
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -69,10 +82,10 @@ abstract class ActionsCommand extends BaseCommand
         if ($response->getStatusCode() == 204) {
             $output->writeln("<info>请求成功！</info>");
         } else {
-            $message = $response->getBody() ?? $response->getReasonPhrase();
+            $message = $response->getBody() ? $response->getBody() : $response->getReasonPhrase();
             $output->writeln("<error>请求失败：{$message}</error>");
         }
 
-        $this->afterExecute($output, $response);
+        return $this->afterExecute($output, $response);
     }
 }

@@ -35,7 +35,7 @@ class ConfigCommand extends Command
             ->addOption('value', 'val', InputOption::VALUE_OPTIONAL, 'config value');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $key = $input->getOption('key');
         $value = $input->getOption('value');
@@ -68,6 +68,8 @@ class ConfigCommand extends Command
             default:
                 $output->writeln("<error>无效的操作属性</error>");
         }
+
+        return self::SUCCESS;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)

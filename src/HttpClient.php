@@ -40,11 +40,6 @@ class HttpClient
         return $this;
     }
 
-    public function e($exception): \GuzzleHttp\Psr7\Response
-    {
-        return new \GuzzleHttp\Psr7\Response(500, [], null, '1.1', $exception->getMessage());
-    }
-
     public function get(string $url): Response
     {
         try {
@@ -52,7 +47,7 @@ class HttpClient
 
             return new Response($response);
         } catch (RequestException | GuzzleException $exception) {
-            return new Response($this->e($exception));
+            return new Response($exception);
         }
     }
 
@@ -63,7 +58,7 @@ class HttpClient
 
             return new Response($response);
         } catch (RequestException | GuzzleException $exception) {
-            return new Response($this->e($exception));
+            return new Response($exception);
         }
     }
 }

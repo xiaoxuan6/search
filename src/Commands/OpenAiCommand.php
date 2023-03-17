@@ -32,9 +32,12 @@ class OpenAiCommand extends BaseCommand
     }
 
     /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
      * @throws ExceptionInterface
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->call('config', [
             'attribute' => 'get',
@@ -44,7 +47,7 @@ class OpenAiCommand extends BaseCommand
         if (! $domain = Di::get()) {
             $output->writeln(PHP_EOL . "<error>Invalid openai domain, Please set git config `openai.domain`</error>");
 
-            return;
+            return self::FAILURE;
         }
 
         $output->writeln("<comment>请耐心等待, ChatGPT 正在处理中……</comment>");
@@ -65,14 +68,14 @@ class OpenAiCommand extends BaseCommand
         if (! $response->isSuccess() or $response->getMessage('status') != 'success') {
             $output->writeln("<error>请求失败，请重试</error>");
 
-            return;
+            return self::FAILURE;
         }
 
         $answer = $response->getData('raw_message');
         $output->writeln(PHP_EOL . "<info>答案：{$answer}</info>");
 
         if (! $input->getOption('disable')) {
-            return;
+            return self::FAILURE;
         }
 
         RUN:
@@ -92,6 +95,8 @@ class OpenAiCommand extends BaseCommand
 
             goto RUN;
         }
+
+        return self::SUCCESS;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
