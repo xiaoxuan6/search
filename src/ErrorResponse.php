@@ -87,6 +87,9 @@ class ErrorResponse implements ResponseInterface
         // TODO: Implement withoutHeader() method.
     }
 
+    /**
+     * @return ErrorResponse
+     */
     public function getBody(): ErrorResponse
     {
         return new self($this->body);
@@ -104,6 +107,6 @@ class ErrorResponse implements ResponseInterface
 
     public function toJson(): string
     {
-        return $this->body->getMessage();
+        return $this->getReasonPhrase();
     }
 }

@@ -26,7 +26,8 @@ class PushCommand extends ActionsCommand
     {
         $this->setName('actions:push')
             ->setDescription('随记提交到 github')
-            ->addArgument('data', InputArgument::OPTIONAL, '提交数据内容');
+            ->addArgument('data', InputArgument::OPTIONAL, '提交数据内容')
+            ->addArgument('filename', InputArgument::OPTIONAL, '文件名称');
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -43,7 +44,8 @@ class PushCommand extends ActionsCommand
         }
 
         $this->client_payload = [
-            'data' => $input->getArgument('data')
+            'data' => $input->getArgument('data'),
+            'filename' => $input->getArgument('filename')
         ];
     }
 }
