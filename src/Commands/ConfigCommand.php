@@ -13,7 +13,6 @@
 namespace Vinhson\Search\Commands;
 
 use Vinhson\Search\Di;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\{ChoiceQuestion, Question};
 use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption};

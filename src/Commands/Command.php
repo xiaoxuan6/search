@@ -12,15 +12,9 @@
 
 namespace Vinhson\Search\Commands;
 
-use Vinhson\Search\HttpClient;
-
-class BaseCommand extends Command
+class Command extends \Symfony\Component\Console\Command\Command
 {
-    protected HttpClient $client;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->client = new HttpClient();
-    }
+    public const SUCCESS = 0;
+    public const FAILURE = 1;
+    public const INVALID = 2;
 }
