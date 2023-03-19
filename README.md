@@ -52,6 +52,7 @@ Available commands:
   send                 给公众号发送消息
   user                 生成用户信息
  actions
+  actions:go:push      收藏 go 开源第三方包
   actions:push         随记提交到 github
   actions:screen-shot  根据url截图并生成图片链接
   actions:upload       上传本地图片到 github
