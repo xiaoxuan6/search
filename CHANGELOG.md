@@ -2,6 +2,14 @@
 
 All notable changes to `james.xue/search` will be documented in this file.
 
+## v0.26.0 - 2023-03-19
+
+### What's Changed
+
+- 兼容 symfony/console 4.*和5.*
+
+**Full Changelog**: https://github.com/xiaoxuan6/search/compare/v0.25.0...v0.26.0
+
 ## v0.25.0 - 2023-03-19
 
 **Full Changelog**: https://github.com/xiaoxuan6/search/compare/v0.24.0...v0.25.0
