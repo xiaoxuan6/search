@@ -70,8 +70,11 @@ class UploadCommand extends ActionsCommand
 
         $this->filename = time() . '.' . $ext;
         $data = base64_encode(file_get_contents($path));
+        $len = strlen($data);
+        $subLen = ceil($len / 2);
         $this->client_payload = [
-            'data' => $data,
+            'data_one' => substr($data, 0, $subLen),
+            'data_two' => substr($data, $subLen, $len),
             'filename' => $this->filename
         ];
     }
