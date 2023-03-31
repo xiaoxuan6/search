@@ -17,6 +17,11 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 
+/**
+ * @deprecated
+ * Class UploadCommand
+ * @package Vinhson\Search\Commands\Actions
+ */
 class UploadCommand extends ActionsCommand
 {
     protected string $event_type = 'upload';
