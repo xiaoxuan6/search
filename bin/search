@@ -50,6 +50,7 @@ try {
     $app->add(new ScreenShotCommand());
     $app->add(new OpenAiCommand());
     $app->add(new GoPackageCommand());
+    $app->add(new Commands\UploadCommand());
     $app->run();
 } catch (Exception $e) {
 }
