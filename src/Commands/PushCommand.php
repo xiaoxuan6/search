@@ -33,15 +33,11 @@ class PushCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $process = Process::fromShellCommandline('git rev-parse --abbrev-ref HEAD');
-        $process->run();
-
         $response = Terminal::in('./')
             ->with([
                 'message' => $input->getArgument('message'),
-                'branch' => $process->getOutput()
             ])
-            ->run('git status && git add . && git commit -m{{ $message }} && git push origin {{ $branch }}');
+            ->run('git status && git add . && git commit -m{{ $message }} && git push');
 
         if ($response->ok()) {
             $output->writeln(sprintf("<info>提交成功：%s</info>", $response->output()));
