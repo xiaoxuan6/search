@@ -33,32 +33,23 @@ class PushCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-//        $process = Process::fromShellCommandline('pwd && git rev-parse --abbrev-ref HEAD');
-//        $process->run();
-//
-//        list($pwd, $branch) = array_filter(preg_split('/\r\n|\r|\n/', $process->getOutput()));
+        $process = Process::fromShellCommandline('git rev-parse --abbrev-ref HEAD');
+        $process->run();
 
-        $response = Terminal::in('./')->run('git status');
+        $response = Terminal::in('./')
+            ->with([
+                'message' => $input->getArgument('message'),
+                'branch' => $process->getOutput()
+            ])
+            ->run('git status && git add . && git commit -m"{{ $message }}" && git push origin {{ $branch }}');
+
         if ($response->ok()) {
-            var_export($response->output());
-        } else {
-            var_export($response->throw());
+            $output->writeln(sprintf("<info>提交成功：%s</info>", $response->output()));
+
+            return self::SUCCESS;
         }
 
-        /* $winCommand = 'cd "!PATH!"';
-//        $winCommand = 'cd "!PATH!" && git status && git add . && git commit -m"!MESSAGE!" && git push origin "!BRANCH!"';
-         $linCommand = 'cd "$PATH" && git status && git add . && git commit -m"$MESSAGE" && git push origin "$BRANCH"';
-         $command = ('win' == mb_substr(strtolower(PHP_OS), 0, 3)) ? $winCommand : $linCommand;
-
-         $process = Process::fromShellCommandline($command);
-         $process->run(null, ['PATH' => $pwd, 'BRANCH' => $branch, 'MESSAGE' => $input->getArgument('message')]);
-         if ($process->isSuccessful()) {
-             $output->writeln(sprintf("<info>提交成功：%s</info>", $process->getOutput()));
-
-             return self::SUCCESS;
-         }
-
-         $output->writeln("<error>提交失败：{$process->getErrorOutput()}、command：{$process->getCommandLine()}</error>");*/
+        $output->writeln("<error>提交失败：{$response->throw()}</error>");
 
         return self::FAILURE;
     }
