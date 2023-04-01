@@ -14,18 +14,6 @@
 namespace Vinhson\Search;
 
 use Exception;
-use Symfony\Component\Console\Application;
-use Vinhson\Search\Commands\{Actions\GoPackageCommand,
-    Actions\PushCommand,
-    Actions\ScreenShotCommand,
-    Actions\UploadCommand,
-    ConfigCommand,
-    EnvCommand,
-    OpenAiCommand,
-    ProxyCommand,
-    SendCommand,
-    UnProxyCommand,
-    UserCommand};
 
 $autoloads = [
     __DIR__ . '/../vendor/autoload.php',
@@ -38,20 +26,6 @@ foreach ($autoloads as $autoload) {
 }
 
 try {
-    $app = new Application();
-    $app->add(new ProxyCommand());
-    $app->add(new UnProxyCommand());
-    $app->add(new SendCommand());
-    $app->add(new UserCommand());
-    $app->add(new ConfigCommand());
-    $app->add(new PushCommand());
-    $app->add(new EnvCommand());
-    $app->add(new UploadCommand());
-    $app->add(new ScreenShotCommand());
-    $app->add(new OpenAiCommand());
-    $app->add(new GoPackageCommand());
-    $app->add(new Commands\UploadCommand());
-    $app->add(new Commands\PushCommand());
-    $app->run();
+    (new Application())->run();
 } catch (Exception $e) {
 }

@@ -97,9 +97,11 @@ class UploadCommand extends Command
             return;
         }
 
-        $response = Terminal::with([
-            'path' => dirname(dirname(__DIR__)),
-        ])->run('cd {{ $path }} && git status && git add . && git commit -m"fix: Update upload log" && git push origin main');
+        $response = Terminal::builder()
+            ->with([
+                'path' => dirname(dirname(__DIR__)),
+            ])->
+            run('cd {{ $path }} && git status && git add . && git commit -m"fix: Update upload log" && git push origin main');
 
         $output->writeln(sprintf("<info>output: %s</info>", $response->output()));
     }

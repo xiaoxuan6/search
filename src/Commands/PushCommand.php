@@ -33,14 +33,18 @@ class PushCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $response = Terminal::in('./')
+        $response = Terminal::builder()
+            ->in('./')
             ->with([
                 'message' => $input->getArgument('message'),
             ])
             ->run('git status && git add . && git commit -m{{ $message }} && git push');
 
         if ($response->ok()) {
-            $output->writeln(sprintf("<info>提交成功：%s</info>", $response->output()));
+            $output->writeln("<info>提交成功：</info>");
+            foreach ($response->lines() as $line) {
+                $output->writeln(sprintf("<info>%s</info>", $line));
+            }
 
             return self::SUCCESS;
         }
