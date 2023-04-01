@@ -44,12 +44,14 @@ Options:
   -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
 Available commands:
+  completion           Dump the shell completion script
   config               设置配置信息
   help                 Display help for a command
   list                 List commands
   openai               使用 ChatGPT 搜索
   proxy                设置代理
   send                 给公众号发送消息
+  upload               上传本地图片/文件到远程
   user                 生成用户信息
  actions
   actions:go:push      收藏 go 开源第三方包
@@ -58,6 +60,8 @@ Available commands:
   actions:upload       上传本地图片到 github
  env
   env:init             初始化配置信息
+ git
+  git:push             git 提交数据
  un
   un:proxy             删除本地代理
 ```

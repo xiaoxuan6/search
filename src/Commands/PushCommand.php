@@ -13,7 +13,6 @@
 namespace Vinhson\Search\Commands;
 
 use TitasGailius\Terminal\Terminal;
-use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 
