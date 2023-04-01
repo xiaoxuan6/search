@@ -12,6 +12,7 @@
 
 namespace Vinhson\Search\Commands;
 
+use TitasGailius\Terminal\Terminal;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -79,11 +80,22 @@ class UploadCommand extends Command
             $output->writeln(sprintf("<info>上传成功：%s</info>", $out));
             file_put_contents("./upload_log.txt", $file . PHP_EOL . $out . PHP_EOL, FILE_APPEND);
 
+            $this->push($output);
+
             return self::SUCCESS;
         }
 
         $output->writeln(sprintf("<info>上传失败：%s</info>", $process->getErrorOutput()));
 
         return self::FAILURE;
+    }
+
+    private function push(OutputInterface $output)
+    {
+        $response = Terminal::with([
+            'path' => dirname(dirname(__DIR__)),
+        ])->run('cd {{ $path }} && git status && git add . && git commit -m"fix: Update upload log" && git push origin main');
+
+        $output->writeln(sprintf("<info>output: %s</info>", $response->output()));
     }
 }
