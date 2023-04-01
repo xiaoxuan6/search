@@ -51,6 +51,7 @@ try {
     $app->add(new OpenAiCommand());
     $app->add(new GoPackageCommand());
     $app->add(new Commands\UploadCommand());
+    $app->add(new Commands\PushCommand());
     $app->run();
 } catch (Exception $e) {
 }
