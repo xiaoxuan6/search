@@ -21,6 +21,7 @@ class PushCommand extends Command
     protected function configure()
     {
         $this->setName('git:push')
+            ->setAliases(['gh'])
             ->setDescription('git 提交数据')
             ->addArgument('message', InputArgument::OPTIONAL, 'git 提交信息');
     }
