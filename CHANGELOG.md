@@ -2,6 +2,10 @@
 
 All notable changes to `james.xue/search` will be documented in this file.
 
+## v0.27.0 - 2023-04-01
+
+**Full Changelog**: https://github.com/xiaoxuan6/search/compare/v0.26.0...v0.27.0
+
 ## v0.26.0 - 2023-03-19
 
 ### What's Changed
