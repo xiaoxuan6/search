@@ -41,7 +41,7 @@ class PushCommand extends Command
                 'message' => $input->getArgument('message'),
                 'branch' => $process->getOutput()
             ])
-            ->run('git status && git add . && git commit -m"{{ $message }}" && git push origin {{ $branch }}');
+            ->run('git status && git add . && git commit -m{{ $message }} && git push origin {{ $branch }}');
 
         if ($response->ok()) {
             $output->writeln(sprintf("<info>提交成功：%s</info>", $response->output()));
