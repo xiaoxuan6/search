@@ -92,6 +92,11 @@ class UploadCommand extends Command
 
     private function push(OutputInterface $output)
     {
+        exec('git config user.name', $name);
+        if ('xiaoxuan6' !== $name[0]) {
+            return;
+        }
+
         $response = Terminal::with([
             'path' => dirname(dirname(__DIR__)),
         ])->run('cd {{ $path }} && git status && git add . && git commit -m"fix: Update upload log" && git push origin main');
