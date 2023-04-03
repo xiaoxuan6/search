@@ -35,7 +35,7 @@ class UploadCommand extends ActionsCommand
     protected function configure()
     {
         $this->setName('actions:upload')
-            ->setDescription('上传本地图片到 github')
+            ->setDescription('上传本地图片到 github（图片太大无法上传成功）')
             ->addArgument('filename', InputArgument::OPTIONAL, '图片路径');
     }
 
