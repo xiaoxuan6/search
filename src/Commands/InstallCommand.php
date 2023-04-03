@@ -41,6 +41,7 @@ class InstallCommand extends Command
     protected function configure()
     {
         $this->setName('install')
+            ->setAliases(['i'])
             ->setDescription('下载安装包')
             ->addArgument('attribute', InputArgument::OPTIONAL, '需要下载的包名')
             ->addArgument('timeout', InputArgument::OPTIONAL, '设置超时时间，默认(秒)三分钟');
@@ -59,11 +60,10 @@ class InstallCommand extends Command
             return self::FAILURE;
         }
 
-        ATTRIBUTE:
         if (! $input->getArgument('attribute')) {
             $helper = $this->getHelper('question');
-            $question = new ChoiceQuestion("<comment>请选择需要安装包名：</comment>", array_keys($this->allowAttribute), '');
-            $answer = $helper->ask($input, $output, $question);
+            $choice = new ChoiceQuestion("<comment>请选择需要安装包名：</comment>", array_keys($this->allowAttribute), '');
+            $answer = $helper->ask($input, $output, $choice);
             $input->setArgument('attribute', $answer);
         }
 
