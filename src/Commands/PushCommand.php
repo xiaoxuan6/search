@@ -13,6 +13,7 @@
 namespace Vinhson\Search\Commands;
 
 use TitasGailius\Terminal\Terminal;
+use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 
@@ -33,10 +34,21 @@ class PushCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        MSG:
+        if (! $message = $input->getArgument('message')) {
+            $helper = $this->getHelper('question');
+            $question = new Question("<info>请输入提交信息：</info>", '');
+            if (! $answer = $helper->ask($input, $output, $question)) {
+                goto MSG;
+            }
+
+            $message = $answer;
+        }
+
         $response = Terminal::builder()
             ->in('./')
             ->with([
-                'message' => $input->getArgument('message'),
+                'message' => $message,
             ])
             ->run('git status && git add . && git commit -m{{ $message }} && git push');
 

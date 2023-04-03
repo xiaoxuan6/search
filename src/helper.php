@@ -16,3 +16,10 @@ if (! function_exists('is_valid_url')) {
         return filter_var($url, FILTER_VALIDATE_URL);
     }
 }
+
+if (! function_exists('is_win')) {
+    function is_win(): bool
+    {
+        return ('win' == mb_substr(strtolower(PHP_OS), 0, 3));
+    }
+}

@@ -19,6 +19,7 @@ use Vinhson\Search\Commands\{Actions\GoPackageCommand,
     Actions\UploadCommand,
     ConfigCommand,
     EnvCommand,
+    InstallCommand,
     OpenAiCommand,
     ProxyCommand,
     SendCommand,
@@ -45,7 +46,8 @@ class Application
         UnProxyCommand::class,
         UserCommand::class,
         Commands\UploadCommand::class,
-        Commands\PushCommand::class
+        Commands\PushCommand::class,
+        InstallCommand::class,
     ];
 
     public function __construct()

@@ -71,7 +71,7 @@ class UploadCommand extends Command
 
         $winCommand = 'curl -k -sD - --upload-file "!REALPATH!" https://transfer.sh/"!FILENAME!" | grep -i -E "transfer\.sh|x-url-delete"';
         $linCommand = 'curl -k -sD - --upload-file "$REALPATH" https://transfer.sh/"$FILENAME" | grep -i -E "transfer\.sh|x-url-delete"';
-        $command = ('win' == mb_substr(strtolower(PHP_OS), 0, 3)) ? $winCommand : $linCommand;
+        $command = is_win() ? $winCommand : $linCommand;
 
         $process = Process::fromShellCommandline($command);
         $process->run(null, ['REALPATH' => $path, 'FILENAME' => basename($file)]);
