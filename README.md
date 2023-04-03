@@ -47,6 +47,7 @@ Available commands:
   completion           Dump the shell completion script
   config               设置配置信息
   help                 Display help for a command
+  install              [i] 下载安装包
   list                 List commands
   openai               使用 ChatGPT 搜索
   proxy                设置代理
@@ -61,7 +62,7 @@ Available commands:
  env
   env:init             初始化配置信息
  git
-  git:push             git 提交数据
+  git:push             [gh] git 提交数据
  un
   un:proxy             删除本地代理
 ```
