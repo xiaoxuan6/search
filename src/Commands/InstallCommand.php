@@ -14,8 +14,8 @@ namespace Vinhson\Search\Commands;
 
 use TitasGailius\Terminal\Terminal;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\{ChoiceQuestion, Question};
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
+use Symfony\Component\Console\Question\{ChoiceQuestion, ConfirmationQuestion};
 
 class InstallCommand extends Command
 {
@@ -62,8 +62,9 @@ class InstallCommand extends Command
             return self::FAILURE;
         }
 
+        $helper = $this->getHelper('question');
+        ATTRIBUTE:
         if (! $input->getArgument('attribute')) {
-            $helper = $this->getHelper('question');
             $choice = new ChoiceQuestion("<comment>请选择需要安装包名：</comment>", array_keys($this->allowAttribute), '');
             $answer = $helper->ask($input, $output, $choice);
             $input->setArgument('attribute', $answer);
@@ -80,9 +81,15 @@ class InstallCommand extends Command
             return self::SUCCESS;
         }
 
+        $url = $this->allowAttribute[$attribute] ?? '';
+        if (! $url) {
+            $output->writeln(sprintf("<error>%s 安装地址不存在</error>", $attribute));
+            $input->setArgument('attribute', '');
+            goto ATTRIBUTE;
+        }
+
         $output->writeln("<info>正在下载中……</info>");
 
-        $url = $this->allowAttribute[$attribute];
         $response = Terminal::builder()
             ->in('./')
             ->timeout($input->getArgument('timeout') ?? 3 * 60)
@@ -99,6 +106,12 @@ class InstallCommand extends Command
         }
 
         $attribute == 'make' and $this->afterExecute($output);
+
+        $choice = new ConfirmationQuestion(PHP_EOL . "<fg=white;bg=red>是否继续安装（default:false）？</>", false, '/^(y|t)/i');
+        if ($helper->ask($input, $output, $choice)) {
+            $input->setArgument('attribute', '');
+            goto ATTRIBUTE;
+        }
 
         return self::SUCCESS;
     }
