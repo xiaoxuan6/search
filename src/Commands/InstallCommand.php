@@ -19,7 +19,7 @@ use Symfony\Component\Console\Question\{ChoiceQuestion, ConfirmationQuestion};
 
 class InstallCommand extends Command
 {
-    protected array $default = ['git', 'host', 'clash'];
+    protected array $default = ['git', 'host', 'clash', 'navicat', 'make.git', 'navicat.git'];
 
     protected array $allowAttribute = [
         'redis' => 'https://gitee.com/qishibo/AnotherRedisDesktopManager/releases/download/v1.5.9/Another-Redis-Desktop-Manager.1.5.9.exe',
@@ -31,7 +31,10 @@ class InstallCommand extends Command
         'golang' => 'https://download.jetbrains.com/go/goland-2021.1.3.exe?_ga=2.228833948.101944321.1680495951-28370356.1646482185&_gl=1*35ki8m*_ga*MjgzNzAzNTYuMTY0NjQ4MjE4NQ..*_ga_9J976DJZ68*MTY4MDQ5NTk1MC42LjEuMTY4MDQ5NjM1OS42MC4wLjA.',
         'python' => 'https://download.jetbrains.com/python/pycharm-professional-2021.1.3.exe?_gl=1*4tozqx*_ga*MjgzNzAzNTYuMTY0NjQ4MjE4NQ..*_ga_9J976DJZ68*MTY4MDQ5NTk1MC42LjEuMTY4MDQ5NjQ4My4zOS4wLjA.&_ga=2.154408632.101944321.1680495951-28370356.1646482185',
         'clash' => 'https://github.com/Fndroid/clash_for_windows_pkg/releases/download/0.20.19/Clash.for.Windows.Setup.0.20.19.exe',
-        'make' => 'https://transfer.sh/G2hRGU/make.exe'
+        'make' => 'https://transfer.sh/G2hRGU/make.exe',
+        'navicat' => 'https://transfer.sh/mKUtQx/Navicat.zip',
+        'make.git' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/make.exe',
+        'navicat.git' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/Navicat_Premium_11.zip',
     ];
 
     protected array $aliases = [
