@@ -26,7 +26,8 @@ class UploadCommand extends Command
     {
         $this->setName('upload')
             ->setDescription('上传本地图片/文件到远程')
-            ->addArgument('filename', InputArgument::OPTIONAL, '本地图片/文件路径');
+            ->addArgument('filename', InputArgument::OPTIONAL, '本地图片/文件路径')
+            ->addArgument('password', InputArgument::OPTIONAL, '设置密码');
     }
 
     /**
@@ -69,10 +70,19 @@ class UploadCommand extends Command
             goto QUESTION;
         }
 
-        $winCommand = 'curl -k -sD - --upload-file "!REALPATH!" https://transfer.sh/"!FILENAME!" | grep -i -E "transfer\.sh|x-url-delete"';
-        $linCommand = 'curl -k -sD - --upload-file "$REALPATH" https://transfer.sh/"$FILENAME" | grep -i -E "transfer\.sh|x-url-delete"';
-        $command = is_win() ? $winCommand : $linCommand;
+        $winCommand = 'curl -k -sD - --upload-file "!REALPATH!" https://transfer.sh/"!FILENAME!"';
+        $linCommand = 'curl -k -sD - --upload-file "$REALPATH" https://transfer.sh/"$FILENAME"';
+        $delCommand = ' | grep -i -E "transfer\.sh|x-url-delete"';
+        if ($password = $input->getArgument('password')) {
+            $pasCommand = ' -H "X-Encrypt-Password: ' . $password . '"';
+            $winCommand .= $pasCommand . $delCommand;
+            $linCommand .= $pasCommand . $delCommand;
+        } else {
+            $winCommand .= $delCommand;
+            $linCommand .= $delCommand;
+        }
 
+        $command = is_win() ? $winCommand : $linCommand;
         $process = Process::fromShellCommandline($command);
         $process->run(null, ['REALPATH' => $path, 'FILENAME' => basename($file)]);
         if ($process->isSuccessful()) {
