@@ -15,6 +15,7 @@ namespace Vinhson\Search\Commands;
 use TitasGailius\Terminal\Terminal;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Question\Question;
+use Vinhson\Search\Commands\Support\UploadSupport;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 
@@ -70,19 +71,8 @@ class UploadCommand extends Command
             goto QUESTION;
         }
 
-        $winCommand = 'curl -k -sD - --upload-file "!REALPATH!" https://transfer.sh/"!FILENAME!"';
-        $linCommand = 'curl -k -sD - --upload-file "$REALPATH" https://transfer.sh/"$FILENAME"';
-        $delCommand = ' | grep -i -E "transfer\.sh|x-url-delete"';
-        if ($password = $input->getArgument('password')) {
-            $pasCommand = ' -H "X-Encrypt-Password: ' . $password . '"';
-            $winCommand .= $pasCommand . $delCommand;
-            $linCommand .= $pasCommand . $delCommand;
-        } else {
-            $winCommand .= $delCommand;
-            $linCommand .= $delCommand;
-        }
-
-        $command = is_win() ? $winCommand : $linCommand;
+        $needles = is_win() ? ["!REALPATH!", "!FILENAME!"] : ["\$REALPATH", "\$FILENAME"];
+        $command = (new UploadSupport($needles, $input->getArgument('password')))->toString();
         $process = Process::fromShellCommandline($command);
         $process->run(null, ['REALPATH' => $path, 'FILENAME' => basename($file)]);
         if ($process->isSuccessful()) {
