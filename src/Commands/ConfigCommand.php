@@ -13,27 +13,33 @@
 namespace Vinhson\Search\Commands;
 
 use Vinhson\Search\Di;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Exception\ExceptionInterface;
 use Symfony\Component\Console\Question\{ChoiceQuestion, Question};
 use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption};
 
 class ConfigCommand extends Command
 {
     use ProcessTrait;
+    use CallTrait;
 
     public const PREFIX = 'search.';
 
-    private static array $attribute = ['set', 'get', 'unset'];
+    private static array $attribute = ['set', 'get', 'unset', 'flush'];
 
     protected function configure()
     {
         $this->setName('config')
             ->setDescription('设置配置信息')
-            ->addArgument('attribute', InputArgument::OPTIONAL, '属性：set、get、unset', 'set')
+            ->addArgument('attribute', InputArgument::OPTIONAL, '属性：set、get、unset、flush', 'set')
             ->addOption('key', 'key', InputOption::VALUE_OPTIONAL, 'config key')
             ->addOption('value', 'val', InputOption::VALUE_OPTIONAL, 'config value');
     }
 
+    /**
+     * @throws ExceptionInterface
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $key = $input->getOption('key');
@@ -64,6 +70,25 @@ class ConfigCommand extends Command
                 });
 
                 break;
+            case 'flush':
+                $process = Process::fromShellCommandline('git config --list | grep "search.*"');
+                $process->run();
+
+                $chars = array_filter(preg_split("/\n/", $process->getOutput()));
+                foreach ($chars as $char) {
+                    if (str_starts_with($char, self::PREFIX)) {
+                        list($key, $val) = explode('=', $char);
+                        $key = str_replace(self::PREFIX, '', $key);
+                        $this->call('config', [
+                            'attribute' => 'unset',
+                            '--key' => $key
+                        ]);
+                    }
+                }
+
+                $output->writeln("<info>config flush successfully</info>");
+
+                break;
             default:
                 $output->writeln("<error>无效的操作属性</error>");
         }
@@ -83,7 +108,7 @@ class ConfigCommand extends Command
         }
 
         KYE:
-        if (! $input->getOption('key')) {
+        if (! $input->getOption('key') && $attribute != 'flush') {
             $question = new Question("<error>请输入有效的 key：</error>", '');
             $answer = $helper->ask($input, $output, $question);
             if (! $answer) {
