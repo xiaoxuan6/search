@@ -12,7 +12,6 @@
 
 namespace Vinhson\Search\Commands;
 
-use TitasGailius\Terminal\Terminal;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -46,22 +45,6 @@ class PushCommand extends Command
             $message = $answer;
         }
 
-//        $response = Terminal::builder()
-//            ->in('./')
-//            ->with([
-//                'message' => $message,
-//            ])
-//            ->run('git status && git add . && git commit -m{{ $message }} && git push');
-//
-//        if ($response->ok()) {
-//            $output->writeln("<info>提交成功：</info>");
-//            foreach ($response->lines() as $line) {
-//                $output->writeln(sprintf("<info>%s</info>", $line));
-//            }
-//
-//            return self::SUCCESS;
-//        }
-
         $commands = [
             'git status',
             'git add .',
@@ -69,7 +52,6 @@ class PushCommand extends Command
             'git push'
         ];
         $process = Process::fromShellCommandline(implode(' && ', $commands), getcwd());
-
         $process->run(function ($type, $line) use ($output) {
             $output->write($line);
         });

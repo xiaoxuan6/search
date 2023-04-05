@@ -13,6 +13,7 @@
 namespace Vinhson\Search\Commands;
 
 use TitasGailius\Terminal\Terminal;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 use Symfony\Component\Console\Question\{ChoiceQuestion, ConfirmationQuestion};
@@ -91,21 +92,19 @@ class InstallCommand extends Command
             goto ATTRIBUTE;
         }
 
-        $output->writeln("<info>正在下载中……</info>");
 
-        $response = Terminal::builder()
-            ->in('./')
-            ->timeout($input->getArgument('timeout') ?? 3 * 60)
-            ->with([
-                'name' => $this->aliases[$attribute] ?? basename($url),
-                'url' => $url
-            ])
-            ->run('wget -O {{$name}} {{ $url }}');
-
-        $response->throw();
-
-        foreach ($response as $line) {
+        $name = $this->aliases[$attribute] ?? basename($url);
+        $command = sprintf("wget -O %s %s", $name, $url);
+        $process = Process::fromShellCommandline($command, getcwd());
+        $process->setTimeout($input->getArgument('timeout') ?? 3 * 60);
+        $process->run(function ($type, $line) use ($output) {
             $output->writeln("<info>{$line}</info>");
+        });
+
+        if (! $process->isSuccessful()) {
+            $output->writeln('<bg=red;fg=white> ERROR </> Install fail');
+
+            return self::FAILURE;
         }
 
         $attribute == 'make' and $this->afterExecute($output);
