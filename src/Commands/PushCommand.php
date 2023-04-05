@@ -13,6 +13,7 @@
 namespace Vinhson\Search\Commands;
 
 use TitasGailius\Terminal\Terminal;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
@@ -45,23 +46,38 @@ class PushCommand extends Command
             $message = $answer;
         }
 
-        $response = Terminal::builder()
-            ->in('./')
-            ->with([
-                'message' => $message,
-            ])
-            ->run('git status && git add . && git commit -m{{ $message }} && git push');
+//        $response = Terminal::builder()
+//            ->in('./')
+//            ->with([
+//                'message' => $message,
+//            ])
+//            ->run('git status && git add . && git commit -m{{ $message }} && git push');
+//
+//        if ($response->ok()) {
+//            $output->writeln("<info>提交成功：</info>");
+//            foreach ($response->lines() as $line) {
+//                $output->writeln(sprintf("<info>%s</info>", $line));
+//            }
+//
+//            return self::SUCCESS;
+//        }
 
-        if ($response->ok()) {
-            $output->writeln("<info>提交成功：</info>");
-            foreach ($response->lines() as $line) {
-                $output->writeln(sprintf("<info>%s</info>", $line));
-            }
+        $commands = [
+            'git status',
+            'git add .',
+            'git commit -m"' . $message . '"',
+            'git push'
+        ];
+        $process = Process::fromShellCommandline(implode(' && ', $commands), getcwd());
 
-            return self::SUCCESS;
+        $process->setTimeout(180);
+        $process->run(function ($type, $line) use ($output) {
+            $output->write('    ' . $line);
+        });
+
+        if (! $process->isSuccessful()) {
+            $output->writeln("<error>提交失败：{$process->getErrorOutput()}</error>");
         }
-
-        $output->writeln("<error>提交失败：{$response->throw()}</error>");
 
         return self::FAILURE;
     }
