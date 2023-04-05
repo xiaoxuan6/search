@@ -70,9 +70,8 @@ class PushCommand extends Command
         ];
         $process = Process::fromShellCommandline(implode(' && ', $commands), getcwd());
 
-        $process->setTimeout(180);
         $process->run(function ($type, $line) use ($output) {
-            $output->write('    ' . $line);
+            $output->write($line);
         });
 
         if (! $process->isSuccessful()) {
