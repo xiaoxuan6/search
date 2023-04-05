@@ -49,6 +49,7 @@ Available commands:
   help                 Display help for a command
   install              [i] 下载安装包
   list                 List commands
+  new                  Create a new Laravel application
   openai               使用 ChatGPT 搜索
   proxy                设置代理
   send                 给公众号发送消息
