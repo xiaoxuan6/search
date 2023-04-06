@@ -21,7 +21,7 @@ use Symfony\Component\Console\Question\{ChoiceQuestion, ConfirmationQuestion};
 
 class InstallCommand extends Command
 {
-    protected array $default = ['git', 'host', 'clash', 'navicat', 'make.git', 'navicat.git'];
+    protected array $default = ['git', 'host', 'clash', 'navicat', 'make.git', 'navicat.git', 'cmder'];
 
     protected array $allowAttribute = [
         'redis' => 'https://gitee.com/qishibo/AnotherRedisDesktopManager/releases/download/v1.5.9/Another-Redis-Desktop-Manager.1.5.9.exe',
@@ -37,6 +37,7 @@ class InstallCommand extends Command
         'navicat' => 'https://transfer.sh/mKUtQx/Navicat.zip',
         'make.git' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/make.exe',
         'navicat.git' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/Navicat_Premium_11.zip',
+        'cmder' => 'https://github.com/cmderdev/cmder/releases/download/v1.3.21/cmder.zip',
     ];
 
     protected array $aliases = [
@@ -58,6 +59,7 @@ class InstallCommand extends Command
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
+     * @throws RuntimeException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -108,7 +110,18 @@ class InstallCommand extends Command
             return self::FAILURE;
         }
 
-        $attribute == 'make' and $this->afterExecute($output);
+        switch ($attribute) {
+            case 'make':
+                $this->executeMake($output);
+
+                break;
+            case 'cmder':
+                $this->executeCmder();
+
+                break;
+            default:
+                break;
+        }
 
         $choice = new ConfirmationQuestion(PHP_EOL . "<fg=white;bg=red>是否继续安装（default:false）？</>", false, '/^(y|t)/i');
         if ($helper->ask($input, $output, $choice)) {
@@ -119,7 +132,7 @@ class InstallCommand extends Command
         return self::SUCCESS;
     }
 
-    protected function afterExecute(OutputInterface $output)
+    protected function executeMake(OutputInterface $output)
     {
         $gitPath = tap((new ExecutableFinder())->find('git'), function ($git) use ($output) {
             if (is_null($git)) {
@@ -134,5 +147,11 @@ class InstallCommand extends Command
         }
 
         rename('./make.exe', str_replace('git.exe', 'make.exe', $gitPath));
+    }
+
+    private function executeCmder()
+    {
+        Terminal::builder()
+            ->run('unzip cmder.zip');
     }
 }
