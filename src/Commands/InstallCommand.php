@@ -13,8 +13,9 @@
 namespace Vinhson\Search\Commands;
 
 use TitasGailius\Terminal\Terminal;
-use Symfony\Component\Process\Process;
+use Vinhson\Search\Exceptions\RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\{ExecutableFinder, Process};
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 use Symfony\Component\Console\Question\{ChoiceQuestion, ConfirmationQuestion};
 
@@ -120,12 +121,11 @@ class InstallCommand extends Command
 
     protected function afterExecute(OutputInterface $output)
     {
-        exec('where git', $out);
-        if (! ($out[0] ?? '')) {
-            $output->writeln("<error>无法获取 git 安装路径</error>");
-
-            return;
-        }
+        $gitPath = tap((new ExecutableFinder())->find('git'), function ($git) use ($output) {
+            if (is_null($git)) {
+                throw new RuntimeException("无法获取 git 安装路径");
+            }
+        });
 
         if (! file_exists('./make.exe')) {
             $output->writeln("<error>make.exe 文件不存在</error>");
@@ -133,6 +133,6 @@ class InstallCommand extends Command
             return;
         }
 
-        rename('./make.exe', str_replace('git.exe', 'make.exe', $out[0]));
+        rename('./make.exe', str_replace('git.exe', 'make.exe', $gitPath));
     }
 }

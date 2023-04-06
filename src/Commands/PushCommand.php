@@ -45,13 +45,13 @@ class PushCommand extends Command
             $message = $answer;
         }
 
-        $commands = [
+        $commands = collect([
             'git status',
             'git add .',
             'git commit -m"' . $message . '"',
             'git push'
-        ];
-        $process = Process::fromShellCommandline(implode(' && ', $commands), getcwd());
+        ]);
+        $process = Process::fromShellCommandline($commands->join(' && '), getcwd());
         $process->run(function ($type, $line) use ($output) {
             $output->write($line);
         });

@@ -23,3 +23,12 @@ if (! function_exists('is_win')) {
         return ('win' == mb_substr(strtolower(PHP_OS), 0, 3));
     }
 }
+
+if (! function_exists('tap')) {
+    function tap($value, Closure $closure)
+    {
+        $closure($value);
+
+        return $value;
+    }
+}
