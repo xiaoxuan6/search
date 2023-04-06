@@ -115,10 +115,6 @@ class InstallCommand extends Command
                 $this->executeMake($output);
 
                 break;
-            case 'cmder':
-                $this->executeCmder();
-
-                break;
             default:
                 break;
         }
@@ -147,11 +143,5 @@ class InstallCommand extends Command
         }
 
         rename('./make.exe', str_replace('git.exe', 'make.exe', $gitPath));
-    }
-
-    private function executeCmder()
-    {
-        Terminal::builder()
-            ->run('unzip cmder.zip');
     }
 }
