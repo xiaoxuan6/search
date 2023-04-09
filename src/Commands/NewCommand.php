@@ -55,7 +55,7 @@ class NewCommand extends Command
         ];
 
         if (PHP_OS_FAMILY != 'Windows') {
-            $commands[] = "chmod 755 \"$directory/artisan\"";
+            $commands[] = "chmod +x \"$directory/artisan\"";
         }
 
         if (($process = $this->runCommands($commands, $input, $output))->isSuccessful()) {
@@ -77,7 +77,7 @@ class NewCommand extends Command
     {
         $process = Process::fromShellCommandline(implode(' && ', $commands));
 
-        $process->setTimeout(180);
+        $process->setTimeout(600);
         $process->run(function ($type, $line) use ($output) {
             $output->write('    ' . $line);
         });
