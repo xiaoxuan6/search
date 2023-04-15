@@ -10,14 +10,24 @@
  *
  */
 
+use TitasGailius\Terminal\Terminal;
+use Vinhson\Search\services\CacheService;
+
 if (! function_exists('is_valid_url')) {
-    function is_valid_url($url)
+    /**
+     * @param $url
+     * @return bool
+     */
+    function is_valid_url($url): bool
     {
         return filter_var($url, FILTER_VALIDATE_URL);
     }
 }
 
 if (! function_exists('is_win')) {
+    /**
+     * @return bool
+     */
     function is_win(): bool
     {
         return ('win' == mb_substr(strtolower(PHP_OS), 0, 3));
@@ -30,5 +40,40 @@ if (! function_exists('tap')) {
         $closure($value);
 
         return $value;
+    }
+}
+
+if (! function_exists('cache')) {
+    /**
+     * @param null $key
+     */
+    function cache($key = null)
+    {
+        if ($key) {
+            $class = new class () {
+                /**
+                 * @param $key
+                 * @return string
+                 */
+                public function getConfig($key): string
+                {
+                    $response = Terminal::builder()
+                        ->with([
+                            'key' => $key
+                        ])
+                        ->run('git config search.{{ $key }}');
+
+                    return tap(trim($response->output()), function ($val) use ($key) {
+                        if (! $val) {
+                            throw new \Vinhson\Search\Exceptions\RuntimeException(sprintf("获取 %s 失败，值为空", $key));
+                        }
+                    });
+                }
+            };
+
+            return (new $class())->getConfig($key);
+        }
+
+        return new CacheService();
     }
 }

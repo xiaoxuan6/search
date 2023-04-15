@@ -35,16 +35,16 @@ class EnvCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $config = collect(json_decode(file_get_contents($input->getArgument('file')), true));
-        $config->map(function ($item) {
-            collect($item)->mapWithKeys(function ($val, $key) {
-                collect($val)->each(function ($val, $item) use ($key) {
+        $config->map(function ($item) use ($output) {
+            collect($item)->mapWithKeys(function ($val, $key) use ($output) {
+                collect($val)->each(function ($val, $item) use ($key, $output) {
                     $k = $key . '.' . $item;
                     if ($val && $k) {
                         $this->call('config', [
                             'attribute' => 'set',
                             '--key' => $k,
                             '--value' => $val
-                    ]);
+                        ], $output);
                     }
                 });
 

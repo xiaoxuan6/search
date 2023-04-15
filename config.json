@@ -11,6 +11,12 @@
         },
         "openai": {
             "domain": "xxx"
+        },
+        "wechat": {
+            "appid": "xxx",
+            "appSecret": "xxx",
+            "templateId": "xxx",
+            "user": "xxx"
         }
     }
 }
