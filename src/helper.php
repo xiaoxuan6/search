@@ -11,7 +11,7 @@
  */
 
 use TitasGailius\Terminal\Terminal;
-use Vinhson\Search\services\CacheService;
+use Vinhson\Search\Service\CacheService;
 
 if (! function_exists('is_valid_url')) {
     /**

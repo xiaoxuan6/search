@@ -10,7 +10,7 @@
  *
  */
 
-namespace Vinhson\Search\services;
+namespace Vinhson\Search\Service;
 
 use Vinhson\Search\HttpClient;
 use Vinhson\Search\Exceptions\RuntimeException;
