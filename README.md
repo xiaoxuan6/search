@@ -66,4 +66,6 @@ Available commands:
   git:push             [gh] git 提交数据
  un
   un:proxy             删除本地代理
+ wechat
+  wechat:send          给微信测试号发送消息
 ```
