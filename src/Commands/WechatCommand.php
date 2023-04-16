@@ -42,22 +42,21 @@ class WechatCommand extends BaseCommand
         $user = $input->getArgument('user') ?? cache('wechat.user');
 
         $url = sprintf("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s", $access_token);
-        $data = [
-            'touser' => $user,
-            'template_id' => cache('wechat.templateId'),
-            'data' => [
-                'content' => [
-                    'value' => $input->getArgument('data')
-                ]
-            ]
-        ];
 
         $response = $this->client->post($url, [
             'headers' => [
                 'Content-Type' => 'application/json',
                 'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36'
             ],
-            'json' => $data
+            'json' => [
+                'touser' => $user,
+                'template_id' => cache('wechat.templateId'),
+                'data' => [
+                    'content' => [
+                        'value' => $input->getArgument('data')
+                    ]
+                ]
+            ]
         ]);
 
         if ($response->isSuccess()) {

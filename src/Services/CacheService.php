@@ -10,7 +10,7 @@
  *
  */
 
-namespace Vinhson\Search\Service;
+namespace Vinhson\Search\Services;
 
 use Vinhson\Search\HttpClient;
 use Vinhson\Search\Exceptions\RuntimeException;
@@ -19,13 +19,15 @@ class CacheService
 {
     protected static string $path = __DIR__ . '/../../.cache';
 
+    public const URL = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s';
+
     /**
      * @throws RuntimeException
      */
     private static function getAccessToken(): string
     {
         $client = new HttpClient();
-        $response = $client->get(sprintf('https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s', cache('wechat.appid'), cache('wechat.appSecret')));
+        $response = $client->get(sprintf(self::URL, cache('wechat.appid'), cache('wechat.appSecret')));
         if ($response->isSuccess()) {
             return $response->getData('access_token');
         }
@@ -39,18 +41,11 @@ class CacheService
      */
     public function remember(): string
     {
-        /**
-         * @throws RuntimeException
-         */
-        $closure = function () {
-            if (! file_exists(self::$path)) {
-                return self::save();
-            }
+        if (! file_exists(self::$path)) {
+            return self::save();
+        }
 
-            return self::identify();
-        };
-
-        return $closure();
+        return self::identify();
     }
 
     /**
@@ -74,6 +69,6 @@ class CacheService
             return self::save();
         }
 
-        return file_get_contents(self::$path) ?? '';
+        return file_get_contents(self::$path) ?? throw new RuntimeException('获取 access_token 失败、.cache 文件不存在!');
     }
 }
