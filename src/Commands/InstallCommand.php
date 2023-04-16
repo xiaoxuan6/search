@@ -128,13 +128,12 @@ class InstallCommand extends Command
         return self::SUCCESS;
     }
 
+    /**
+     * @throws RuntimeException
+     */
     protected function executeMake(OutputInterface $output)
     {
-        $gitPath = tap((new ExecutableFinder())->find('git'), function ($git) use ($output) {
-            if (is_null($git)) {
-                throw new RuntimeException("无法获取 git 安装路径");
-            }
-        });
+        $gitPath = tap_abort((new ExecutableFinder())->find('git'), '无法获取 git 安装路径');
 
         if (! file_exists('./make.exe')) {
             $output->writeln("<error>make.exe 文件不存在</error>");
@@ -142,6 +141,6 @@ class InstallCommand extends Command
             return;
         }
 
-        rename('./make.exe', str_replace('git.exe', 'make.exe', $gitPath));
+        rename('./make.exe', str_replace('git.EXE', 'make.exe', $gitPath));
     }
 }

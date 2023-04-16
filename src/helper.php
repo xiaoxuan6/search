@@ -63,11 +63,7 @@ if (! function_exists('cache')) {
                         ])
                         ->run('git config search.{{ $key }}');
 
-                    return tap(trim($response->output()), function ($val) use ($key) {
-                        if (! $val) {
-                            throw new \Vinhson\Search\Exceptions\RuntimeException(sprintf("获取 %s 失败，值为空", $key));
-                        }
-                    });
+                    return tap_abort(trim($response->output()), sprintf("获取 %s 失败，值为空", $key));
                 }
             };
 
@@ -75,5 +71,22 @@ if (! function_exists('cache')) {
         }
 
         return new CacheService();
+    }
+}
+
+if (! function_exists('tap_abort')) {
+    /**
+     * @param $val
+     * @param $message
+     * @return mixed
+     * @throws \Vinhson\Search\Exceptions\RuntimeException
+     */
+    function tap_abort($val, $message)
+    {
+        return tap($val, function ($item) use ($message) {
+            if (! $item) {
+                throw new \Vinhson\Search\Exceptions\RuntimeException($message);
+            }
+        });
     }
 }

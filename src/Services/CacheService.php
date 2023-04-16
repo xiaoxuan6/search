@@ -69,6 +69,6 @@ class CacheService
             return self::save();
         }
 
-        return file_get_contents(self::$path) ?? throw new RuntimeException('获取 access_token 失败、.cache 文件不存在!');
+        return tap_abort(file_get_contents(self::$path), '获取 access_token 失败、.cache 文件不存在!');
     }
 }
