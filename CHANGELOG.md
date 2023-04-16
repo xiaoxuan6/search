@@ -2,6 +2,16 @@
 
 All notable changes to `james.xue/search` will be documented in this file.
 
+## v0.36.0 - 2023-04-16
+
+### What's Changed
+
+- 废弃使用 ChatGPT 搜索 命令
+- 废弃本地图片上传到 github
+- gh 命令添加 `amend` 和 `force` 参数
+
+**Full Changelog**: https://github.com/xiaoxuan6/search/compare/v0.35.0...v0.36.0
+
 ## v0.35.0 - 2023-04-15
 
 **Full Changelog**: https://github.com/xiaoxuan6/search/compare/v0.34.0...v0.35.0
