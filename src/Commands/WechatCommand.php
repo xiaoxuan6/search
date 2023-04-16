@@ -27,7 +27,7 @@ class WechatCommand extends BaseCommand
         $this->setName('wechat:send')
             ->setDescription('给微信测试号发送消息')
             ->addArgument('data', InputArgument::REQUIRED, '发送消息内容')
-            ->addArgument('user', InputArgument::OPTIONAL, '接收者openid');
+            ->addArgument('url', InputArgument::OPTIONAL, '链接地址');
     }
 
     /**
@@ -39,8 +39,6 @@ class WechatCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $access_token = cache()->remember();
-        $user = $input->getArgument('user') ?? cache('wechat.user');
-
         $url = sprintf("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s", $access_token);
 
         $response = $this->client->post($url, [
@@ -49,11 +47,14 @@ class WechatCommand extends BaseCommand
                 'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36'
             ],
             'json' => [
-                'touser' => $user,
+                'touser' => cache('wechat.user'),
                 'template_id' => cache('wechat.templateId'),
+                'url' => $input->getArgument('url'),
+                'topcolor' => '#173177',
                 'data' => [
                     'content' => [
-                        'value' => $input->getArgument('data')
+                        'value' => $input->getArgument('data'),
+                        'color' => '#173177'
                     ]
                 ]
             ]
