@@ -15,7 +15,7 @@ namespace Vinhson\Search\Commands;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\{InputArgument, InputInterface};
+use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption};
 
 class PushCommand extends Command
 {
@@ -24,7 +24,9 @@ class PushCommand extends Command
         $this->setName('git:push')
             ->setAliases(['gh'])
             ->setDescription('git 提交数据')
-            ->addArgument('message', InputArgument::OPTIONAL, 'git 提交信息');
+            ->addArgument('message', InputArgument::OPTIONAL, 'git 提交信息')
+            ->addOption('amend', '-a', InputOption::VALUE_OPTIONAL, '是否修改最后一次提交信息', false)
+            ->addOption('force', '-f', InputOption::VALUE_OPTIONAL, '是否强制提交', false);
     }
 
     /**
@@ -47,10 +49,26 @@ class PushCommand extends Command
 
         $commands = collect([
             'git status',
-            'git add .',
-            'git commit -m"' . $message . '"',
-            'git push'
+            'git add .'
         ]);
+
+        if ($input->getOption('amend')) {
+            $commands->push(...[
+                'git commit --amend -m"' . $message . '"',
+                'git push -f'
+            ]);
+        } elseif ($input->getOption('force')) {
+            $commands->push(...[
+                'git commit -m"' . $message . '"',
+                'git push -f'
+            ]);
+        } else {
+            $commands->push(...[
+                'git commit -m"' . $message . '"',
+                'git push'
+            ]);
+        }
+
         $process = Process::fromShellCommandline($commands->join(' && '), getcwd());
         $process->run(function ($type, $line) use ($output) {
             $output->writeln($line);
