@@ -18,6 +18,11 @@ use Symfony\Component\Console\Exception\ExceptionInterface;
 use Symfony\Component\Console\Question\{ConfirmationQuestion, Question};
 use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption};
 
+/**
+ * @deprecated
+ * Class OpenAiCommand
+ * @package Vinhson\Search\Commands
+ */
 class OpenAiCommand extends BaseCommand
 {
     use CallTrait;
@@ -39,6 +44,10 @@ class OpenAiCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $output->writeln("<error>该功能已废弃！</error>");
+
+        return self::INVALID;
+
         $this->call('config', [
             'attribute' => 'get',
             '--key' => 'openai.domain'

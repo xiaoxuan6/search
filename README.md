@@ -27,7 +27,7 @@ search config set --key=xxx --value=xxx
 
 ## List
 
-```shell
+```phpregexp
 $ search list
 Console Tool
 
@@ -50,7 +50,7 @@ Available commands:
   install              [i] 下载安装包
   list                 List commands
   new                  Create a new Laravel application
-  openai               使用 ChatGPT 搜索
+  openai(废弃)          使用 ChatGPT 搜索
   proxy                设置代理
   send                 给公众号发送消息
   upload               上传本地图片/文件到远程
@@ -59,7 +59,7 @@ Available commands:
   actions:go:push      收藏 go 开源第三方包
   actions:push         随记提交到 github
   actions:screen-shot  根据url截图并生成图片链接
-  actions:upload       上传本地图片到 github（图片太大无法上传成功）
+  actions:upload(废弃) 上传本地图片到 github（图片太大无法上传成功）
  env
   env:init             初始化配置信息
  git
