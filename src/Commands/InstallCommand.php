@@ -161,7 +161,7 @@ class InstallCommand extends Command
 
         $newFile = str_replace('git.EXE', $filename, $gitPath);
         if (! file_exists($newFile)) {
-            rename(dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . $filename, $newFile);
+            rename(getcwd() . DIRECTORY_SEPARATOR . $filename, $newFile);
         }
     }
 }
