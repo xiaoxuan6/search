@@ -52,7 +52,7 @@ class Application
 
     public function __construct()
     {
-        $this->app = new \Symfony\Component\Console\Application('search version', 'v0.38.0');
+        $this->app = new \Symfony\Component\Console\Application('search version', 'v0.39.0');
         $this->register();
     }
 
