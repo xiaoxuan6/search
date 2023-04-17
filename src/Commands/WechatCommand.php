@@ -60,13 +60,13 @@ class WechatCommand extends BaseCommand
             ]
         ]);
 
-        if ($response->isSuccess()) {
+        if ($response->isSuccess() && $response->getData('errcode') == 0) {
             $output->writeln("<info>发送成功</info>");
 
             return self::SUCCESS;
         }
 
-        $output->writeln(sprintf("<error>发送失败：%s</error>", $response->getReasonPhrase()));
+        $output->writeln(sprintf("<error>发送失败：%s</error>", $response->getMessage('errmsg')));
 
         return self::FAILURE;
     }

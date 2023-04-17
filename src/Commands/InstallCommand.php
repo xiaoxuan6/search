@@ -16,8 +16,8 @@ use TitasGailius\Terminal\Terminal;
 use Vinhson\Search\Exceptions\RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\{ExecutableFinder, Process};
-use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 use Symfony\Component\Console\Question\{ChoiceQuestion, ConfirmationQuestion};
+use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption};
 
 class InstallCommand extends Command
 {
@@ -38,6 +38,7 @@ class InstallCommand extends Command
         'make.git' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/make.exe',
         'navicat.git' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/Navicat_Premium_11.zip',
         'cmder' => 'https://github.com/cmderdev/cmder/releases/download/v1.3.21/cmder.zip',
+        'wget' => 'https://eternallybored.org/misc/wget/1.21.3/32/wget.exe'
     ];
 
     protected array $aliases = [
@@ -52,7 +53,8 @@ class InstallCommand extends Command
             ->setAliases(['i'])
             ->setDescription('下载安装包')
             ->addArgument('attribute', InputArgument::OPTIONAL, '需要下载的包名')
-            ->addArgument('timeout', InputArgument::OPTIONAL, '设置超时时间，默认(秒)三分钟');
+            ->addArgument('timeout', InputArgument::OPTIONAL, '设置超时时间，默认(秒)三分钟')
+            ->addOption('skip', 's', InputOption::VALUE_OPTIONAL, '是否跳过继续安装提示语', false);
     }
 
     /**
@@ -95,6 +97,14 @@ class InstallCommand extends Command
             goto ATTRIBUTE;
         }
 
+        if ($attribute == 'wget') {
+            $process = Process::fromShellCommandline("curl -o wget.exe {$url}");
+            $process->setTimeout($input->getArgument('timeout') ?? 3 * 60);
+            $process->run(function ($type, $line) use ($output) {
+                $output->writeln("<info>{$line}</info>");
+            });
+            goto EXEC;
+        }
 
         $name = $this->aliases[$attribute] ?? basename($url);
         $command = sprintf("wget -O %s %s", $name, $url);
@@ -110,37 +120,48 @@ class InstallCommand extends Command
             return self::FAILURE;
         }
 
+        EXEC:
+        $gitPath = tap_abort((new ExecutableFinder())->find('git'), '无法获取 git 安装路径');
         switch ($attribute) {
             case 'make':
-                $this->executeMake($output);
+                $this->moveFile($output, 'make.exe', $gitPath);
+
+                break;
+            case 'wget':
+                $this->moveFile($output, 'wget.exe', $gitPath);
 
                 break;
             default:
                 break;
         }
 
-        $choice = new ConfirmationQuestion(PHP_EOL . "<fg=white;bg=red>是否继续安装（default:false）？</>", false, '/^(y|t)/i');
-        if ($helper->ask($input, $output, $choice)) {
-            $input->setArgument('attribute', '');
-            goto ATTRIBUTE;
+        if (! $input->getOption('skip')) {
+            $choice = new ConfirmationQuestion(PHP_EOL . "<fg=white;bg=red>是否继续安装（default:false）？</>", false, '/^(y|t)/i');
+            if ($helper->ask($input, $output, $choice)) {
+                $input->setArgument('attribute', '');
+                goto ATTRIBUTE;
+            }
         }
 
         return self::SUCCESS;
     }
 
     /**
-     * @throws RuntimeException
+     * @param OutputInterface $output
+     * @param $filename
+     * @param $gitPath
      */
-    protected function executeMake(OutputInterface $output)
+    protected function moveFile(OutputInterface $output, $filename, $gitPath)
     {
-        $gitPath = tap_abort((new ExecutableFinder())->find('git'), '无法获取 git 安装路径');
-
-        if (! file_exists('./make.exe')) {
-            $output->writeln("<error>make.exe 文件不存在</error>");
+        if (! file_exists("./{$filename}")) {
+            $output->writeln("<error>{$filename} 文件不存在</error>");
 
             return;
         }
 
-        rename('./make.exe', str_replace('git.EXE', 'make.exe', $gitPath));
+        $newFile = str_replace('git.EXE', $filename, $gitPath);
+        if (! file_exists($newFile)) {
+            rename(dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . $filename, $newFile);
+        }
     }
 }
