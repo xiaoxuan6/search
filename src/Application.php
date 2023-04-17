@@ -16,12 +16,10 @@ use Exception;
 use Vinhson\Search\Commands\{Actions\GoPackageCommand,
     Actions\PushCommand,
     Actions\ScreenShotCommand,
-    Actions\UploadCommand,
     ConfigCommand,
     EnvCommand,
     InstallCommand,
     NewCommand,
-    OpenAiCommand,
     ProxyCommand,
     SendCommand,
     UnProxyCommand,
@@ -39,10 +37,8 @@ class Application
         GoPackageCommand::class,
         PushCommand::class,
         ScreenShotCommand::class,
-        UploadCommand::class,
         ConfigCommand::class,
         EnvCommand::class,
-        OpenAiCommand::class,
         ProxyCommand::class,
         SendCommand::class,
         UnProxyCommand::class,
@@ -56,7 +52,7 @@ class Application
 
     public function __construct()
     {
-        $this->app = new \Symfony\Component\Console\Application('search version', 'v0.37.0');
+        $this->app = new \Symfony\Component\Console\Application('search version', 'v0.38.0');
         $this->register();
     }
 
