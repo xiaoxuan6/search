@@ -39,9 +39,10 @@ class WechatCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $response = $this->send($input->getArgument('data'), $input->getArgument('url'));
+//        $response = $this->send($input->getArgument('data'), $input->getArgument('url'));
 
 //        $response = $this->uploadForever();
+        $response = $this->addMenu();
 
         if ($response->isSuccess() && $response->getData('errcode') == 0) {
             $output->writeln("<info>发送成功</info>");
@@ -135,5 +136,48 @@ class WechatCommand extends BaseCommand
                 ]
             ]
         ]);
+    }
+
+    /**
+     * @return Response
+     * @throws RuntimeException
+     */
+    protected function addMenu(): Response
+    {
+        $url = sprintf("https://api.weixin.qq.com/cgi-bin/menu/create?access_token=%s", cache()->remember());
+
+        return $this->client->post($url, [
+            'body' => json_encode([
+                'button' => [
+                    [
+                        'type' => 'view',
+                        'name' => '百度',
+                        'url' => 'https://baidu.com'
+                    ], [
+                        'name' => '工具',
+                        'sub_button' => [
+                            [
+                                'type' => 'click',
+                                'name' => 'Github 地址',
+                                'key' => 'github_event'
+                            ], [
+                                'type' => 'click',
+                                'name' => '博客',
+                                'key' => 'blog_event'
+                            ]
+                        ]
+                    ]
+                ]
+            ], JSON_UNESCAPED_UNICODE)
+        ]);
+    }
+
+    /**
+     * @return Response
+     * @throws RuntimeException
+     */
+    protected function delMenu(): Response
+    {
+        return $this->client->get(sprintf("https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=%s", cache()->remember()));
     }
 }
