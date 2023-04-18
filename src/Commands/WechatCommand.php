@@ -41,6 +41,8 @@ class WechatCommand extends BaseCommand
     {
         $response = $this->send($input->getArgument('data'), $input->getArgument('url'));
 
+//        $response = $this->uploadForever();
+
         if ($response->isSuccess() && $response->getData('errcode') == 0) {
             $output->writeln("<info>发送成功</info>");
 
@@ -53,6 +55,7 @@ class WechatCommand extends BaseCommand
     }
 
     /**
+     * 发送模板消息
      * @param $data
      * @param string $uri
      * @return Response
@@ -83,6 +86,8 @@ class WechatCommand extends BaseCommand
     }
 
     /**
+     * 上传素材（临时）
+     *      媒体文件在微信后台保存时间为3天，即3天后media_id失效。
      * @return Response
      * @throws RuntimeException
      */
@@ -103,6 +108,30 @@ class WechatCommand extends BaseCommand
                 [
                     'name' => 'type',
                     'contents' => 'image'
+                ]
+            ]
+        ]);
+    }
+
+    /**
+     * 上传素材（永久）
+     *      http://mmbiz.qpic.cn/mmbiz_jpg/k8iaC4L48JRZ8E4xZl1Tb2icd07L9JTagOYLicm2ibmXtqick29ddGB93otvLx1psfBp1DFfKAP76GnCvap9VPmGzbg/0
+     * @return Response
+     * @throws RuntimeException
+     */
+    protected function uploadForever(): Response
+    {
+        $url = 'https://api.weixin.qq.com/cgi-bin/media/uploadimg';
+
+        return $this->client->post($url, [
+            'multipart' => [
+                [
+                    'name' => 'media',
+                    'contents' => fopen(getcwd() . DIRECTORY_SEPARATOR . '16a7067.jpg', 'r')
+                ],
+                [
+                    'name' => 'access_token',
+                    'contents' => cache()->remember(),
                 ]
             ]
         ]);
