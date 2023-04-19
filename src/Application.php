@@ -21,6 +21,7 @@ use Vinhson\Search\Commands\{Actions\GoPackageCommand,
     InstallCommand,
     NewCommand,
     ProxyCommand,
+    ProxyLocalCommand,
     SendCommand,
     UnProxyCommand,
     UserCommand,
@@ -48,6 +49,7 @@ class Application
         InstallCommand::class,
         NewCommand::class,
         WechatCommand::class,
+        ProxyLocalCommand::class,
     ];
 
     public function __construct()
