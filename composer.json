@@ -29,7 +29,10 @@
         "titasgailius/terminal": "^1.2"
     },
     "scripts": {
-        "pint": "vendor/bin/php-cs-fixer fix"
+        "pint": "vendor/bin/php-cs-fixer fix",
+        "post-create-project-cmd": [
+            "Vinhson\\Search\\Bootstrap\\Composer::dumpAutoload"
+        ]
     },
     "bin": ["bin/search"],
     "require-dev": {
