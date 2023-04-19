@@ -62,6 +62,8 @@ Available commands:
   env:init             初始化配置信息
  git
   git:push             [gh] git 提交数据
+ proxy
+  proxy:local          [local] 将本地网址代理到外网
  un
   un:proxy             删除本地代理
  wechat

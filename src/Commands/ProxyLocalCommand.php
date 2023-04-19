@@ -33,6 +33,12 @@ class ProxyLocalCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        if(! is_win()) {
+            $output->writeln("<error>目前仅支持 win 系统</error>");
+
+            return self::FAILURE;
+        }
+
         if ($out = Terminal::builder()->run('where cpolar')->output() and ! str_contains($out, 'cpolar.exe')) {
             $output->writeln("<error>未找到环境变量 cpolar</error>");
 
@@ -46,13 +52,28 @@ class ProxyLocalCommand extends Command
             return self::FAILURE;
         }
 
-        $response = Terminal::builder()
+        if($out = Terminal::builder()->run('where python')->output() and ! str_contains($out, 'python.exe')) {
+            $output->writeln("<error>未找到环境变量 python</error>");
+
+            return self::FAILURE;
+        }
+
+        Terminal::builder()
             ->with([
                 'port' => $port
             ])
             ->run('nohup cpolar http {{ $port }} &');
 
-        $output->writeln("<info>proxy local: {$response->output()}</info>");
+        $response = Terminal::builder()
+            ->with([
+                'main' => __DIR__ . DIRECTORY_SEPARATOR . 'python/main.py',
+                'email' => cache('cpolar.email'),
+                'password' => cache('cpolar.password'),
+            ])
+            ->run('py {{ $main }} --email={{ $email }} --password={{ $password }}');
+
+        $response->throw();
+        $output->writeln("local host: <info>127.0.0.1:{$port}</info>" . PHP_EOL . "proxy host: <info>{$response->output()}</info>");
 
         return self::SUCCESS;
     }

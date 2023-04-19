@@ -17,6 +17,10 @@
             "appSecret": "xxx",
             "templateId": "xxx",
             "user": "xxx"
+        },
+        "cpolar": {
+            "email": "xxx",
+            "password": "xxx"
         }
     }
 }
