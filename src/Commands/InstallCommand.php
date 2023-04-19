@@ -121,18 +121,9 @@ class InstallCommand extends Command
         }
 
         EXEC:
-        $gitPath = tap_abort((new ExecutableFinder())->find('git'), '无法获取 git 安装路径');
-        switch ($attribute) {
-            case 'make':
-                $this->moveFile($output, 'make.exe', $gitPath);
-
-                break;
-            case 'wget':
-                $this->moveFile($output, 'wget.exe', $gitPath);
-
-                break;
-            default:
-                break;
+        if(in_array($attribute, ['make', 'wget'])) {
+            $gitPath = tap_abort((new ExecutableFinder())->find('git'), '无法获取 git 安装路径');
+            $this->moveFile($output, $attribute . '.exe', $gitPath);
         }
 
         if (! $input->getOption('skip')) {

@@ -33,7 +33,7 @@ def exec(email: str, password: str):
     passwordElement.send_keys(password)
     driver.find_element_by_xpath('//*[@id="app"]/div/form/button').click()
 
-    time.sleep(2)
+    time.sleep(1)
     driver.get('http://localhost:9200/#/status/online')
     time.sleep(1)
 

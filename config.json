@@ -9,9 +9,6 @@
         "workflow": {
             "token": "xxx"
         },
-        "openai": {
-            "domain": "xxx"
-        },
         "wechat": {
             "appid": "xxx",
             "appSecret": "xxx",
