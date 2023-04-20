@@ -29,7 +29,7 @@ class UploadCommand extends Command
     {
         $this->setName('upload')
             ->setDescription('上传本地图片/文件到远程')
-            ->addArgument('filename', InputArgument::OPTIONAL, '本地图片/文件路径')
+            ->addArgument('filename', InputArgument::REQUIRED, '本地图片/文件路径')
             ->addArgument('password', InputArgument::OPTIONAL, '设置密码');
     }
 

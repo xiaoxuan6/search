@@ -6,3 +6,4 @@ composer.lock
 *.png
 .cache
 nohup.out
+*.zip

@@ -12,9 +12,9 @@
 
 namespace Vinhson\Search\Commands\Actions;
 
-use Symfony\Component\Console\Input\{InputArgument, InputInterface};
-use Symfony\Component\Console\Output\OutputInterface;
 use Vinhson\Search\Response;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 
 /**
  * Class UploadCommand

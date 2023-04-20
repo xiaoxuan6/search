@@ -13,7 +13,8 @@
 namespace Vinhson\Search;
 
 use Exception;
-use Vinhson\Search\Commands\{Actions\GoPackageCommand,
+use Vinhson\Search\Commands\{Actions\FileUploadCommand,
+    Actions\GoPackageCommand,
     Actions\PushCommand,
     Actions\ScreenShotCommand,
     Actions\UploadCommand,
@@ -51,12 +52,13 @@ class Application
         NewCommand::class,
         WechatCommand::class,
         ProxyLocalCommand::class,
-        UploadCommand::class
+        UploadCommand::class,
+        FileUploadCommand::class,
     ];
 
     public function __construct()
     {
-        $this->app = new \Symfony\Component\Console\Application('search version', 'v0.40.0');
+        $this->app = new \Symfony\Component\Console\Application('search version', 'v0.41.0');
         $this->register();
     }
 

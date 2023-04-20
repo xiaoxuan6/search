@@ -60,6 +60,8 @@ Available commands:
   actions:screen-shot  根据url截图并生成图片链接
  env
   env:init             初始化配置信息
+ file
+  file:upload          将本地文件上传大到github
  git
   git:push             [gh] git 提交数据
  proxy

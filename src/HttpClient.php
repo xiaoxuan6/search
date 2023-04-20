@@ -40,10 +40,10 @@ class HttpClient
         return $this;
     }
 
-    public function get(string $url): Response
+    public function get(string $url, array $payload = []): Response
     {
         try {
-            $response = self::getClient()->get($url);
+            $response = self::getClient()->get($url, $payload);
 
             return new Response($response);
         } catch (RequestException | GuzzleException $exception) {
