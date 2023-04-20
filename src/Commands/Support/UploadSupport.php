@@ -18,7 +18,11 @@ class UploadSupport
 
     protected string $command = 'curl -k -sD - --upload-file "%REALPATH" https://transfer.sh/"%FILENAME"';
 
+    protected bool $disableShowDelUrl = true;
+
     protected string $delCommand = ' | grep -i -E "transfer\.sh|x-url-delete"';
+
+    protected string $urlCommand = ' | grep -i -E "^https://transfer\.sh"';
 
     protected string $pasCommand = '';
 
@@ -35,10 +39,17 @@ class UploadSupport
         return $this;
     }
 
+    public function disableShowDelUrl($disable = false): UploadSupport
+    {
+        $this->disableShowDelUrl = $disable;
+
+        return $this;
+    }
+
     public function toString(): string
     {
         $command = str_replace(["%REALPATH", "%FILENAME"], $this->parse, $this->command);
 
-        return sprintf("%s%s%s", $command, $this->pasCommand, $this->delCommand);
+        return $this->disableShowDelUrl ? sprintf("%s%s%s", $command, $this->pasCommand, $this->delCommand) : sprintf("%s%s%s", $command, $this->pasCommand, $this->urlCommand);
     }
 }

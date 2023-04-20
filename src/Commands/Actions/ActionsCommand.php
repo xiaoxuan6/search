@@ -14,13 +14,10 @@ namespace Vinhson\Search\Commands\Actions;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Exception\ExceptionInterface;
 use Vinhson\Search\{Commands\BaseCommand, Commands\CallTrait, Di, Response};
 
 abstract class ActionsCommand extends BaseCommand
 {
-    use CallTrait;
-
     protected string $repos;
 
     protected string $event_type;
@@ -48,23 +45,13 @@ abstract class ActionsCommand extends BaseCommand
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return int|void
-     * @throws ExceptionInterface
+     * @return int
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->beforeExecute($input, $output);
 
-        $this->call('config', [
-            'attribute' => 'get',
-            '--key' => 'workflow.token'
-        ]);
-
-        if (! $token = Di::get()) {
-            $output->writeln("<error>Invalid token, Please set git config `workflow.token`</error>");
-
-            return;
-        }
+        $token = cache('workflow.token', 'Invalid token, Please set git config `workflow.token`');
 
         exec('git config user.name', $name);
         $response = $this->client->post("https://api.github.com/repos/{$name[0]}/{$this->repos}/dispatches", [

@@ -46,16 +46,18 @@ if (! function_exists('tap')) {
 if (! function_exists('cache')) {
     /**
      * @param null $key
+     * @param string $message
      */
-    function cache($key = null)
+    function cache($key = null, string $message = '')
     {
         if ($key) {
             $class = new class () {
                 /**
                  * @param $key
+                 * @param $message
                  * @return string
                  */
-                public function getConfig($key): string
+                public function getConfig($key, $message): string
                 {
                     $response = Terminal::builder()
                         ->with([
@@ -63,11 +65,11 @@ if (! function_exists('cache')) {
                         ])
                         ->run('git config search.{{ $key }}');
 
-                    return tap_abort(trim($response->output()), sprintf("获取 %s 失败，值为空", $key));
+                    return tap_abort(trim($response->output()), $message ?? sprintf("获取 %s 失败，值为空", $key));
                 }
             };
 
-            return (new $class())->getConfig($key);
+            return (new $class())->getConfig($key, $message);
         }
 
         return new CacheService();

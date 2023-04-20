@@ -12,15 +12,17 @@
 
 namespace Vinhson\Search\Commands;
 
-use TitasGailius\Terminal\Terminal;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Question\Question;
 use Vinhson\Search\Commands\Support\UploadSupport;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Exception\ExceptionInterface;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 
 class UploadCommand extends Command
 {
+    use CallTrait;
+
     protected array $allowExt = ['png', 'jpg', 'jpeg', 'gif', 'txt'];
 
     protected function configure()
@@ -35,6 +37,7 @@ class UploadCommand extends Command
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
+     * @throws ExceptionInterface
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -72,15 +75,14 @@ class UploadCommand extends Command
         }
 
         $needles = is_win() ? ["!REALPATH!", "!FILENAME!"] : ["\$REALPATH", "\$FILENAME"];
-        $command = (new UploadSupport($needles, $input->getArgument('password')))->toString();
+        $command = (new UploadSupport($needles, $input->getArgument('password')))->disableShowDelUrl()->toString();
         $process = Process::fromShellCommandline($command);
         $process->run(null, ['REALPATH' => $path, 'FILENAME' => basename($file)]);
         if ($process->isSuccessful()) {
-            $out = $process->getOutput();
-            $output->writeln(sprintf("<info>上传成功：%s</info>", $out));
-            file_put_contents("./upload_log.txt", $file . PHP_EOL . $out . PHP_EOL, FILE_APPEND);
 
-            $this->push($output);
+            $this->call('actions:upload', [
+                'url' => trim($process->getOutput())
+            ], $output);
 
             return self::SUCCESS;
         }
@@ -88,21 +90,5 @@ class UploadCommand extends Command
         $output->writeln(sprintf("<info>上传失败：%s</info>", $process->getErrorOutput()));
 
         return self::FAILURE;
-    }
-
-    private function push(OutputInterface $output)
-    {
-        exec('git config user.name', $name);
-        if ('xiaoxuan6' !== $name[0]) {
-            return;
-        }
-
-        $response = Terminal::builder()
-            ->with([
-                'path' => dirname(dirname(__DIR__)),
-            ])->
-            run('cd {{ $path }} && git status && git add . && git commit -m"fix: Update upload log" && git push origin main');
-
-        $output->writeln(sprintf("<info>output: %s</info>", $response->output()));
     }
 }

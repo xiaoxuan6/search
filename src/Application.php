@@ -16,6 +16,7 @@ use Exception;
 use Vinhson\Search\Commands\{Actions\GoPackageCommand,
     Actions\PushCommand,
     Actions\ScreenShotCommand,
+    Actions\UploadCommand,
     ConfigCommand,
     EnvCommand,
     InstallCommand,
@@ -50,6 +51,7 @@ class Application
         NewCommand::class,
         WechatCommand::class,
         ProxyLocalCommand::class,
+        UploadCommand::class
     ];
 
     public function __construct()
