@@ -50,7 +50,7 @@ class InstallCommand extends Command
         $this->setName('install')
             ->setAliases(['i'])
             ->setDescription('下载安装包')
-            ->addArgument('attribute', InputArgument::OPTIONAL, '需要下载的包名')
+            ->addArgument('attribute', InputArgument::REQUIRED, '需要下载的包名')
             ->addArgument('timeout', InputArgument::OPTIONAL, '设置超时时间，默认(秒)三分钟')
             ->addOption('skip', 's', InputOption::VALUE_OPTIONAL, '是否跳过继续安装提示语', false);
     }

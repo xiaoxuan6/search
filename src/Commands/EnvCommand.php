@@ -24,7 +24,7 @@ class EnvCommand extends Command
     {
         $this->setName('env:init')
             ->setDescription('初始化配置信息')
-            ->addArgument('file', InputArgument::OPTIONAL, '配置文件名称');
+            ->addArgument('file', InputArgument::REQUIRED, '配置文件名称');
     }
 
     /**

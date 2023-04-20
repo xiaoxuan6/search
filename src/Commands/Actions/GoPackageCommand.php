@@ -26,33 +26,8 @@ class GoPackageCommand extends ActionsCommand
     {
         $this->setName('actions:go:push')
             ->setDescription('收藏 go 开源第三方包')
-            ->addArgument('url', InputArgument::OPTIONAL, '开源包地址')
-            ->addArgument('description', InputArgument::OPTIONAL, '描述');
-    }
-
-    protected function interact(InputInterface $input, OutputInterface $output)
-    {
-        $helper = $this->getHelper('question');
-
-        URL:
-        if (! $input->getArgument('url')) {
-            $question = new Question('请输入第三方包地址：', '');
-            if (! $answer = $helper->ask($input, $output, $question)) {
-                goto URL;
-            }
-
-            $input->setArgument('url', $answer);
-        }
-
-        DESCRIPTION:
-        if (! $input->getArgument('description')) {
-            $question = new Question('请输入第三方包描述：', '');
-            if (! $answer = $helper->ask($input, $output, $question)) {
-                goto DESCRIPTION;
-            }
-
-            $input->setArgument('description', $answer);
-        }
+            ->addArgument('url', InputArgument::REQUIRED, '开源包地址')
+            ->addArgument('description', InputArgument::REQUIRED, '描述');
     }
 
     public function beforeExecute(InputInterface $input, OutputInterface $output)

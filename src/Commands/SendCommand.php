@@ -28,7 +28,7 @@ class SendCommand extends BaseCommand
     {
         $this->setName('send')
             ->setDescription('给公众号发送消息')
-            ->addArgument('data', InputArgument::OPTIONAL, '消息内容');
+            ->addArgument('data', InputArgument::REQUIRED, '消息内容');
     }
 
     /**

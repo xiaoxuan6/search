@@ -29,8 +29,8 @@ class ScreenShotCommand extends ActionsCommand
     {
         $this->setName('actions:screen-shot')
             ->setDescription('根据url截图并生成图片链接')
-            ->addOption('url', 'u', InputOption::VALUE_OPTIONAL, '截图的URL')
-            ->addOption('element', 'e', InputOption::VALUE_OPTIONAL, '页面元素')
+            ->addOption('url', 'u', InputOption::VALUE_REQUIRED, '截图的URL')
+            ->addOption('element', 'e', InputOption::VALUE_REQUIRED, '页面元素')
             ->addOption('width', 'w', InputOption::VALUE_OPTIONAL, '图片宽度', 1200)
             ->addOption('height', 'height', InputOption::VALUE_OPTIONAL, '图片高度', 800);
     }

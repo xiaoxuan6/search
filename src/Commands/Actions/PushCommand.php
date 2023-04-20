@@ -26,23 +26,12 @@ class PushCommand extends ActionsCommand
     {
         $this->setName('actions:push')
             ->setDescription('随记提交到 github')
-            ->addArgument('data', InputArgument::OPTIONAL, '提交数据内容')
+            ->addArgument('data', InputArgument::REQUIRED, '提交数据内容')
             ->addArgument('filename', InputArgument::OPTIONAL, '文件名称');
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        DATA:
-        if (! $input->getArgument('data')) {
-            $helper = $this->getHelper('question');
-            $question = new Question("<error>请输入提交内容：</error>", '');
-            if (! $answer = $helper->ask($input, $output, $question)) {
-                goto DATA;
-            }
-
-            $input->setArgument('data', $answer);
-        }
-
         $this->client_payload = [
             'data' => $input->getArgument('data'),
             'filename' => $input->getArgument('filename')
