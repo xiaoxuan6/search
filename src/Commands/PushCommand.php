@@ -24,8 +24,9 @@ class PushCommand extends Command
         $this->setName('git:push')
             ->setAliases(['gh'])
             ->setDescription('git 提交数据')
-            ->addArgument('message', InputArgument::REQUIRED, 'git 提交信息')
+            ->addArgument('message', InputArgument::OPTIONAL, 'git 提交信息')
             ->addOption('amend', 'a', InputOption::VALUE_OPTIONAL, '是否修改最后一次提交信息', false)
+            ->addOption('no-edit', 'n', InputOption::VALUE_OPTIONAL, '是否使用最后一次提交信息', false)
             ->addOption('force', 'f', InputOption::VALUE_OPTIONAL, '是否强制提交', false)
             ->addOption('tag', 't', InputOption::VALUE_OPTIONAL, 'tag 版本号', '');
     }
@@ -37,15 +38,18 @@ class PushCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        MSG:
-        if (! $message = $input->getArgument('message')) {
-            $helper = $this->getHelper('question');
-            $question = new Question("<info>请输入提交信息：</info>", '');
-            if (! $answer = $helper->ask($input, $output, $question)) {
-                goto MSG;
-            }
+        $message = 'fix: wip';
+        if(! $noEdit = $input->getOption('no-edit')) {
+            MSG:
+            if (! $message = $input->getArgument('message')) {
+                $helper = $this->getHelper('question');
+                $question = new Question("<info>请输入提交信息：</info>", '');
+                if (! $answer = $helper->ask($input, $output, $question)) {
+                    goto MSG;
+                }
 
-            $message = $answer;
+                $message = $answer;
+            }
         }
 
         $commands = collect([
@@ -53,7 +57,12 @@ class PushCommand extends Command
             'git add .'
         ]);
 
-        if ($input->getOption('amend')) {
+        if ($input->getOption('amend') && $noEdit) {
+            $commands->push(...[
+                'git commit --amend --no-edit',
+                'git push -f'
+            ]);
+        } elseif($input->getOption('amend')) {
             $commands->push(...[
                 'git commit --amend -m"' . $message . '"',
                 'git push -f'
