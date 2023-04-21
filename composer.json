@@ -30,10 +30,7 @@
         "symfony/finder": "^5.4"
     },
     "scripts": {
-        "pint": "vendor/bin/php-cs-fixer fix",
-        "post-install-cmd": [
-            "Vinhson\\Search\\Bootstrap\\Composer::dumpAutoload"
-        ]
+        "pint": "vendor/bin/php-cs-fixer fix"
     },
     "bin": ["bin/search"],
     "require-dev": {

@@ -26,7 +26,7 @@ class PushCommand extends Command
             ->setDescription('git 提交数据')
             ->addArgument('message', InputArgument::OPTIONAL, 'git 提交信息')
             ->addOption('amend', 'a', InputOption::VALUE_OPTIONAL, '是否修改最后一次提交信息', false)
-            ->addOption('no-edit', 'n', InputOption::VALUE_OPTIONAL, '是否使用最后一次提交信息', false)
+            ->addOption('no-edit', 'e', InputOption::VALUE_OPTIONAL, '是否使用最后一次提交信息', false)
             ->addOption('force', 'f', InputOption::VALUE_OPTIONAL, '是否强制提交', false)
             ->addOption('tag', 't', InputOption::VALUE_OPTIONAL, 'tag 版本号', '');
     }

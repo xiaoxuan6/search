@@ -13,6 +13,8 @@
 namespace Vinhson\Search\Commands;
 
 use TitasGailius\Terminal\Terminal;
+use Symfony\Component\Process\Process;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 
@@ -64,9 +66,28 @@ class ProxyLocalCommand extends Command
             ])
             ->run('nohup cpolar http {{ $port }} &');
 
+        $pythonPath = __DIR__ . DIRECTORY_SEPARATOR . 'python';
+        $install = $pythonPath . DIRECTORY_SEPARATOR . 'install.lock';
+        if(! file_exists($install)) {
+            $cwd = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Commands/python';
+            $process = Process::fromShellCommandline('python -m pip install --upgrade pip && pip install -r ./requirements.txt', $cwd);
+            $process->run(function ($type, $line) use ($output) {
+                $output->writeln("<info>{$line}</info>");
+            });
+
+            if(! $process->isSuccessful()) {
+                $output->writeln("<error>pip install error：{$process->getErrorOutput()}</error>");
+
+                return self::FAILURE;
+            }
+
+            $filesystem = new Filesystem();
+            $filesystem->dumpFile($install, '1');
+        }
+
         $response = Terminal::builder()
             ->with([
-                'main' => __DIR__ . DIRECTORY_SEPARATOR . 'python/main.py',
+                'main' => $pythonPath . DIRECTORY_SEPARATOR . 'main.py',
                 'email' => cache('cpolar.email'),
                 'password' => cache('cpolar.password'),
             ])

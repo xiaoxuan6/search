@@ -21,7 +21,9 @@ use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption}
 
 class InstallCommand extends Command
 {
-    protected array $default = ['git', 'host', 'clash', 'navicat', 'make', 'cmder'];
+    protected array $rename = ['make', 'wget'];
+
+    protected array $default = ['git', 'host', 'clash', 'cmder'];
 
     protected array $allowAttribute = [
         'redis' => 'https://gitee.com/qishibo/AnotherRedisDesktopManager/releases/download/v1.5.9/Another-Redis-Desktop-Manager.1.5.9.exe',
@@ -33,8 +35,8 @@ class InstallCommand extends Command
         'golang' => 'https://download.jetbrains.com/go/goland-2021.1.3.exe?_ga=2.228833948.101944321.1680495951-28370356.1646482185&_gl=1*35ki8m*_ga*MjgzNzAzNTYuMTY0NjQ4MjE4NQ..*_ga_9J976DJZ68*MTY4MDQ5NTk1MC42LjEuMTY4MDQ5NjM1OS42MC4wLjA.',
         'python' => 'https://download.jetbrains.com/python/pycharm-professional-2021.1.3.exe?_gl=1*4tozqx*_ga*MjgzNzAzNTYuMTY0NjQ4MjE4NQ..*_ga_9J976DJZ68*MTY4MDQ5NTk1MC42LjEuMTY4MDQ5NjQ4My4zOS4wLjA.&_ga=2.154408632.101944321.1680495951-28370356.1646482185',
         'clash' => 'https://github.com/Fndroid/clash_for_windows_pkg/releases/download/0.20.19/Clash.for.Windows.Setup.0.20.19.exe',
-        'make' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/make.exe',
-        'navicat' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/Navicat_Premium_11.zip',
+        'make' => 'https://ghproxy.com/https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/make.exe',
+        'navicat' => 'https://ghproxy.com/https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/Navicat_Premium_11.zip',
         'cmder' => 'https://github.com/cmderdev/cmder/releases/download/v1.3.21/cmder.zip',
         'wget' => 'https://eternallybored.org/misc/wget/1.21.3/32/wget.exe'
     ];
@@ -50,7 +52,7 @@ class InstallCommand extends Command
         $this->setName('install')
             ->setAliases(['i'])
             ->setDescription('下载安装包')
-            ->addArgument('attribute', InputArgument::REQUIRED, '需要下载的包名')
+            ->addArgument('attribute', InputArgument::OPTIONAL, '需要下载的包名')
             ->addArgument('timeout', InputArgument::OPTIONAL, '设置超时时间，默认(秒)三分钟')
             ->addOption('skip', 's', InputOption::VALUE_OPTIONAL, '是否跳过继续安装提示语', false);
     }
@@ -119,7 +121,7 @@ class InstallCommand extends Command
         }
 
         EXEC:
-        if(in_array($attribute, ['make', 'wget'])) {
+        if (in_array($attribute, $this->rename)) {
             $gitPath = tap_abort((new ExecutableFinder())->find('git'), '无法获取 git 安装路径');
             $this->moveFile($output, $attribute . '.exe', $gitPath);
         }
