@@ -20,6 +20,7 @@ use Vinhson\Search\Commands\{Actions\FileUploadCommand,
     Actions\UploadCommand,
     ConfigCommand,
     EnvCommand,
+    GitWorkdirCommand,
     InstallCommand,
     NewCommand,
     ProxyCommand,
@@ -54,6 +55,7 @@ class Application
         ProxyLocalCommand::class,
         UploadCommand::class,
         FileUploadCommand::class,
+        GitWorkdirCommand::class,
     ];
 
     public function __construct()

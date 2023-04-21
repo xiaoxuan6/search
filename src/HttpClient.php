@@ -42,19 +42,24 @@ class HttpClient
 
     public function get(string $url, array $payload = []): Response
     {
-        try {
-            $response = self::getClient()->get($url, $payload);
-
-            return new Response($response);
-        } catch (RequestException | GuzzleException $exception) {
-            return new Response($exception);
-        }
+        return $this->require(__FUNCTION__, $url, $payload);
     }
 
     public function post(string $url, array $payload = []): Response
     {
+        return $this->require(__FUNCTION__, $url, $payload);
+    }
+
+    /**
+     * @param $method
+     * @param $url
+     * @param array $payload
+     * @return Response
+     */
+    protected function require($method, $url, array $payload = []): Response
+    {
         try {
-            $response = self::getClient()->post($url, $payload);
+            $response = self::getClient()->{$method}($url, $payload);
 
             return new Response($response);
         } catch (RequestException | GuzzleException $exception) {

@@ -64,6 +64,7 @@ Available commands:
   file:upload          将本地文件上传大到github
  git
   git:push             [gh] git 提交数据
+  git:workdir          [gw] 设置git工作目录
  proxy
   proxy:local          [local] 将本地网址代理到外网
  un
