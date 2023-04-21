@@ -69,6 +69,13 @@ class ProxyLocalCommand extends Command
         $pythonPath = __DIR__ . DIRECTORY_SEPARATOR . 'python';
         $install = $pythonPath . DIRECTORY_SEPARATOR . 'install.lock';
         if(! file_exists($install)) {
+
+            if($out = Terminal::builder()->run('where pip')->output() and ! str_contains($out, 'pip.exe')) {
+                $output->writeln("<error>未找到环境变量 pip</error>");
+
+                return self::FAILURE;
+            }
+
             $cwd = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Commands/python';
             $process = Process::fromShellCommandline('python -m pip install --upgrade pip && pip install -r ./requirements.txt', $cwd);
             $process->run(function ($type, $line) use ($output) {
