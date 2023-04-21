@@ -30,7 +30,7 @@
     },
     "scripts": {
         "pint": "vendor/bin/php-cs-fixer fix",
-        "post-create-project-cmd": [
+        "post-install-cmd": [
             "Vinhson\\Search\\Bootstrap\\Composer::dumpAutoload"
         ]
     },

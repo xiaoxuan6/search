@@ -30,7 +30,7 @@ class FileUploadCommand extends BaseCommand
     protected function configure()
     {
         $this->setName('file:upload')
-            ->setDescription('将本地文件上传大到github')
+            ->setDescription('将本地文件上传到github')
             ->addArgument('filename', InputArgument::REQUIRED, '文件名称');
     }
 
