@@ -38,13 +38,15 @@ class InstallCommand extends Command
         'make' => 'https://ghproxy.com/https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/make.exe',
         'navicat' => 'https://ghproxy.com/https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/Navicat_Premium_11.zip',
         'cmder' => 'https://github.com/cmderdev/cmder/releases/download/v1.3.21/cmder.zip',
-        'wget' => 'https://eternallybored.org/misc/wget/1.21.3/32/wget.exe'
+        'wget' => 'https://eternallybored.org/misc/wget/1.21.3/32/wget.exe',
+        'jq' => 'https://ghproxy.com/https://github.com/stedolan/jq/releases/download/jq-1.6/jq-win64.exe',
     ];
 
     protected array $aliases = [
         'phpstorm' => 'PhpStorm-2021.1.4.exe',
         'golang' => 'goland-2021.1.3.exe',
         'python' => 'pycharm-professional-2021.1.3.exe',
+        'jq' => 'jq.exe'
     ];
 
     protected function configure()
@@ -120,6 +122,10 @@ class InstallCommand extends Command
             return self::FAILURE;
         }
 
+        if($attribute == 'jq') {
+            $this->export($output, 'jq.exe');
+        }
+
         EXEC:
         if (in_array($attribute, $this->rename)) {
             $gitPath = tap_abort((new ExecutableFinder())->find('git'), '无法获取 git 安装路径');
@@ -154,5 +160,46 @@ class InstallCommand extends Command
         if (! file_exists($newFile)) {
             rename(getcwd() . DIRECTORY_SEPARATOR . $filename, $newFile);
         }
+    }
+
+    private function export(OutputInterface $output, string $filename)
+    {
+        $env = Terminal::builder()->run('set')->output();
+
+        $env = array_filter(preg_split('/\n/', $env), function ($value) {
+            return str_starts_with($value, 'HOME=');
+        });
+
+        $basePath = trim(trim(current($env) ?? '', 'HOME='));
+        $binPath = $basePath . DIRECTORY_SEPARATOR . 'bin';
+
+        if (! file_exists("./" . $filename)) {
+            $output->writeln("<error>{$filename} 文件不存在</error>");
+
+            return;
+        }
+
+        rename(getcwd() . DIRECTORY_SEPARATOR . $filename, $binPath . DIRECTORY_SEPARATOR . $filename);
+
+        $bashrc = $basePath . DIRECTORY_SEPARATOR . '.bashrc';
+        if(! file_exists($bashrc)) {
+            $this->touchFile($basePath);
+        }
+
+        $process = Process::fromShellCommandline('source .bashrc', $basePath);
+        $process->run();
+    }
+
+    private function touchFile($basePath)
+    {
+        $binPath = $basePath . DIRECTORY_SEPARATOR . 'bin';
+
+        $binPath = str_replace(['\\', ':'], ['/', ''], $binPath);
+        $content = <<<EOL
+export PATH=\$PATH:"$binPath"
+EOL;
+
+        $process = Process::fromShellCommandline('touch .bashrc && echo !content! > .bashrc', $basePath);
+        $process->run(null, ['content' => $content]);
     }
 }
