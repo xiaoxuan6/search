@@ -21,7 +21,7 @@ use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption}
 
 class InstallCommand extends Command
 {
-    protected array $rename = ['make', 'wget'];
+    protected array $rename = ['make', 'wget', 'tree'];
 
     protected array $default = ['git', 'host', 'clash', 'cmder'];
 
@@ -40,6 +40,7 @@ class InstallCommand extends Command
         'cmder' => 'https://github.com/cmderdev/cmder/releases/download/v1.3.21/cmder.zip',
         'wget' => 'https://eternallybored.org/misc/wget/1.21.3/32/wget.exe',
         'jq' => 'https://ghproxy.com/https://github.com/stedolan/jq/releases/download/jq-1.6/jq-win64.exe',
+        'tree' => 'https://ghproxy.com/https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/tree.exe',
     ];
 
     protected array $aliases = [
