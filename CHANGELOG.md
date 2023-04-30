@@ -2,6 +2,14 @@
 
 All notable changes to `james.xue/search` will be documented in this file.
 
+## v0.44.0 - 2023-04-30
+
+### What's Changed
+
+- build(deps): bump dependabot/fetch-metadata from 1.3.6 to 1.4.0 by @dependabot in https://github.com/xiaoxuan6/search/pull/2
+
+**Full Changelog**: https://github.com/xiaoxuan6/search/compare/v0.42.0...v0.44.0
+
 ## v0.42.0 - 2023-04-21
 
 **Full Changelog**: https://github.com/xiaoxuan6/search/compare/v0.41.0...v0.42.0
