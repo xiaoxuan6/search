@@ -41,13 +41,15 @@ class InstallCommand extends Command
         'wget' => 'https://eternallybored.org/misc/wget/1.21.3/32/wget.exe',
         'jq' => 'https://ghproxy.com/https://github.com/stedolan/jq/releases/download/jq-1.6/jq-win64.exe',
         'tree' => 'https://ghproxy.com/https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/tree.exe',
+        'typora' => 'https://ghproxy.com/https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/typora-setup-x64_0.9.96.exe'
     ];
 
     protected array $aliases = [
         'phpstorm' => 'PhpStorm-2021.1.4.exe',
         'golang' => 'goland-2021.1.3.exe',
         'python' => 'pycharm-professional-2021.1.3.exe',
-        'jq' => 'jq.exe'
+        'jq' => 'jq.exe',
+        'typora' => 'typora.exe',
     ];
 
     protected function configure()
