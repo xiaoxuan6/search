@@ -41,7 +41,8 @@ class InstallCommand extends Command
         'wget' => 'https://eternallybored.org/misc/wget/1.21.3/32/wget.exe',
         'jq' => 'https://ghproxy.com/https://github.com/stedolan/jq/releases/download/jq-1.6/jq-win64.exe',
         'tree' => 'https://ghproxy.com/https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/tree.exe',
-        'typora' => 'https://ghproxy.com/https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/typora-setup-x64_0.9.96.exe'
+        'typora' => 'https://ghproxy.com/https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/typora-setup-x64_0.9.96.exe',
+        'yq' => 'https://ghproxy.com/https://github.com/mikefarah/yq/releases/download/v4.6.0/yq_windows_amd64.exe',
     ];
 
     protected array $aliases = [
@@ -50,6 +51,7 @@ class InstallCommand extends Command
         'python' => 'pycharm-professional-2021.1.3.exe',
         'jq' => 'jq.exe',
         'typora' => 'typora.exe',
+        'yq' => 'yq.exe',
     ];
 
     protected function configure()
@@ -125,8 +127,8 @@ class InstallCommand extends Command
             return self::FAILURE;
         }
 
-        if($attribute == 'jq') {
-            $this->export($output, 'jq.exe');
+        if (in_array($attribute, ['jq', 'yq'])) {
+            $this->export($output, $attribute . '.exe');
         }
 
         EXEC:
@@ -185,7 +187,7 @@ class InstallCommand extends Command
         rename(getcwd() . DIRECTORY_SEPARATOR . $filename, $binPath . DIRECTORY_SEPARATOR . $filename);
 
         $bashrc = $basePath . DIRECTORY_SEPARATOR . '.bashrc';
-        if(! file_exists($bashrc)) {
+        if (! file_exists($bashrc)) {
             $this->touchFile($basePath);
         }
 

@@ -32,6 +32,8 @@ use Vinhson\Search\Commands\{Actions\FileUploadCommand,
 
 class Application
 {
+    public const VERSION = 'v0.45.0';
+
     /**
      * @var \Symfony\Component\Console\Application
      */
@@ -60,7 +62,7 @@ class Application
 
     public function __construct()
     {
-        $this->app = new \Symfony\Component\Console\Application('search version', 'v0.45.0');
+        $this->app = new \Symfony\Component\Console\Application('search version', self::VERSION);
         $this->register();
     }
 
