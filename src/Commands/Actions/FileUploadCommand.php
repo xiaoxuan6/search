@@ -14,7 +14,7 @@ namespace Vinhson\Search\Commands\Actions;
 
 use Vinhson\Search\Commands\BaseCommand;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\{InputArgument, InputInterface};
+use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption};
 
 class FileUploadCommand extends BaseCommand
 {
@@ -31,7 +31,8 @@ class FileUploadCommand extends BaseCommand
     {
         $this->setName('file:upload')
             ->setDescription('将本地文件上传到github release')
-            ->addArgument('filename', InputArgument::REQUIRED, '文件名称');
+            ->addArgument('filename', InputArgument::REQUIRED, '文件名称')
+            ->addOption('skip', 's', InputOption::VALUE_OPTIONAL, '是否跳过后缀验证', false);
     }
 
     /**
@@ -54,7 +55,7 @@ class FileUploadCommand extends BaseCommand
         }
 
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
-        if (! in_array($ext, $this->allowExt)) {
+        if (! in_array($ext, $this->allowExt) and false == $input->getOption('skip')) {
             $exts = implode('、', $this->allowExt);
             $output->writeln("<error>文件{$filename}后缀不允许，仅支持：{$exts}</error>");
 

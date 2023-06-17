@@ -24,6 +24,7 @@ class PushCommand extends ActionsCommand
     protected function configure()
     {
         $this->setName('actions:push')
+            ->setAliases(['ap'])
             ->setDescription('随记提交到 github')
             ->addArgument('data', InputArgument::REQUIRED, '提交数据内容')
             ->addArgument('filename', InputArgument::OPTIONAL, '文件名称');

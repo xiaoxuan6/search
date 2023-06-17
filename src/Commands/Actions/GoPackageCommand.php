@@ -24,6 +24,7 @@ class GoPackageCommand extends ActionsCommand
     protected function configure()
     {
         $this->setName('actions:go:push')
+            ->setAliases(['agp'])
             ->setDescription('收藏 go 开源第三方包')
             ->addArgument('url', InputArgument::REQUIRED, '开源包地址')
             ->addArgument('description', InputArgument::REQUIRED, '描述');

@@ -23,6 +23,8 @@ class InstallCommand extends Command
 {
     protected array $rename = ['make', 'wget', 'tree'];
 
+    protected array $exportBin = ['jq', 'yq', 'gron'];
+
     protected array $default = ['git', 'host', 'clash', 'cmder'];
 
     protected array $allowAttribute = [
@@ -43,6 +45,7 @@ class InstallCommand extends Command
         'tree' => 'https://ghproxy.com/https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/tree.exe',
         'typora' => 'https://ghproxy.com/https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/typora-setup-x64_0.9.96.exe',
         'yq' => 'https://ghproxy.com/https://github.com/mikefarah/yq/releases/download/v4.6.0/yq_windows_amd64.exe',
+        'gron' => 'https://ghproxy.com/https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/gron.exe',
     ];
 
     protected array $aliases = [
@@ -127,7 +130,7 @@ class InstallCommand extends Command
             return self::FAILURE;
         }
 
-        if (in_array($attribute, ['jq', 'yq'])) {
+        if (in_array($attribute, $this->exportBin)) {
             $this->export($output, $attribute . '.exe');
         }
 
@@ -137,15 +140,15 @@ class InstallCommand extends Command
             $this->moveFile($output, $attribute . '.exe', $gitPath);
         }
 
-        if (! $input->getOption('skip')) {
-            $choice = new ConfirmationQuestion(PHP_EOL . "<fg=white;bg=red>是否继续安装（default:false）？</>", false, '/^(y|t)/i');
-            if ($helper->ask($input, $output, $choice)) {
-                $input->setArgument('attribute', '');
-                goto ATTRIBUTE;
-            }
+        if ($input->getOption('skip')) {
+            return self::SUCCESS;
         }
 
-        return self::SUCCESS;
+        $choice = new ConfirmationQuestion(PHP_EOL . "<fg=white;bg=red>是否继续安装（default:false）？</>", false, '/^(y|t)/i');
+        if ($helper->ask($input, $output, $choice)) {
+            $input->setArgument('attribute', '');
+            goto ATTRIBUTE;
+        }
     }
 
     /**
