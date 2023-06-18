@@ -25,9 +25,9 @@ class BrewCommand extends Command
             'sudo apt install ./dive_0.10.0_linux_amd64.deb',
             'rm -rf ./dive_0.10.0_linux_amd64.deb'
         ],
-        'yq' => 'https://ghproxy.com/https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64',
-        'jq' => 'https://ghproxy.com/https://github.com/jqlang/jq/releases/latest/download/jq-linux64',
-        'yj' => 'https://ghproxy.com/https://github.com/sclevine/yj/releases/latest/download/yj-linux-amd64',
+        'yq' => 'https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64',
+        'jq' => 'https://github.com/jqlang/jq/releases/latest/download/jq-linux64',
+        'yj' => 'https://github.com/sclevine/yj/releases/latest/download/yj-linux-amd64',
     ];
 
     protected function configure()
@@ -68,7 +68,7 @@ class BrewCommand extends Command
             $command = collect($command)->join('&&');
         } else {
             $commands = [
-                "wget {$command} -O /usr/bin/{$attribute}",
+                "wget https://ghproxy.com/{$command} -O /usr/bin/{$attribute}",
                 "chmod +x /usr/bin/{$attribute}"
             ];
             $command = collect($commands)->join('&&');

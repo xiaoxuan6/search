@@ -53,6 +53,7 @@ class PushCommand extends Command
         }
 
         $commands = collect([
+            'git pull',
             'git status',
             'git add .'
         ]);
