@@ -18,6 +18,7 @@ use Vinhson\Search\Commands\{Actions\FileUploadCommand,
     Actions\PushCommand,
     Actions\ScreenShotCommand,
     Actions\UploadCommand,
+    BrewCommand,
     ConfigCommand,
     EnvCommand,
     GitWorkdirCommand,
@@ -33,7 +34,7 @@ use Vinhson\Search\Commands\{Actions\FileUploadCommand,
 
 class Application
 {
-    public const VERSION = 'v0.47.0';
+    public const VERSION = 'v0.48.0';
 
     /**
      * @var \Symfony\Component\Console\Application
@@ -60,6 +61,7 @@ class Application
         FileUploadCommand::class,
         GitWorkdirCommand::class,
         HelpCommand::class,
+        BrewCommand::class,
     ];
 
     public function __construct()

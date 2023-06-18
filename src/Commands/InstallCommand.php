@@ -81,7 +81,7 @@ class InstallCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (! is_win()) {
-            $output->writeln("<error>仅支持 win 系统安装</error>");
+            $output->writeln("<error>当前命令仅支持 win 系统安装，如果当前系统非 win 请使用 'search brew [attribute]' 安装</error>");
 
             return self::FAILURE;
         }
