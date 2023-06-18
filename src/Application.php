@@ -21,6 +21,7 @@ use Vinhson\Search\Commands\{Actions\FileUploadCommand,
     ConfigCommand,
     EnvCommand,
     GitWorkdirCommand,
+    HelpCommand,
     InstallCommand,
     NewCommand,
     ProxyCommand,
@@ -32,7 +33,7 @@ use Vinhson\Search\Commands\{Actions\FileUploadCommand,
 
 class Application
 {
-    public const VERSION = 'v0.46.0';
+    public const VERSION = 'v0.47.0';
 
     /**
      * @var \Symfony\Component\Console\Application
@@ -58,6 +59,7 @@ class Application
         UploadCommand::class,
         FileUploadCommand::class,
         GitWorkdirCommand::class,
+        HelpCommand::class,
     ];
 
     public function __construct()

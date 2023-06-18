@@ -16,14 +16,17 @@ use TitasGailius\Terminal\Terminal;
 use Vinhson\Search\Exceptions\RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\{ExecutableFinder, Process};
+use Symfony\Component\Console\Exception\ExceptionInterface;
 use Symfony\Component\Console\Question\{ChoiceQuestion, ConfirmationQuestion};
 use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption};
 
 class InstallCommand extends Command
 {
+    use CallTrait;
+
     protected array $rename = ['make', 'wget', 'tree'];
 
-    protected array $exportBin = ['jq', 'yq', 'gron'];
+    protected array $exportBin = ['jq', 'yq', 'gron', 'yj'];
 
     protected array $default = ['git', 'host', 'clash', 'cmder'];
 
@@ -46,6 +49,7 @@ class InstallCommand extends Command
         'typora' => 'https://ghproxy.com/https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/typora-setup-x64_0.9.96.exe',
         'yq' => 'https://ghproxy.com/https://github.com/mikefarah/yq/releases/download/v4.6.0/yq_windows_amd64.exe',
         'gron' => 'https://ghproxy.com/https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/gron.exe',
+        'yj' => 'https://ghproxy.com/https://github.com/sclevine/yj/releases/download/v5.1.0/yj.exe',
     ];
 
     protected array $aliases = [
@@ -72,6 +76,7 @@ class InstallCommand extends Command
      * @param OutputInterface $output
      * @return int
      * @throws RuntimeException
+     * @throws ExceptionInterface
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -132,6 +137,13 @@ class InstallCommand extends Command
 
         if (in_array($attribute, $this->exportBin)) {
             $this->export($output, $attribute . '.exe');
+
+            $output->writeln("<comment>yj -h</comment>");
+            if ($attribute == 'yj') {
+                $this->call('exec:help', [
+                    '--programName' => $attribute
+                ], $output);
+            }
         }
 
         EXEC:
@@ -140,15 +152,15 @@ class InstallCommand extends Command
             $this->moveFile($output, $attribute . '.exe', $gitPath);
         }
 
-        if ($input->getOption('skip')) {
-            return self::SUCCESS;
+        if (! $input->getOption('skip')) {
+            $choice = new ConfirmationQuestion(PHP_EOL . "<fg=white;bg=red>是否继续安装（default:false）？</>", false, '/^(y|t)/i');
+            if ($helper->ask($input, $output, $choice)) {
+                $input->setArgument('attribute', '');
+                goto ATTRIBUTE;
+            }
         }
 
-        $choice = new ConfirmationQuestion(PHP_EOL . "<fg=white;bg=red>是否继续安装（default:false）？</>", false, '/^(y|t)/i');
-        if ($helper->ask($input, $output, $choice)) {
-            $input->setArgument('attribute', '');
-            goto ATTRIBUTE;
-        }
+        return self::SUCCESS;
     }
 
     /**
