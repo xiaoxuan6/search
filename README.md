@@ -5,8 +5,16 @@ working with lots of subdirectories containing git repositories.
 
 ## Installation
 
+### A、Composer
+
 ```bash
 composer global require james.xue/search
+```
+
+### B、Shell
+
+```bash
+curl -sS https://raw.githubusercontent.com/xiaoxuan6/search/install.sh | sh
 ```
 
 > Make sure to place the ~/.composer/vendor/bin directory in your PATH so the search executable can be located by your system.
