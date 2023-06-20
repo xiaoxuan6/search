@@ -46,7 +46,7 @@ class InstallCommand extends Command
      * 默认通过浏览器下载安装包
      * @var array|string[]
      */
-    protected array $default = ['redis', 'composer', 'git', 'host', 'clash', 'cmder'];
+    protected array $default = ['redis', 'composer', 'git', 'host', 'clash', 'cmder', 'cpolar'];
 
     protected array $allowAttribute = [
         'redis' => 'https://gitee.com/qishibo/AnotherRedisDesktopManager/releases/download/v1.5.9/Another-Redis-Desktop-Manager.1.5.9.exe',
@@ -68,6 +68,7 @@ class InstallCommand extends Command
         'yq' => 'https://github.com/mikefarah/yq/releases/download/v4.6.0/yq_windows_amd64.exe',
         'gron' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/gron.exe',
         'yj' => 'https://github.com/sclevine/yj/releases/download/v5.1.0/yj.exe',
+        'cpolar' => 'https://static.cpolar.com/downloads/releases/3.3.18/cpolar-stable-windows-amd64-setup.zip',
     ];
 
     protected array $aliases = [
