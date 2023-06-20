@@ -24,11 +24,29 @@ class InstallCommand extends Command
 {
     use CallTrait;
 
+    /**
+     * 向 gitbash 添加操作命令
+     * @var array|string[]
+     */
     protected array $rename = ['make', 'wget', 'tree'];
 
+    /**
+     * 本地安装并添加到环境变量中（url 会设置代理）
+     * @var array|string[]
+     */
     protected array $exportBin = ['jq', 'yq', 'gron', 'yj'];
 
-    protected array $default = ['git', 'host', 'clash', 'cmder'];
+    /**
+     * 给 url 设置代理
+     * @var array|string[]
+     */
+    protected array $proxy = ['make', 'navicat', 'tree', 'typora'];
+
+    /**
+     * 默认通过浏览器下载安装包
+     * @var array|string[]
+     */
+    protected array $default = ['redis', 'composer', 'git', 'host', 'clash', 'cmder'];
 
     protected array $allowAttribute = [
         'redis' => 'https://gitee.com/qishibo/AnotherRedisDesktopManager/releases/download/v1.5.9/Another-Redis-Desktop-Manager.1.5.9.exe',
@@ -40,16 +58,16 @@ class InstallCommand extends Command
         'golang' => 'https://download.jetbrains.com/go/goland-2021.1.3.exe?_ga=2.228833948.101944321.1680495951-28370356.1646482185&_gl=1*35ki8m*_ga*MjgzNzAzNTYuMTY0NjQ4MjE4NQ..*_ga_9J976DJZ68*MTY4MDQ5NTk1MC42LjEuMTY4MDQ5NjM1OS42MC4wLjA.',
         'python' => 'https://download.jetbrains.com/python/pycharm-professional-2021.1.3.exe?_gl=1*4tozqx*_ga*MjgzNzAzNTYuMTY0NjQ4MjE4NQ..*_ga_9J976DJZ68*MTY4MDQ5NTk1MC42LjEuMTY4MDQ5NjQ4My4zOS4wLjA.&_ga=2.154408632.101944321.1680495951-28370356.1646482185',
         'clash' => 'https://github.com/Fndroid/clash_for_windows_pkg/releases/download/0.20.19/Clash.for.Windows.Setup.0.20.19.exe',
-        'make' => 'https://ghproxy.com/https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/make.exe',
-        'navicat' => 'https://ghproxy.com/https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/Navicat_Premium_11.zip',
+        'make' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/make.exe',
+        'navicat' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/Navicat_Premium_11.zip',
         'cmder' => 'https://github.com/cmderdev/cmder/releases/download/v1.3.21/cmder.zip',
         'wget' => 'https://eternallybored.org/misc/wget/1.21.3/32/wget.exe',
-        'jq' => 'https://ghproxy.com/https://github.com/stedolan/jq/releases/download/jq-1.6/jq-win64.exe',
-        'tree' => 'https://ghproxy.com/https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/tree.exe',
-        'typora' => 'https://ghproxy.com/https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/typora-setup-x64_0.9.96.exe',
-        'yq' => 'https://ghproxy.com/https://github.com/mikefarah/yq/releases/download/v4.6.0/yq_windows_amd64.exe',
-        'gron' => 'https://ghproxy.com/https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/gron.exe',
-        'yj' => 'https://ghproxy.com/https://github.com/sclevine/yj/releases/download/v5.1.0/yj.exe',
+        'jq' => 'https://github.com/stedolan/jq/releases/download/jq-1.6/jq-win64.exe',
+        'tree' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/tree.exe',
+        'typora' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/typora-setup-x64_0.9.96.exe',
+        'yq' => 'https://github.com/mikefarah/yq/releases/download/v4.6.0/yq_windows_amd64.exe',
+        'gron' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/gron.exe',
+        'yj' => 'https://github.com/sclevine/yj/releases/download/v5.1.0/yj.exe',
     ];
 
     protected array $aliases = [
@@ -121,6 +139,7 @@ class InstallCommand extends Command
             goto EXEC;
         }
 
+        $url = in_array($url, array_merge($this->proxy, $this->exportBin)) ? $url : 'https://ghproxy.com/' . $url;
         $name = $this->aliases[$attribute] ?? basename($url);
         $command = sprintf("wget -O %s %s", $name, $url);
         $process = Process::fromShellCommandline($command, getcwd());
