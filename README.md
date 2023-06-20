@@ -44,6 +44,7 @@ Options:
   -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
 Available commands:
+  brew                 linux 安装可执行文件
   completion           Dump the shell completion script
   config               设置配置信息
   help                 Display help for a command
@@ -52,16 +53,17 @@ Available commands:
   new                  Create a new Laravel application
   proxy                设置代理
   send                 给公众号发送消息
+  tag                  git 设置版本号并推送远程
   upload               上传本地图片/文件到远程
   user                 生成用户信息
  actions
-  actions:go:push      收藏 go 开源第三方包
-  actions:push         随记提交到 github
+  actions:go:push      [agp] 收藏 go 开源第三方包
+  actions:push         [ap] 随记提交到 github
   actions:screen-shot  根据url截图并生成图片链接
  env
   env:init             初始化配置信息
  file
-  file:upload          将本地文件上传大到github
+  file:upload          将本地文件上传到github release
  git
   git:push             [gh] git 提交数据
   git:workdir          [gw] 设置git工作目录
