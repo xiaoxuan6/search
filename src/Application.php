@@ -28,6 +28,7 @@ use Vinhson\Search\Commands\{Actions\FileUploadCommand,
     ProxyCommand,
     ProxyLocalCommand,
     SendCommand,
+    TagCommand,
     UnProxyCommand,
     UserCommand,
     WechatCommand};
@@ -62,6 +63,7 @@ class Application
         GitWorkdirCommand::class,
         HelpCommand::class,
         BrewCommand::class,
+        TagCommand::class,
     ];
 
     public function __construct()
