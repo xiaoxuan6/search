@@ -30,6 +30,7 @@ use Vinhson\Search\Commands\{Actions\FileUploadCommand,
     SendCommand,
     TagCommand,
     UnProxyCommand,
+    UpdateCommand,
     UserCommand,
     WechatCommand};
 
@@ -64,6 +65,7 @@ class Application
         HelpCommand::class,
         BrewCommand::class,
         TagCommand::class,
+        UpdateCommand::class,
     ];
 
     public function __construct()
