@@ -44,7 +44,7 @@ if [ ! "$(command -v composer)" ]; then
 fi
 
 printf "\033[0;32m开始安装 james.xue/search"
-if [ ! "$(command -v zip)"]; then
+if [ ! "$(command -v zip)" ]; then
     echo
     printf "\033[0;31m安装该包需要依赖 zip，正在安装中……"
     sudo apt-get install zip unzip
