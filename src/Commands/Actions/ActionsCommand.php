@@ -13,8 +13,8 @@
 namespace Vinhson\Search\Commands\Actions;
 
 use Symfony\Component\Console\Input\InputInterface;
+use Vinhson\Search\{Commands\BaseCommand, Response};
 use Symfony\Component\Console\Output\OutputInterface;
-use Vinhson\Search\{Commands\BaseCommand, Commands\CallTrait, Di, Response};
 
 abstract class ActionsCommand extends BaseCommand
 {

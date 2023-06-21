@@ -27,7 +27,7 @@ class GoPackageCommand extends ActionsCommand
             ->setAliases(['agp'])
             ->setDescription('收藏 go 开源第三方包')
             ->addArgument('url', InputArgument::REQUIRED, '开源包地址')
-            ->addArgument('description', InputArgument::REQUIRED, '描述');
+            ->addArgument('description', InputArgument::OPTIONAL, '描述', '');
     }
 
     public function beforeExecute(InputInterface $input, OutputInterface $output)
