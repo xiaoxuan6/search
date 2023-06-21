@@ -28,12 +28,19 @@ class BrewCommand extends Command
         'yq' => 'https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64',
         'jq' => 'https://github.com/jqlang/jq/releases/latest/download/jq-linux64',
         'yj' => 'https://github.com/sclevine/yj/releases/latest/download/yj-linux-amd64',
+        'docker-compose' => [
+            'tag=$(curl -sS https://api.github.com/repos/docker/compose/releases/latest | jq ".tag_name") |' .
+            'echo https://ghproxy.com/https://github.com/docker/compose/releases/download/$tag/docker-compose-linux-x86_64 |' .
+            'tr \'"\' \'/\' |' .
+            'xargs curl -o /usr/local/bin/docker-compose',
+            'chmod +x /usr/local/bin/docker-compose'
+        ]
     ];
 
     protected function configure()
     {
         $this->setName('brew')
-            ->setDescription('linux 安装可执行文件')
+            ->setDescription('ubuntu 安装可执行文件')
             ->addArgument('attribute', InputArgument::OPTIONAL, '安装包名');
     }
 
@@ -64,7 +71,7 @@ class BrewCommand extends Command
             goto ATTRIBUTE;
         }
 
-        if(is_array($command = $this->commands[$attribute])) {
+        if (is_array($command = $this->commands[$attribute])) {
             $command = collect($command)->join('&&');
         } else {
             $commands = [
