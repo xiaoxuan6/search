@@ -11,7 +11,7 @@ working with lots of subdirectories containing git repositories.
 composer global require james.xue/search
 ```
 
-### B、Shell
+### B、Shell Ubuntu
 
 ```bash
 curl -O https://ghproxy.com/https://raw.githubusercontent.com/xiaoxuan6/search/main/install.sh && chmod +x ./install.sh && ./install.sh
