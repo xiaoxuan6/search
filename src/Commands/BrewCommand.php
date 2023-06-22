@@ -15,24 +15,26 @@ namespace Vinhson\Search\Commands;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
-use Symfony\Component\Console\Input\{InputArgument, InputInterface};
+use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption};
 
 class BrewCommand extends Command
 {
     protected array $commands = [
         'dive' => [
-            'wget https://ghproxy.com/https://github.com/wagoodman/dive/releases/download/v0.10.0/dive_0.10.0_linux_amd64.deb',
-            'sudo apt install ./dive_0.10.0_linux_amd64.deb',
-            'rm -rf ./dive_0.10.0_linux_amd64.deb'
+            'tag=$(curl -sS https://api.github.com/repos/wagoodman/dive/releases/latest | jq -r ".tag_name") | ' .
+            'echo https://ghproxy.com/https://github.com/wagoodman/dive/releases/download/$tag/dive_"$tag"_linux_amd64.deb | ' .
+            'sed "s/_v0/_0/g" | ' .
+            "xargs wget -o dive_linux_amd64.deb",
+            'sudo apt install ./dive_linux_amd64.deb',
+            'rm -rf ./dive_linux_amd64.deb'
         ],
         'yq' => 'https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64',
         'jq' => 'https://github.com/jqlang/jq/releases/latest/download/jq-linux64',
         'yj' => 'https://github.com/sclevine/yj/releases/latest/download/yj-linux-amd64',
         'docker-compose' => [
-            'tag=$(curl -sS https://api.github.com/repos/docker/compose/releases/latest | jq ".tag_name") |' .
+            'tag=$(curl -sS https://api.github.com/repos/docker/compose/releases/latest | jq -r ".tag_name") |' .
             'echo https://ghproxy.com/https://github.com/docker/compose/releases/download/$tag/docker-compose-linux-x86_64 |' .
-            'tr \'"\' \'/\' |' .
-            'xargs curl -o /usr/local/bin/docker-compose',
+            'xargs wget -o /usr/local/bin/docker-compose',
             'chmod +x /usr/local/bin/docker-compose'
         ],
         'zsh' => [
@@ -56,7 +58,8 @@ class BrewCommand extends Command
     {
         $this->setName('brew')
             ->setDescription('ubuntu 安装可执行文件')
-            ->addArgument('attribute', InputArgument::OPTIONAL, '安装包名');
+            ->addArgument('attribute', InputArgument::OPTIONAL, '安装包名')
+            ->addOption('stdout', 's', InputOption::VALUE_OPTIONAL, '是否输出 command 命令', false);
     }
 
     /**
@@ -94,6 +97,11 @@ class BrewCommand extends Command
                 "chmod +x /usr/bin/{$attribute}"
             ];
             $command = collect($commands)->join('&&');
+        }
+
+        if($input->getOption('stdout')) {
+            $output->writeln("<info>{$command}</info>");
+            return self::SUCCESS;
         }
 
         $process = Process::fromShellCommandline($command);
