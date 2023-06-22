@@ -34,6 +34,21 @@ class BrewCommand extends Command
             'tr \'"\' \'/\' |' .
             'xargs curl -o /usr/local/bin/docker-compose',
             'chmod +x /usr/local/bin/docker-compose'
+        ],
+        'zsh' => [
+            'wget https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh',
+            'chmod +x install.sh',
+            'sed -i -e "s|ohmyzsh/ohmyzsh|mirrors/oh-my-zsh|g" -e "s|:-https://github.com/|:-https://gitee.com/|g" install.sh',
+            './install.sh',
+            'rm -rf install.sh',
+            'echo "ZSH_CUSTOM"',
+            'echo $ZSH_CUSTOM',
+        ],
+        'zsh-plugins' => [
+            'git clone https://ghproxy.com/https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions',
+            'git clone https://ghproxy.com/ https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting',
+            'sed -i -e "s|plugins=(git)|plugins=(git zsh-autosuggestions zsh-syntax-highlighting)|g" -e "s|ZSH_THEME=\"robbyrussell\"|ZSH_THEME=\"ys\"|g" ~/.zshrc',
+            'source ~/.zshrc'
         ]
     ];
 
