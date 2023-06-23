@@ -129,6 +129,13 @@ class InstallCommand extends Command
 
         $attribute = $input->getArgument('attribute');
         if (in_array($attribute, $this->default)) {
+
+            if(is_null((new ExecutableFinder())->find('chrome', null, ['C:\Program Files\Google\Chrome\Application']))) {
+                $output->writeln("<error>未安装 chrome 请执行 <info>search i chrome</info> 安装后重试 </error>");
+
+                return self::FAILURE;
+            }
+
             Terminal::builder()
                 ->with([
                     'url' => $this->allowAttribute[$attribute],
