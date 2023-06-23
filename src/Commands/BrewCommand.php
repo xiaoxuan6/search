@@ -101,6 +101,7 @@ class BrewCommand extends Command
 
         if($input->getOption('stdout')) {
             $output->writeln("<info>{$command}</info>");
+
             return self::SUCCESS;
         }
 

@@ -40,7 +40,7 @@ class InstallCommand extends Command
      * 给 url 设置代理
      * @var array|string[]
      */
-    protected array $proxy = ['make', 'navicat', 'tree', 'typora'];
+    protected array $proxy = ['make', 'navicat', 'tree', 'typora', 'chrome'];
 
     /**
      * 默认通过浏览器下载安装包
@@ -69,6 +69,7 @@ class InstallCommand extends Command
         'gron' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/gron.exe',
         'yj' => 'https://github.com/sclevine/yj/releases/download/v5.1.0/yj.exe',
         'cpolar' => 'https://static.cpolar.com/downloads/releases/3.3.18/cpolar-stable-windows-amd64-setup.zip',
+        'chrome' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/ChromeSetup.exe',
     ];
 
     protected array $aliases = [
@@ -80,6 +81,13 @@ class InstallCommand extends Command
         'yq' => 'yq.exe',
     ];
 
+    protected array $chromePlugins = [
+        'chrome.cookie' => 'https://chrome.google.com/webstore/detail/editthiscookie/fngmhnnpilhplaeedifhccceomclgfbg?utm_source=app-launcher&authuser=0',
+        'chrome.one_tab' => 'https://chrome.google.com/webstore/detail/onetab/chphlpgkkbolifaimnlloiipkdnihall?utm_source=app-launcher&authuser=0',
+        'chrome.to_top' => 'https://chrome.google.com/webstore/detail/scroll-to-top-button/chinfkfmaefdlchhempbfgbdagheknoj?utm_source=app-launcher&authuser=0',
+        'chrome.git_tree' => 'https://chrome.google.com/webstore/detail/octotree-github-code-tree/bkhaagjahfmjljalopjnoealnfndnagc?utm_source=app-launcher&authuser=0'
+    ];
+
     protected function configure()
     {
         $this->setName('install')
@@ -88,6 +96,12 @@ class InstallCommand extends Command
             ->addArgument('attribute', InputArgument::OPTIONAL, '需要下载的包名')
             ->addArgument('timeout', InputArgument::OPTIONAL, '设置超时时间，默认(秒)三分钟')
             ->addOption('skip', 's', InputOption::VALUE_OPTIONAL, '是否跳过继续安装提示语', false);
+    }
+
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        $this->default = array_merge($this->default, array_keys($this->chromePlugins));
+        $this->allowAttribute = array_merge($this->allowAttribute, $this->chromePlugins);
     }
 
     /**
