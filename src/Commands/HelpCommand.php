@@ -12,22 +12,28 @@
 
 namespace Vinhson\Search\Commands;
 
+use ReflectionClass;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\{InputInterface, InputOption};
 
 class HelpCommand extends Command
 {
-    protected array $allow = ['yj'];
-
     protected array $commands = [
         'yj' => 'yj -h',
+        'phpstorm' => ''
     ];
 
     protected string $yj = <<<EOL
 Examples:
     yj -jy < config.json (将 JSON 文件转换为 YAML)
     yj -jy < config.json > config.yaml (将转换结果保存到文件)
+EOL;
+
+    protected string $phpstorm = <<<EOL
+phpstorm plugins url
+Usage:
+    https://plugins.zhile.io
 EOL;
 
     protected function configure()
@@ -45,18 +51,34 @@ EOL;
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (! in_array($name = $input->getOption('programName'), $this->allow)) {
-            $onlyName = implode('、', $this->allow);
+        $keys = array_keys($this->commands);
+        if (! in_array($name = $input->getOption('programName'), $keys)) {
+            $onlyName = implode('、', $keys);
             $output->writeln("无效的进程名，仅支持：<error>{$onlyName}</error>");
 
             return self::FAILURE;
         }
 
+        $fn = function () use ($name) {
+            $properties = (new ReflectionClass($this))->getDefaultProperties();
+            if (array_key_exists($name, $properties)) {
+                return $this->{$name};
+            }
+
+            return '';
+        };
+
+        if (! $this->commands[$name]) {
+            $output->writeln($fn());
+
+            return self::SUCCESS;
+        }
+
         $process = Process::fromShellCommandline($this->commands[$name]);
         $process->run();
-        $response = $process->getOutput() . $this->{$name};
+        $response = $process->getOutput();
 
-        $output->writeln($response);
+        $output->writeln($response . $fn());
 
         return self::SUCCESS;
     }
