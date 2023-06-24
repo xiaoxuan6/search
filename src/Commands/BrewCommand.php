@@ -15,10 +15,13 @@ namespace Vinhson\Search\Commands;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
+use Symfony\Component\Console\Exception\ExceptionInterface;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption};
 
 class BrewCommand extends Command
 {
+    use CallTrait;
+
     protected array $commands = [
         'dive' => [
             'tag=$(curl -sS https://api.github.com/repos/wagoodman/dive/releases/latest | jq -r ".tag_name") | ' .
@@ -66,6 +69,7 @@ class BrewCommand extends Command
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
+     * @throws ExceptionInterface
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -78,15 +82,19 @@ class BrewCommand extends Command
         $helper = $this->getHelper('question');
         ATTRIBUTE:
         if (! $input->getArgument('attribute')) {
-            $choice = new ChoiceQuestion("<comment>请选择需要安装包名：</comment>", array_keys($this->commands), '');
+            $choice = new ChoiceQuestion("<comment>请选择需要安装包名：</comment>", array_keys($this->commands) + ['pip'], '');
             $answer = $helper->ask($input, $output, $choice);
             $input->setArgument('attribute', $answer);
         }
 
         $attribute = $input->getArgument('attribute');
-        if (! array_key_exists($attribute, $this->commands)) {
+        if (! array_key_exists($attribute, $this->commands) && $attribute != 'pip') {
             $input->setArgument('attribute', '');
             goto ATTRIBUTE;
+        } elseif ($attribute == 'pip') {
+            $this->call('install', ['attribute' => $attribute], $output);
+
+            return self::SUCCESS;
         }
 
         if (is_array($command = $this->commands[$attribute])) {
@@ -99,7 +107,7 @@ class BrewCommand extends Command
             $command = collect($commands)->join('&&');
         }
 
-        if($input->getOption('stdout')) {
+        if ($input->getOption('stdout')) {
             $output->writeln("<info>{$command}</info>");
 
             return self::SUCCESS;
