@@ -70,6 +70,11 @@ class InstallCommand extends Command
         'yj' => 'https://github.com/sclevine/yj/releases/download/v5.1.0/yj.exe',
         'cpolar' => 'https://static.cpolar.com/downloads/releases/3.3.18/cpolar-stable-windows-amd64-setup.zip',
         'chrome' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/ChromeSetup.exe',
+        'pip' => [
+            'curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py',
+            'python get-pip.py',
+            'rm -rf get-pip.py'
+        ]
     ];
 
     protected array $aliases = [
@@ -102,6 +107,17 @@ class InstallCommand extends Command
     {
         $this->default = array_merge($this->default, array_keys($this->chromePlugins));
         $this->allowAttribute = array_merge($this->allowAttribute, $this->chromePlugins);
+
+        if(($attribute = $input->getArgument('attribute')) == 'pip') {
+            $command = collect($this->allowAttribute[$attribute])->join('&&');
+            $process = Process::fromShellCommandline($command);
+            $process->setTimeout(300);
+            $process->run(function ($type, $line) use ($output) {
+                $output->writeln("<info>{$line}</info>");
+            });
+
+            die();
+        }
     }
 
     /**
