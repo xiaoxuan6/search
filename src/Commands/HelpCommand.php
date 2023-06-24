@@ -50,7 +50,6 @@ Usage:
 参考文档：https://www.cnblogs.com/zengguowang/p/8391227.html
 EOL;
 
-
     protected function configure()
     {
         $this->setName('exec:help')

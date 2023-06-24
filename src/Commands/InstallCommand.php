@@ -40,50 +40,60 @@ class InstallCommand extends Command
      * 给 url 设置代理
      * @var array|string[]
      */
-    protected array $proxy = ['make', 'navicat', 'tree', 'typora', 'chrome'];
+    protected array $proxy = ['make', 'tree'];
 
     /**
      * 默认通过浏览器下载安装包
      * @var array|string[]
      */
-    protected array $default = ['redis', 'composer', 'git', 'host', 'clash', 'cmder', 'cpolar', 'xdebug'];
+    protected array $default = [
+        'redis', 'composer', 'git', 'shell', 'host', 'clash', 'cmder', 'cpolar',
+        'chrome', 'xdebug', 'go', 'python', 'navicat', 'phpstorm', 'golang', 'pycharm', 'typora'
+    ];
 
     protected array $allowAttribute = [
+        // web
         'redis' => 'https://gitee.com/qishibo/AnotherRedisDesktopManager/releases/download/v1.5.9/Another-Redis-Desktop-Manager.1.5.9.exe',
         'composer' => 'https://getcomposer.org/Composer-Setup.exe',
         'git' => 'https://github.com/git-for-windows/git/releases/download/v2.40.0.windows.1/Git-2.40.0-64-bit.exe',
         'shell' => 'https://www.hostbuf.com/downloads/finalshell_install.exe',
         'host' => 'https://github.com/oldj/SwitchHosts/releases/download/v4.1.2/SwitchHosts_windows_installer_x64_4.1.2.6086.exe',
+        'clash' => 'https://github.com/Fndroid/clash_for_windows_pkg/releases/download/0.20.19/Clash.for.Windows.Setup.0.20.19.exe',
+        'cmder' => 'https://github.com/cmderdev/cmder/releases/download/v1.3.21/cmder.zip',
+        'cpolar' => 'https://static.cpolar.com/downloads/releases/3.3.18/cpolar-stable-windows-amd64-setup.zip',
+        'chrome' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/ChromeSetup.exe',
+        'xdebug' => 'https://xdebug.org/wizard',
+        'go' => 'https://studygolang.com/dl',
+        'python' => 'python-3.11.4-amd64.exe https://www.python.org/ftp/python/3.11.4/python-3.11.4-amd64.exe',
+        'navicat' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/Navicat_Premium_11.zip',
+        'typora' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/typora-setup-x64_0.9.96.exe',
+
         'phpstorm' => 'https://download.jetbrains.com/webide/PhpStorm-2021.1.4.exe?_gl=1*p4kxw3*_ga*MjgzNzAzNTYuMTY0NjQ4MjE4NQ..*_ga_9J976DJZ68*MTY4MDQ5NTk1MC42LjAuMTY4MDQ5NTk1MC42MC4wLjA.&_ga=2.220979096.101944321.1680495951-28370356.1646482185',
         'golang' => 'https://download.jetbrains.com/go/goland-2021.1.3.exe?_ga=2.228833948.101944321.1680495951-28370356.1646482185&_gl=1*35ki8m*_ga*MjgzNzAzNTYuMTY0NjQ4MjE4NQ..*_ga_9J976DJZ68*MTY4MDQ5NTk1MC42LjEuMTY4MDQ5NjM1OS42MC4wLjA.',
-        'python' => 'https://download.jetbrains.com/python/pycharm-professional-2021.1.3.exe?_gl=1*4tozqx*_ga*MjgzNzAzNTYuMTY0NjQ4MjE4NQ..*_ga_9J976DJZ68*MTY4MDQ5NTk1MC42LjEuMTY4MDQ5NjQ4My4zOS4wLjA.&_ga=2.154408632.101944321.1680495951-28370356.1646482185',
-        'clash' => 'https://github.com/Fndroid/clash_for_windows_pkg/releases/download/0.20.19/Clash.for.Windows.Setup.0.20.19.exe',
+        'pycharm' => 'https://download.jetbrains.com/python/pycharm-professional-2021.1.3.exe?_gl=1*4tozqx*_ga*MjgzNzAzNTYuMTY0NjQ4MjE4NQ..*_ga_9J976DJZ68*MTY4MDQ5NTk1MC42LjEuMTY4MDQ5NjQ4My4zOS4wLjA.&_ga=2.154408632.101944321.1680495951-28370356.1646482185',
+
+        // proxy and gitbash
         'make' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/make.exe',
-        'navicat' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/Navicat_Premium_11.zip',
-        'cmder' => 'https://github.com/cmderdev/cmder/releases/download/v1.3.21/cmder.zip',
-        'wget' => 'https://eternallybored.org/misc/wget/1.21.3/32/wget.exe',
-        'jq' => 'https://github.com/stedolan/jq/releases/download/jq-1.6/jq-win64.exe',
         'tree' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/tree.exe',
-        'typora' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/typora-setup-x64_0.9.96.exe',
+
+        'wget' => 'https://eternallybored.org/misc/wget/1.21.3/32/wget.exe',
+
+        // bin
+        'jq' => 'https://github.com/stedolan/jq/releases/download/jq-1.6/jq-win64.exe',
         'yq' => 'https://github.com/mikefarah/yq/releases/download/v4.6.0/yq_windows_amd64.exe',
         'gron' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/gron.exe',
         'yj' => 'https://github.com/sclevine/yj/releases/download/v5.1.0/yj.exe',
-        'cpolar' => 'https://static.cpolar.com/downloads/releases/3.3.18/cpolar-stable-windows-amd64-setup.zip',
-        'chrome' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/ChromeSetup.exe',
+
+        // process
         'pip' => [
             'curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py',
             'python get-pip.py',
             'rm -rf get-pip.py'
         ],
-        'xdebug' => 'https://xdebug.org/wizard',
     ];
 
     protected array $aliases = [
-        'phpstorm' => 'PhpStorm-2021.1.4.exe',
-        'golang' => 'goland-2021.1.3.exe',
-        'python' => 'pycharm-professional-2021.1.3.exe',
         'jq' => 'jq.exe',
-        'typora' => 'typora.exe',
         'yq' => 'yq.exe',
     ];
 
@@ -109,8 +119,8 @@ class InstallCommand extends Command
         $this->default = array_merge($this->default, array_keys($this->chromePlugins));
         $this->allowAttribute = array_merge($this->allowAttribute, $this->chromePlugins);
 
-        if(($attribute = $input->getArgument('attribute')) == 'pip') {
-            $command = collect($this->allowAttribute[$attribute])->join('&&');
+        if(is_array($commands = $this->allowAttribute[$input->getArgument('attribute')])) {
+            $command = collect($commands)->join(' && ');
             $process = Process::fromShellCommandline($command);
             $process->setTimeout(300);
             $process->run(function ($type, $line) use ($output) {
@@ -169,15 +179,6 @@ class InstallCommand extends Command
             goto ATTRIBUTE;
         }
 
-        if ($attribute == 'wget') {
-            $process = Process::fromShellCommandline("curl -o wget.exe {$url}");
-            $process->setTimeout($input->getArgument('timeout') ?? 3 * 60);
-            $process->run(function ($type, $line) use ($output) {
-                $output->writeln("<info>{$line}</info>");
-            });
-            goto EXEC;
-        }
-
         $url = in_array($url, array_merge($this->proxy, $this->exportBin)) ? $url : 'https://ghproxy.com/' . $url;
         $name = $this->aliases[$attribute] ?? basename($url);
         $command = sprintf("wget -O %s %s", $name, $url);
@@ -204,7 +205,6 @@ class InstallCommand extends Command
             }
         }
 
-        EXEC:
         if (in_array($attribute, $this->rename)) {
             $gitPath = tap_abort((new ExecutableFinder())->find('git'), '无法获取 git 安装路径');
             $this->moveFile($output, $attribute . '.exe', $gitPath);
