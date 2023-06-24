@@ -82,7 +82,7 @@ class BrewCommand extends Command
         $helper = $this->getHelper('question');
         ATTRIBUTE:
         if (! $input->getArgument('attribute')) {
-            $choice = new ChoiceQuestion("<comment>请选择需要安装包名：</comment>", array_keys($this->commands) + ['pip'], '');
+            $choice = new ChoiceQuestion("<comment>请选择需要安装包名：</comment>", array_merge(array_keys($this->commands), ['pip']), '');
             $answer = $helper->ask($input, $output, $choice);
             $input->setArgument('attribute', $answer);
         }
