@@ -46,7 +46,7 @@ class InstallCommand extends Command
      * 默认通过浏览器下载安装包
      * @var array|string[]
      */
-    protected array $default = ['redis', 'composer', 'git', 'host', 'clash', 'cmder', 'cpolar'];
+    protected array $default = ['redis', 'composer', 'git', 'host', 'clash', 'cmder', 'cpolar', 'xdebug'];
 
     protected array $allowAttribute = [
         'redis' => 'https://gitee.com/qishibo/AnotherRedisDesktopManager/releases/download/v1.5.9/Another-Redis-Desktop-Manager.1.5.9.exe',
@@ -74,7 +74,8 @@ class InstallCommand extends Command
             'curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py',
             'python get-pip.py',
             'rm -rf get-pip.py'
-        ]
+        ],
+        'xdebug' => 'https://xdebug.org/wizard',
     ];
 
     protected array $aliases = [

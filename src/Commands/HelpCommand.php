@@ -21,7 +21,8 @@ class HelpCommand extends Command
 {
     protected array $commands = [
         'yj' => 'yj -h',
-        'phpstorm' => ''
+        'phpstorm' => '',
+        'xdebug' => '',
     ];
 
     protected string $yj = <<<EOL
@@ -35,6 +36,20 @@ phpstorm plugins url
 Usage:
     https://plugins.zhile.io
 EOL;
+
+    protected string $xdebug = <<<EOL
+Usage:
+    [XDebug]
+    zend_extension="D:\phpStudy\PHPTutorial\php\php-7.2.1-nts\ext\php_xdebug.dll"
+    xdebug.profiler_output_name = cachegrind.out.%t.%p
+    xdebug.show_local_vars=0
+    xdebug.mode=debug
+
+在 php.ini 中添加如上代码并重启 php.
+
+参考文档：https://www.cnblogs.com/zengguowang/p/8391227.html
+EOL;
+
 
     protected function configure()
     {
