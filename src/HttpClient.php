@@ -33,7 +33,7 @@ class HttpClient
         return self::$client;
     }
 
-    public function setTimeout($time): HttpClient
+    public function setTimeout(int $time): HttpClient
     {
         self::$time = $time;
 

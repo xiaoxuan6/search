@@ -114,7 +114,7 @@ class BrewCommand extends Command
         }
 
         $process = Process::fromShellCommandline($command);
-        $process->run(function ($type, $line) use ($output) {
+        $process->run(function ($type, $line) use ($output): void {
             $output->writeln("<info>{$line}</info>");
         });
 

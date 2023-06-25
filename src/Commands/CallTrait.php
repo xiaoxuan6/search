@@ -21,7 +21,7 @@ trait CallTrait
     /**
      * @throws ExceptionInterface
      */
-    public function call($name, $arguments, $output = NullOutput::class)
+    public function call($name, $arguments, $output = NullOutput::class): void
     {
         $command = $this->getApplication()->find($name);
         $greetInput = new ArrayInput($arguments);

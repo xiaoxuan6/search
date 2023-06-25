@@ -78,7 +78,7 @@ class ProxyLocalCommand extends Command
 
             $cwd = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Commands/python';
             $process = Process::fromShellCommandline('python -m pip install --upgrade pip && pip install -r ./requirements.txt', $cwd);
-            $process->run(function ($type, $line) use ($output) {
+            $process->run(function ($type, $line) use ($output): void {
                 $output->writeln("<info>{$line}</info>");
             });
 

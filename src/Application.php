@@ -38,10 +38,7 @@ class Application
 {
     public const VERSION = 'v0.51.0';
 
-    /**
-     * @var \Symfony\Component\Console\Application
-     */
-    protected $app;
+    protected \Symfony\Component\Console\Application $app;
 
     protected array $province = [
         GoPackageCommand::class,
@@ -84,7 +81,7 @@ class Application
     /**
      * @throws Exception
      */
-    public function run()
+    public function run(): void
     {
         $this->app->run();
     }

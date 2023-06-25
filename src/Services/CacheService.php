@@ -53,7 +53,7 @@ class CacheService
      */
     private static function save(): string
     {
-        return tap(self::getAccessToken(), function ($token) {
+        return tap(self::getAccessToken(), function ($token): void {
             $token and file_put_contents(self::$path, $token);
         });
     }

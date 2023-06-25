@@ -27,7 +27,7 @@ class ErrorResponse implements ResponseInterface
         $this->body = $exception;
     }
 
-    public function getStatusCode()
+    public function getStatusCode(): int
     {
         return $this->body->getCode();
     }
@@ -37,52 +37,52 @@ class ErrorResponse implements ResponseInterface
         return $this->body->getMessage();
     }
 
-    public function withStatus($code, $reasonPhrase = '')
+    public function withStatus($code, $reasonPhrase = ''): void
     {
         // TODO: Implement withStatus() method.
     }
 
-    public function getProtocolVersion()
+    public function getProtocolVersion(): void
     {
         // TODO: Implement getProtocolVersion() method.
     }
 
-    public function withProtocolVersion($version)
+    public function withProtocolVersion($version): void
     {
         // TODO: Implement withProtocolVersion() method.
     }
 
-    public function getHeaders()
+    public function getHeaders(): void
     {
         // TODO: Implement getHeaders() method.
     }
 
-    public function hasHeader($name)
+    public function hasHeader($name): void
     {
         // TODO: Implement hasHeader() method.
     }
 
-    public function getHeader($name)
+    public function getHeader($name): void
     {
         // TODO: Implement getHeader() method.
     }
 
-    public function getHeaderLine($name)
+    public function getHeaderLine($name): void
     {
         // TODO: Implement getHeaderLine() method.
     }
 
-    public function withHeader($name, $value)
+    public function withHeader($name, $value): void
     {
         // TODO: Implement withHeader() method.
     }
 
-    public function withAddedHeader($name, $value)
+    public function withAddedHeader($name, $value): void
     {
         // TODO: Implement withAddedHeader() method.
     }
 
-    public function withoutHeader($name)
+    public function withoutHeader($name): void
     {
         // TODO: Implement withoutHeader() method.
     }
@@ -95,7 +95,7 @@ class ErrorResponse implements ResponseInterface
         return new self($this->body);
     }
 
-    public function withBody(StreamInterface $body)
+    public function withBody(StreamInterface $body): void
     {
         // TODO: Implement withBody() method.
     }

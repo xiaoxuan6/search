@@ -85,7 +85,7 @@ class PushCommand extends Command
         }
 
         $process = Process::fromShellCommandline($commands->join(' && '), getcwd());
-        $process->run(function ($type, $line) use ($output) {
+        $process->run(function ($type, $line) use ($output): void {
             $output->writeln($line);
         });
 

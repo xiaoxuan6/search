@@ -39,7 +39,7 @@ class UploadSupport
         return $this;
     }
 
-    public function disableShowDelUrl($disable = false): UploadSupport
+    public function disableShowDelUrl(bool $disable = false): UploadSupport
     {
         $this->disableShowDelUrl = $disable;
 

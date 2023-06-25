@@ -30,7 +30,7 @@ class GoPackageCommand extends ActionsCommand
             ->addArgument('description', InputArgument::OPTIONAL, '描述', '');
     }
 
-    public function beforeExecute(InputInterface $input, OutputInterface $output)
+    public function beforeExecute(InputInterface $input, OutputInterface $output): void
     {
         $this->client_payload = [
             'url' => $input->getArgument('url'),

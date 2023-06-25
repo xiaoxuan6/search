@@ -78,7 +78,7 @@ class NewCommand extends Command
         $process = Process::fromShellCommandline(implode(' && ', $commands));
 
         $process->setTimeout(600);
-        $process->run(function ($type, $line) use ($output) {
+        $process->run(function ($type, $line) use ($output): void {
             $output->write('    ' . $line);
         });
 

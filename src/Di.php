@@ -16,7 +16,7 @@ class Di
 {
     protected static array $item = [];
 
-    public static function set($val)
+    public static function set($val): void
     {
         array_push(self::$item, $val);
     }

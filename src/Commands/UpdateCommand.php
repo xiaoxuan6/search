@@ -32,7 +32,7 @@ class UpdateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $process = Process::fromShellCommandline('composer global require james.xue/search');
-        $process->run(function ($type, $line) use ($output) {
+        $process->run(function ($type, $line) use ($output): void {
             $output->writeln("<info>{$line}</info>");
         });
 

@@ -64,7 +64,7 @@ class ConfigCommand extends Command
                 break;
 
             case 'get':
-                $this->process(['git', 'config', $key], function ($type, $buffer) use ($key, $output) {
+                $this->process(['git', 'config', $key], function ($type, $buffer) use ($key, $output): void {
                     Di::set(trim($buffer));
                     $output->writeln("git config {$key}：<info>{$buffer}</info>");
                 });
@@ -77,7 +77,7 @@ class ConfigCommand extends Command
                 $chars = array_filter(preg_split("/\n/", $process->getOutput()));
                 foreach ($chars as $char) {
                     if (str_starts_with($char, self::PREFIX)) {
-                        list($key, $val) = explode('=', $char);
+                        [$key, $val] = explode('=', $char);
                         $key = str_replace(self::PREFIX, '', $key);
                         $this->call('config', [
                             'attribute' => 'unset',

@@ -44,7 +44,7 @@ class TagCommand extends Command
         }
 
         $process = Process::fromShellCommandline('git tag !tag! && git push origin !tag!');
-        $process->run(function ($type, $line) use ($output) {
+        $process->run(function ($type, $line) use ($output): void {
             $output->writeln("<info>{$line}</info>");
         }, ['tag' => $answer]);
 

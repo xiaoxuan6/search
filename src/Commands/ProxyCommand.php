@@ -65,7 +65,7 @@ class ProxyCommand extends Command
 
                 $status = false;
                 $message = '';
-                $this->process(['go', 'env', '-w', "GOPROXY={$url}"], function ($type, $data) use (&$status, &$message) {
+                $this->process(['go', 'env', '-w', "GOPROXY={$url}"], function ($type, $data) use (&$status, &$message): void {
                     // 在使用 PHP 输出缓冲的服务器中，此功能将无法正常工作。
                     $status = true;
                     $message = $data;

@@ -129,7 +129,7 @@ class InstallCommand extends Command
             $command = collect($commands)->join(' && ');
             $process = Process::fromShellCommandline($command);
             $process->setTimeout(300);
-            $process->run(function ($type, $line) use ($output) {
+            $process->run(function ($type, $line) use ($output): void {
                 $output->writeln("<info>{$line}</info>");
             });
 
@@ -190,7 +190,7 @@ class InstallCommand extends Command
         $command = sprintf("wget -O %s %s", $name, $url);
         $process = Process::fromShellCommandline($command, getcwd());
         $process->setTimeout($input->getArgument('timeout') ?? 3 * 60);
-        $process->run(function ($type, $line) use ($output) {
+        $process->run(function ($type, $line) use ($output): void {
             $output->writeln("<info>{$line}</info>");
         });
 
@@ -244,11 +244,11 @@ class InstallCommand extends Command
         }
     }
 
-    private function export(OutputInterface $output, string $filename)
+    private function export(OutputInterface $output, string $filename): void
     {
         $env = Terminal::builder()->run('set')->output();
 
-        $env = array_filter(preg_split('/\n/', $env), fn ($value) => str_starts_with($value, 'HOME='));
+        $env = array_filter(preg_split('/\n/', $env), fn ($value): bool => str_starts_with($value, 'HOME='));
 
         $basePath = trim(trim(current($env) ?? '', 'HOME='));
         $binPath = $basePath . DIRECTORY_SEPARATOR . 'bin';
@@ -270,7 +270,7 @@ class InstallCommand extends Command
         $process->run();
     }
 
-    private function touchFile($basePath)
+    private function touchFile(string $basePath): void
     {
         $binPath = $basePath . DIRECTORY_SEPARATOR . 'bin';
 

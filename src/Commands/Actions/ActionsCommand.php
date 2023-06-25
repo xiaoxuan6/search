@@ -28,7 +28,7 @@ abstract class ActionsCommand extends BaseCommand
      * @param InputInterface $input
      * @param OutputInterface $output
      */
-    public function beforeExecute(InputInterface $input, OutputInterface $output)
+    public function beforeExecute(InputInterface $input, OutputInterface $output): void
     {
     }
 
@@ -69,7 +69,7 @@ abstract class ActionsCommand extends BaseCommand
         if ($response->getStatusCode() == 204) {
             $output->writeln("<info>请求成功！</info>");
         } else {
-            $message = $response->getBody() ? $response->getBody() : $response->getReasonPhrase();
+            $message = $response->getBody() ?: $response->getReasonPhrase();
             $output->writeln("<error>请求失败：{$message}</error>");
         }
 
