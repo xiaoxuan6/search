@@ -24,6 +24,8 @@ class InstallCommand extends Command
 {
     use CallTrait;
 
+    public const PROXY_URL = 'https://ghproxy.com/';
+
     /**
      * 向 gitbash 添加操作命令
      * @var array|string[]
@@ -48,7 +50,7 @@ class InstallCommand extends Command
      */
     protected array $default = [
         'redis', 'composer', 'git', 'shell', 'host', 'clash', 'cmder', 'cpolar',
-        'chrome', 'xdebug', 'go', 'python', 'navicat', 'phpstorm', 'golang', 'pycharm', 'typora'
+        'xdebug', 'go', 'python', 'navicat', 'phpstorm', 'golang', 'pycharm', 'typora'
     ];
 
     protected array $allowAttribute = [
@@ -61,7 +63,6 @@ class InstallCommand extends Command
         'clash' => 'https://github.com/Fndroid/clash_for_windows_pkg/releases/download/0.20.19/Clash.for.Windows.Setup.0.20.19.exe',
         'cmder' => 'https://github.com/cmderdev/cmder/releases/download/v1.3.21/cmder.zip',
         'cpolar' => 'https://static.cpolar.com/downloads/releases/3.3.18/cpolar-stable-windows-amd64-setup.zip',
-        'chrome' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/ChromeSetup.exe',
         'xdebug' => 'https://xdebug.org/wizard',
         'go' => 'https://studygolang.com/dl',
         'python' => 'python-3.11.4-amd64.exe https://www.python.org/ftp/python/3.11.4/python-3.11.4-amd64.exe',
@@ -90,6 +91,11 @@ class InstallCommand extends Command
             'python get-pip.py',
             'rm -rf get-pip.py'
         ],
+        'chrome' => [
+            'curl -o chrome.exe ' . self::PROXY_URL . 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/ChromeSetup.exe',
+            'sleep 1',
+            'echo "chrome 安装包下载成功，请手动安装"'
+        ]
     ];
 
     protected array $aliases = [
@@ -179,7 +185,7 @@ class InstallCommand extends Command
             goto ATTRIBUTE;
         }
 
-        $url = in_array($url, array_merge($this->proxy, $this->exportBin)) ? $url : 'https://ghproxy.com/' . $url;
+        $url = in_array($url, array_merge($this->proxy, $this->exportBin)) ? $url : self::PROXY_URL . $url;
         $name = $this->aliases[$attribute] ?? basename($url);
         $command = sprintf("wget -O %s %s", $name, $url);
         $process = Process::fromShellCommandline($command, getcwd());
@@ -197,11 +203,9 @@ class InstallCommand extends Command
         if (in_array($attribute, $this->exportBin)) {
             $this->export($output, $attribute . '.exe');
 
-            $output->writeln("<comment>yj -h</comment>");
             if ($attribute == 'yj') {
-                $this->call('exec:help', [
-                    '--programName' => $attribute
-                ], $output);
+                $output->writeln("<comment>yj -h</comment>");
+                $this->call('exec:help', ['--programName' => $attribute], $output);
             }
         }
 
