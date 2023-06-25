@@ -86,12 +86,8 @@ class FileUploadCommand extends BaseCommand
         }
 
         $item = collect($firstData['assets'])
-            ->mapWithKeys(function ($value, $key) {
-                return [$key => $value['browser_download_url']];
-            })
-            ->filter(function ($item) use ($basename) {
-                return str_contains($item, $basename);
-            });
+            ->mapWithKeys(fn ($value, $key) => [$key => $value['browser_download_url']])
+            ->filter(fn ($item) => str_contains($item, $basename));
 
         if($item->isNotEmpty()) {
             $output->writeln("<error>文件 {$basename} 已存在，请修改文件名重试！ </error>");

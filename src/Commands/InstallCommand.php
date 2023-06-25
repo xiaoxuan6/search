@@ -248,9 +248,7 @@ class InstallCommand extends Command
     {
         $env = Terminal::builder()->run('set')->output();
 
-        $env = array_filter(preg_split('/\n/', $env), function ($value) {
-            return str_starts_with($value, 'HOME=');
-        });
+        $env = array_filter(preg_split('/\n/', $env), fn ($value) => str_starts_with($value, 'HOME='));
 
         $basePath = trim(trim(current($env) ?? '', 'HOME='));
         $binPath = $basePath . DIRECTORY_SEPARATOR . 'bin';

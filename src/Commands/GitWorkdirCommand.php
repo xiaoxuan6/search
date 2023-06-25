@@ -39,9 +39,7 @@ class GitWorkdirCommand extends Command
     {
         $env = Terminal::builder()->run('set')->output();
 
-        $env = array_filter(preg_split('/\n/', $env), function ($value) {
-            return str_starts_with($value, 'HOME=');
-        });
+        $env = array_filter(preg_split('/\n/', $env), fn ($value) => str_starts_with($value, 'HOME='));
 
         $gitConfigPath = trim(trim(current($env) ?? '', 'HOME='));
         if(! $gitConfigPath) {
