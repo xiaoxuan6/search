@@ -17,7 +17,7 @@ use GuzzleHttp\Exception\{GuzzleException, RequestException};
 
 class HttpClient
 {
-    private static ?\GuzzleHttp\Client $client = null;
+    private static ?Client $client = null;
 
     protected static int $time = 30;
 

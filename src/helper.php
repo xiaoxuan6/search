@@ -12,6 +12,7 @@
 
 use TitasGailius\Terminal\Terminal;
 use Vinhson\Search\Services\CacheService;
+use Vinhson\Search\Exceptions\RuntimeException;
 
 if (! function_exists('is_valid_url')) {
     /**
@@ -81,13 +82,13 @@ if (! function_exists('tap_abort')) {
      * @param $val
      * @param $message
      * @return mixed
-     * @throws \Vinhson\Search\Exceptions\RuntimeException
+     * @throws RuntimeException
      */
     function tap_abort($val, $message)
     {
         return tap($val, function ($item) use ($message) {
             if (! $item) {
-                throw new \Vinhson\Search\Exceptions\RuntimeException($message);
+                throw new RuntimeException($message);
             }
         });
     }

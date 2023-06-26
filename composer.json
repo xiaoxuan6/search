@@ -31,7 +31,11 @@
     },
     "scripts": {
         "pint": "vendor/bin/php-cs-fixer fix",
-        "recotr": "vendor/bin/rector"
+        "rector": "vendor/bin/rector process --clear-cache --no-diffs --ansi",
+        "fix": [
+            "@rector",
+            "@pint"
+        ]
     },
     "bin": ["bin/search"],
     "require-dev": {
