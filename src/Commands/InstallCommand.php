@@ -65,7 +65,7 @@ class InstallCommand extends Command
         'cpolar' => 'https://static.cpolar.com/downloads/releases/3.3.18/cpolar-stable-windows-amd64-setup.zip',
         'xdebug' => 'https://xdebug.org/wizard',
         'go' => 'https://studygolang.com/dl',
-        'python' => 'python-3.11.4-amd64.exe https://www.python.org/ftp/python/3.11.4/python-3.11.4-amd64.exe',
+        'python' => 'https://www.python.org/ftp/python/3.11.4/python-3.11.4-amd64.exe',
         'navicat' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/Navicat_Premium_11.zip',
         'typora' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/typora-setup-x64_0.9.96.exe',
 

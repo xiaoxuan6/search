@@ -18,6 +18,10 @@
         "cpolar": {
             "email": "xxx",
             "password": "xxx"
+        },
+        "ocr": {
+            "url": "xxx",
+            "guid": "xxx"
         }
     }
 }

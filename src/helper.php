@@ -66,7 +66,7 @@ if (! function_exists('cache')) {
                         ])
                         ->run('git config search.{{ $key }}');
 
-                    return tap_abort(trim($response->output()), $message ?? sprintf("获取 %s 失败，值为空", $key));
+                    return tap_abort(trim($response->output()), ! empty($message) ? $message : sprintf("获取 %s 失败，值为空", $key));
                 }
             };
 

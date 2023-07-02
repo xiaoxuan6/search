@@ -25,6 +25,7 @@ use Vinhson\Search\Commands\{Actions\FileUploadCommand,
     HelpCommand,
     InstallCommand,
     NewCommand,
+    OCRCommand,
     ProxyCommand,
     ProxyLocalCommand,
     SendCommand,
@@ -63,6 +64,7 @@ class Application
         BrewCommand::class,
         TagCommand::class,
         UpdateCommand::class,
+        OCRCommand::class,
     ];
 
     public function __construct()
