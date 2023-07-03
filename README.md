@@ -1,7 +1,7 @@
 # Search
 
-This package is meant to be used in your terminal. And allows
-working with lots of subdirectories containing git repositories.
+This package is meant to be used in your terminal. And allows working with lots of subdirectories containing git
+repositories.
 
 ## Installation
 
@@ -21,7 +21,8 @@ curl -O https://ghproxy.com/https://raw.githubusercontent.com/xiaoxuan6/search/m
 
 ## Env system variable
 
-Copy the `config.json` file in the root directory to the current directory and modify the configuration file, And execute the following command：
+Copy the `config.json` file in the root directory to the current directory and modify the configuration file, And
+execute the following command：
 
 ```bash
 search env:init ./config.json
@@ -52,16 +53,18 @@ Options:
   -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
 Available commands:
-  brew                 linux 安装可执行文件
+  brew                 ubuntu 安装可执行文件
   completion           Dump the shell completion script
   config               设置配置信息
   help                 Display help for a command
   install              [i] 下载安装包
   list                 List commands
   new                  Create a new Laravel application
+  ocr                  图片文字提取
   proxy                设置代理
   send                 给公众号发送消息
   tag                  git 设置版本号并推送远程
+  update               更新 search 版本到最新版本
   upload               上传本地图片/文件到远程
   user                 生成用户信息
  actions
