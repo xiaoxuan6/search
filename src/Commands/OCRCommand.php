@@ -54,14 +54,16 @@ class OCRCommand extends BaseCommand
     {
         $filename = $input->getArgument('filename');
 
-        if (strpos($filename, './') !== false) {
-            $filename = getcwd() . trim($filename, '.');
-        }
+        if(! filter_var($filename, FILTER_VALIDATE_URL)) {
+            if (strpos($filename, './') !== false) {
+                $filename = getcwd() . trim($filename, '.');
+            }
 
-        if (! $filename or ! file_exists(realpath($filename))) {
-            $output->writeln("<error>文件{$filename}不存在</error>");
+            if (! $filename or ! file_exists(realpath($filename))) {
+                $output->writeln("<error>文件 {$filename} 不存在</error>");
 
-            return self::FAILURE;
+                return self::FAILURE;
+            }
         }
 
         $response = $this->client->post(sprintf("%s/cgi-bin/tools/ocr", trim(cache('ocr.url'), '/')), [
