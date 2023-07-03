@@ -25,7 +25,7 @@ Copy the `config.json` file in the root directory to the current directory and m
 execute the following command：
 
 ```bash
-search env:init ./config.json
+search env -f ./config.json
 ```
 
 Can also a value can be set individually
