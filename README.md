@@ -36,26 +36,27 @@ search config set --key=xxx --value=xxx
 
 ## List
 
-```phpregexp
-$ search list
-Console Tool
+```shell
+$  search
+search version v0.52.0
 
 Usage:
   command [options] [arguments]
 
 Options:
-  -h, --help            Display this help message
+  -h, --help            Display help for the given command. When no command is given display help for the list command
   -q, --quiet           Do not output any message
   -V, --version         Display this application version
-      --ansi            Force ANSI output
-      --no-ansi         Disable ANSI output
+      --ansi|--no-ansi  Force (or disable --no-ansi) ANSI output
   -n, --no-interaction  Do not ask any interactive question
   -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
 Available commands:
+
   brew                 ubuntu 安装可执行文件
   completion           Dump the shell completion script
   config               设置配置信息
+  env                  初始化配置信息
   help                 Display help for a command
   install              [i] 下载安装包
   list                 List commands
@@ -71,8 +72,6 @@ Available commands:
   actions:go:push      [agp] 收藏 go 开源第三方包
   actions:push         [ap] 随记提交到 github
   actions:screen-shot  根据url截图并生成图片链接
- env
-  env:init             初始化配置信息
  file
   file:upload          将本地文件上传到github release
  git
