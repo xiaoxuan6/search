@@ -39,7 +39,7 @@ class EnvCommand extends Command
             collect($item)->mapWithKeys(function ($val, $key) use ($output) {
                 collect($val)->each(function ($val, $item) use ($key, $output) {
                     $k = $key . '.' . $item;
-                    if ($val && $k) {
+                    if ($val != 'xxx' and $val && $k) {
                         $this->call('config', [
                             'attribute' => 'set',
                             '--key' => $k,

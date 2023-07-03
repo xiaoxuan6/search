@@ -88,6 +88,16 @@ class OCRCommand extends BaseCommand
             return self::FAILURE;
         }
 
+        $output->writeln(PHP_EOL . "<comment>检测结果：</comment>");
+
+        if ($response->getData('header.retCode') != 0) {
+
+            preg_match('/Message=(.*?), RequestId/', $response->getData('header.reason'), $m);
+            $output->writeln("<error>{$m[1]}</error>");
+
+            return self::FAILURE;
+        }
+
         array_map(fn ($val) => $output->writeln("<info>{$val}</info>"), $response->getData('textList'));
 
         return self::SUCCESS;

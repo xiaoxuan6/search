@@ -8,3 +8,4 @@ composer.lock
 nohup.out
 *.zip
 *.lock
+config.example.json
