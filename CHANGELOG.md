@@ -2,6 +2,16 @@
 
 All notable changes to `james.xue/search` will be documented in this file.
 
+## v0.52.0 - 2023-07-03
+
+### What's Changed
+
+- 新增图片识别文字OCR
+- 重构 env command
+- build(deps): bump dependabot/fetch-metadata from 1.5.1 to 1.6.0 by @dependabot in https://github.com/xiaoxuan6/search/pull/4
+
+**Full Changelog**: https://github.com/xiaoxuan6/search/compare/v0.51.0...v0.52.0
+
 ## v0.51.0 - 2023-06-25
 
 **Full Changelog**: https://github.com/xiaoxuan6/search/compare/v0.50.0...v0.51.0
