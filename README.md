@@ -38,7 +38,7 @@ search config set --key=xxx --value=xxx
 
 ```shell
 $  search
-search version v0.52.0
+search version v0.*.0
 
 Usage:
   command [options] [arguments]
@@ -52,8 +52,8 @@ Options:
   -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
 Available commands:
-
   brew                 ubuntu 安装可执行文件
+  chat                 AI聊天机器人
   completion           Dump the shell completion script
   config               设置配置信息
   env                  初始化配置信息
@@ -63,6 +63,7 @@ Available commands:
   new                  Create a new Laravel application
   ocr                  图片文字提取
   proxy                设置代理
+  qrcode               二维码识别、生成
   send                 给公众号发送消息
   tag                  git 设置版本号并推送远程
   update               更新 search 版本到最新版本
