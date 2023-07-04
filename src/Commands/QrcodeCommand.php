@@ -20,8 +20,8 @@ class QrcodeCommand extends BaseCommand
     protected function configure()
     {
         $this->setName('qrcode')
-            ->setDescription('二维码识别')
-            ->addArgument('file', InputArgument::REQUIRED, '二维码图片文件');
+            ->setDescription('二维码识别、生成')
+            ->addArgument('data', InputArgument::REQUIRED, '二维码图片文件、远程图片地址、生成内容');
     }
 
     /**
@@ -31,11 +31,35 @@ class QrcodeCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        [$status, $file] = check_file($input->getArgument('file'));
-        if (! $status) {
-            $output->writeln("<error>{$file}</error>");
+        $data = $input->getArgument('data');
+        $url = filter_var($data, FILTER_VALIDATE_URL);
+        $ext = pathinfo($data, PATHINFO_EXTENSION);
+        if (($url and in_array($ext, ['jpg', 'png', 'jpeg'])) or in_array($ext, ['jpg', 'png', 'jpeg'])) {
+            $this->analyze($url, $data, $output);
 
-            return self::FAILURE;
+            return self::SUCCESS;
+        }
+
+        $this->generate($data, $output);
+
+        return self::SUCCESS;
+    }
+
+    /**
+     * @param $url
+     * @param $file
+     * @param OutputInterface $output
+     * @return void
+     */
+    private function analyze($url, $file, OutputInterface $output): void
+    {
+        if(! $url) {
+            [$status, $file] = check_file($file);
+            if (! $status) {
+                $output->writeln("<error>{$file}</error>");
+
+                return;
+            }
         }
 
         $response = $this->client->upload(
@@ -54,11 +78,15 @@ class QrcodeCommand extends BaseCommand
         if (! $response->isSuccess() or $response->getData('code') != 200) {
             $output->writeln("<error>{$response->getMessage('msg')}</error>");
 
-            return self::FAILURE;
+            return;
         }
 
         $output->writeln("<comment>识别结果：</comment>" . PHP_EOL . "<info>{$response->getData('result')}</info>");
 
-        return self::SUCCESS;
+    }
+
+    private function generate($data, OutputInterface $output): void
+    {
+        $output->writeln("<error>生成二维码失败</error>");
     }
 }
