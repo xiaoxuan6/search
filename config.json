@@ -25,6 +25,9 @@
         },
         "qrcode": {
             "url": "xxx"
+        },
+        "chat": {
+            "url": "xxx"
         }
     }
 }

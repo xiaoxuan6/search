@@ -19,6 +19,7 @@ use Vinhson\Search\Commands\{Actions\FileUploadCommand,
     Actions\ScreenShotCommand,
     Actions\UploadCommand,
     BrewCommand,
+    ChatCommand,
     ConfigCommand,
     EnvCommand,
     GitWorkdirCommand,
@@ -67,6 +68,7 @@ class Application
         UpdateCommand::class,
         OCRCommand::class,
         QrcodeCommand::class,
+        ChatCommand::class,
     ];
 
     public function __construct()
