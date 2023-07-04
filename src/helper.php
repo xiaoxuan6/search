@@ -93,3 +93,22 @@ if (! function_exists('tap_abort')) {
         });
     }
 }
+
+if(! function_exists('check_file')) {
+    /**
+     * @param $file
+     * @return array
+     */
+    function check_file($file): array
+    {
+        if (strpos($file, './') !== false) {
+            $file = getcwd() . trim($file, '.');
+        }
+
+        if (! $file or ! file_exists(realpath($file))) {
+            return [false, "文件 {$file} 不存在"];
+        }
+
+        return [true, $file];
+    }
+}

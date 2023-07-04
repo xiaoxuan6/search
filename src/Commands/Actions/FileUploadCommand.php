@@ -42,14 +42,9 @@ class FileUploadCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $filename = $input->getArgument('filename');
-
-        if (strpos($filename, './') !== false) {
-            $filename = getcwd() . trim($filename, '.');
-        }
-
-        if (! $filename or ! file_exists(realpath($filename))) {
-            $output->writeln("<error>文件{$filename}不存在</error>");
+        [$status, $filename] = check_file($input->getArgument('filename'));
+        if (! $status) {
+            $output->writeln("<error>{$filename}</error>");
 
             return self::FAILURE;
         }
@@ -95,18 +90,19 @@ class FileUploadCommand extends BaseCommand
             return self::FAILURE;
         }
 
-        $response = $this->client->post(rtrim($url, '{?name,label}') . "?name={$basename}", [
-            'multipart' => [
+        $response = $this->client->upload(
+            rtrim($url, '{?name,label}') . "?name={$basename}",
+            [
                 [
                     'name' => 'data',
                     'contents' => fopen($filename, 'rb')
                 ]
             ],
-            'headers' => [
-                    'Authorization' => 'token ' . $token,
-                    'Content-Type' => 'application/octet-stream',
-                ] + $this->headers
-        ]);
+            [
+                'Authorization' => 'token ' . $token,
+                'Content-Type' => 'application/octet-stream',
+            ] + $this->headers
+        );
 
         if ($response->getStatusCode() == 201) {
             $output->writeln("<info>上传成功</info>");

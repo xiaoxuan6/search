@@ -22,6 +22,9 @@
         "ocr": {
             "url": "xxx",
             "guid": "xxx"
+        },
+        "qrcode": {
+            "url": "xxx"
         }
     }
 }

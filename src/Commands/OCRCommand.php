@@ -55,19 +55,18 @@ class OCRCommand extends BaseCommand
         $filename = $input->getArgument('filename');
 
         if(! filter_var($filename, FILTER_VALIDATE_URL)) {
-            if (strpos($filename, './') !== false) {
-                $filename = getcwd() . trim($filename, '.');
-            }
 
-            if (! $filename or ! file_exists(realpath($filename))) {
-                $output->writeln("<error>文件 {$filename} 不存在</error>");
+            [$status, $filename] = check_file($filename);
+            if (! $status) {
+                $output->writeln("<error>{$filename}</error>");
 
                 return self::FAILURE;
             }
         }
 
-        $response = $this->client->post(sprintf("%s/cgi-bin/tools/ocr", trim(cache('ocr.url'), '/')), [
-            'multipart' => [
+        $response = $this->client->upload(
+            sprintf("%s/cgi-bin/tools/ocr", trim(cache('ocr.url'), '/')),
+            [
                 [
                     'name' => 'file_data',
                     'contents' => fopen($filename, 'rb')
@@ -77,12 +76,12 @@ class OCRCommand extends BaseCommand
                     'contents' => json_encode($this->userInfo + ['guid' => cache('ocr.guid')], JSON_UNESCAPED_UNICODE)
                 ]
             ],
-            'headers' => [
+            [
                 'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
                 'Authorization' => $this->authorization,
                 'Timestamp' => time()
             ]
-        ]);
+        );
 
         if (! $response->isSuccess()) {
             $output->writeln("<error>{$response->getMessage('msg')}</error>");

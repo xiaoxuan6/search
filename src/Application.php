@@ -28,6 +28,7 @@ use Vinhson\Search\Commands\{Actions\FileUploadCommand,
     OCRCommand,
     ProxyCommand,
     ProxyLocalCommand,
+    QrcodeCommand,
     SendCommand,
     TagCommand,
     UnProxyCommand,
@@ -37,7 +38,7 @@ use Vinhson\Search\Commands\{Actions\FileUploadCommand,
 
 class Application
 {
-    public const VERSION = 'v0.52.0';
+    public const VERSION = 'v0.53.0';
 
     protected \Symfony\Component\Console\Application $app;
 
@@ -65,6 +66,7 @@ class Application
         TagCommand::class,
         UpdateCommand::class,
         OCRCommand::class,
+        QrcodeCommand::class,
     ];
 
     public function __construct()

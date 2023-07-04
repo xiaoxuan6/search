@@ -50,6 +50,14 @@ class HttpClient
         return $this->require(__FUNCTION__, $url, $payload);
     }
 
+    public function upload(string $url, $multipart, $headers): Response
+    {
+        return $this->post($url, [
+            'multipart' => $multipart,
+            'headers' => $headers
+        ]);
+    }
+
     /**
      * @param $method
      * @param $url
