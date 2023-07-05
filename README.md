@@ -1,5 +1,9 @@
 # Search
 
+[![Latest Stable Version](https://poser.pugx.org/james.xue/search/version.png)](https://packagist.org/packages/james.xue/search)
+[![Total Downloads](https://poser.pugx.org/james.xue/search/d/total.png)](https://packagist.org/packages/james.xue/search)
+[![GitHub license](https://img.shields.io/github/license/xiaoxuan6/search)](https://github.com/xiaoxuan6/search)
+
 This package is meant to be used in your terminal. And allows working with lots of subdirectories containing git
 repositories.
 
@@ -14,7 +18,7 @@ composer global require james.xue/search
 ### B、Shell Ubuntu
 
 ```bash
-curl -O https://ghproxy.com/https://raw.githubusercontent.com/xiaoxuan6/search/main/install.sh && chmod +x ./install.sh && ./install.sh
+curl -O https://ghproxy.com/https://raw.githubusercontent.com/james.xue/search/main/install.sh && chmod +x ./install.sh && ./install.sh
 ```
 
 > Make sure to place the ~/.composer/vendor/bin directory in your PATH so the search executable can be located by your system.
