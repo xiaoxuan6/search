@@ -24,6 +24,7 @@ use Vinhson\Search\Commands\{Actions\FileUploadCommand,
     EnvCommand,
     GitWorkdirCommand,
     HelpCommand,
+    InitCommand,
     InstallCommand,
     NewCommand,
     OCRCommand,
@@ -69,6 +70,7 @@ class Application
         OCRCommand::class,
         QrcodeCommand::class,
         ChatCommand::class,
+        InitCommand::class,
     ];
 
     public function __construct()

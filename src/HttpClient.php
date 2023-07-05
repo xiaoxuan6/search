@@ -12,7 +12,8 @@
 
 namespace Vinhson\Search;
 
-use GuzzleHttp\Client;
+use GuzzleHttp\{Client, HandlerStack};
+use Vinhson\Search\Middlewares\RequestHandle;
 use GuzzleHttp\Exception\{GuzzleException, RequestException};
 
 class HttpClient
@@ -23,10 +24,14 @@ class HttpClient
 
     public static function getClient(): Client
     {
+        $handler = HandlerStack::create();
+        $handler->push(RequestHandle::withHost(RequestHandle::fetchHost()));
+
         if (! self::$client) {
             self::$client = new Client([
                 'time' => self::$time,
-                'verify' => false
+                'verify' => false,
+                'handler' => $handler
             ]);
         }
 

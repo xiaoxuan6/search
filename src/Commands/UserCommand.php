@@ -12,7 +12,6 @@
 
 namespace Vinhson\Search\Commands;
 
-use Vinhson\Search\Di;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Exception\ExceptionInterface;
@@ -20,8 +19,6 @@ use Symfony\Component\Console\Input\{InputInterface, InputOption};
 
 class UserCommand extends BaseCommand
 {
-    use CallTrait;
-
     protected function configure()
     {
         $this->setName('user')
@@ -37,21 +34,7 @@ class UserCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->call('config', [
-            'attribute' => 'get',
-            '--key' => 'user.url',
-        ]);
-
-        if (! $host = Di::get()) {
-            $output->writeln(PHP_EOL . "<error>Invalid url, Please set git config `user.url`</error>");
-
-            return self::FAILURE;
-        }
-
-        $url = strpos($host, 'http');
-        if ($url === false) {
-            $url = 'https://www.' . $host;
-        }
+        $url = cache('user.url', "Invalid url, Please set git config `user.url`");
 
         $response = $this->client->post(
             sprintf("%s/api/v1/dz", $url),
