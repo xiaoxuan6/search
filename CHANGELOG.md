@@ -2,6 +2,15 @@
 
 All notable changes to `james.xue/search` will be documented in this file.
 
+## v0.53.0 - 2023-07-05
+
+### What's
+
+- 新增二维码解析
+- 新增 AI chat
+
+**Full Changelog**: https://github.com/xiaoxuan6/search/compare/v0.52.0...v0.53.0
+
 ## v0.52.0 - 2023-07-03
 
 ### What's Changed
