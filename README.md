@@ -92,3 +92,26 @@ Available commands:
  wechat
   wechat:send          给微信测试号发送消息
 ```
+
+## More
+
+<details>
+<summary><b>ocr</b></summary>
+```bash
+ocr ./16a7067.jpg
+```
+</details>
+
+<details>
+<summary><b>qrcode</b></summary>
+```bash
+qrcode ./16a7067.jpg
+```
+</details>
+
+<details>
+<summary><b>translate</b></summary>
+```bash
+translate test
+```
+</details>
