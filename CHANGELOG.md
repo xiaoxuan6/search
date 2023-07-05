@@ -2,6 +2,14 @@
 
 All notable changes to `james.xue/search` will be documented in this file.
 
+## v0.54.0 - 2023-07-05
+
+### What's Changed
+
+- 新增 ocr、qrcode、tranlaste
+
+**Full Changelog**: https://github.com/xiaoxuan6/search/compare/v0.53.1...v0.54.0
+
 ## v0.53.1 - 2023-07-05
 
 **Full Changelog**: https://github.com/xiaoxuan6/search/compare/v0.53.0...v0.53.1
