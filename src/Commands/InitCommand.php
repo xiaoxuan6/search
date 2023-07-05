@@ -23,7 +23,6 @@ class InitCommand extends Command
     protected function configure()
     {
         $this->setName('init')
-            ->setHidden(true)
             ->setDescription('项目初始化');
     }
 

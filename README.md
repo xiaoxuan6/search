@@ -19,6 +19,12 @@ curl -O https://ghproxy.com/https://raw.githubusercontent.com/xiaoxuan6/search/m
 
 > Make sure to place the ~/.composer/vendor/bin directory in your PATH so the search executable can be located by your system.
 
+## Init configuration
+
+```bash
+search init
+```
+
 ## Env system variable
 
 Copy the `config.json` file in the root directory to the current directory and modify the configuration file, And
@@ -58,6 +64,7 @@ Available commands:
   config               设置配置信息
   env                  初始化配置信息
   help                 Display help for a command
+  init                 项目初始化
   install              [i] 下载安装包
   list                 List commands
   new                  Create a new Laravel application

@@ -39,9 +39,6 @@
         "fix": [
             "@rector",
             "@pint"
-        ],
-        "post-autoload-dump": [
-            "@search init"
         ]
     },
     "bin": [
