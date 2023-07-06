@@ -10,33 +10,32 @@
  *
  */
 
-namespace Vinhson\Search\SingleCommands\Traits;
+namespace Vinhson\Search\SingleCommands;
 
-use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-trait ExecuteTrait
+abstract class SingleCommandApplication extends \Symfony\Component\Console\SingleCommandApplication
 {
-    public int $success = 0;
-    public int $failure = 1;
-    public int $invalid = 2;
-
-    protected array $env;
-
-    public function exec(InputInterface $input, OutputInterface $output): int
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $process = Process::fromShellCommandline($this->command, null, $this->env);
-        $process->run();
+        $process = $this->createProcess($input);
 
         if ($process->isSuccessful()) {
             $output->writeln("<info>{$process->getOutput()}</info>");
 
-            return $this->success;
+            return self::SUCCESS;
         }
 
         $output->writeln("<error>{$process->getErrorOutput()}</error>");
 
-        return $this->failure;
+        return self::FAILURE;
     }
+
+    abstract public function createProcess(InputInterface $input);
 }

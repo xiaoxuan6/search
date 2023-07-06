@@ -13,8 +13,6 @@
 namespace Vinhson\Search\SingleCommands;
 
 use Symfony\Component\Process\Process;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\SingleCommandApplication;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 
 class QrcodeCommand extends SingleCommandApplication
@@ -28,22 +26,10 @@ class QrcodeCommand extends SingleCommandApplication
 
     /**
      * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
+     * @return Process
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function createProcess(InputInterface $input): Process
     {
-        $process = Process::fromShellCommandline('search qrcode !data!', null, ['data' => $input->getArgument('data')]);
-        $process->run();
-
-        if($process->isSuccessful()) {
-            $output->writeln("<info>{$process->getOutput()}</info>");
-
-            return self::SUCCESS;
-        }
-
-        $output->writeln("<error>{$process->getErrorOutput()}</error>");
-
-        return self::FAILURE;
+        return create_process('search qrcode !data!', ['data' => $input->getArgument('data')]);
     }
 }

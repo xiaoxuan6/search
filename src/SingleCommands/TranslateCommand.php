@@ -12,18 +12,11 @@
 
 namespace Vinhson\Search\SingleCommands;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Vinhson\Search\SingleCommands\Traits\ExecuteTrait;
-use Symfony\Component\Console\SingleCommandApplication;
-use Symfony\Component\Console\Exception\ExceptionInterface;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 
 class TranslateCommand extends SingleCommandApplication
 {
-    use ExecuteTrait;
-
-    protected string $command = 'search chat !msg!';
-
     protected function configure()
     {
         $this->setName('translate')
@@ -33,16 +26,10 @@ class TranslateCommand extends SingleCommandApplication
 
     /**
      * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     * @throws ExceptionInterface
+     * @return Process
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function createProcess(InputInterface $input): Process
     {
-        $this->env = ['msg' => "翻译{$input->getArgument('data')}"];
-
-        $output->writeln("<comment>翻译结果：</comment>");
-
-        return $this->exec($input, $output);
+        return create_process('search chat !msg!', ['msg' => "翻译{$input->getArgument('data')}"]);
     }
 }

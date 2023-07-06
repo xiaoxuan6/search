@@ -11,6 +11,7 @@
  */
 
 use TitasGailius\Terminal\Terminal;
+use Symfony\Component\Process\Process;
 use Vinhson\Search\Services\CacheService;
 use Vinhson\Search\Exceptions\RuntimeException;
 
@@ -110,5 +111,20 @@ if(! function_exists('check_file')) {
         }
 
         return [true, $file];
+    }
+}
+
+if (! function_exists('create_process')) {
+    /**
+     * @param $command
+     * @param $env
+     * @return Process
+     */
+    function create_process($command, $env)
+    {
+        $process = Process::fromShellCommandline($command, null, $env);
+        $process->run();
+
+        return $process;
     }
 }
