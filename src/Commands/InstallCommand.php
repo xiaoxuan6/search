@@ -125,7 +125,8 @@ class InstallCommand extends Command
         $this->default = array_merge($this->default, array_keys($this->chromePlugins));
         $this->allowAttribute = array_merge($this->allowAttribute, $this->chromePlugins);
 
-        if(is_array($commands = $this->allowAttribute[$input->getArgument('attribute')])) {
+        $attribute = $input->getArgument('attribute');
+        if($input->getArgument('attribute') && is_array($commands = $this->allowAttribute[$attribute])) {
             $command = collect($commands)->join(' && ');
             $process = Process::fromShellCommandline($command);
             $process->setTimeout(300);
