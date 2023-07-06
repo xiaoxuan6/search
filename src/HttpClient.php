@@ -25,7 +25,7 @@ class HttpClient
     public static function getClient(): Client
     {
         $handler = HandlerStack::create();
-        $handler->push(RequestHandle::withHost(RequestHandle::fetchHost()));
+        $handler->push(RequestHandle::withHost(RequestHandle::parseUri()));
 
         if (! self::$client) {
             self::$client = new Client([

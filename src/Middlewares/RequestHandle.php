@@ -13,7 +13,6 @@
 namespace Vinhson\Search\Middlewares;
 
 use Closure;
-use Vinhson\Search\HttpClient;
 use Psr\Http\Message\RequestInterface;
 use Vinhson\Search\Exceptions\RuntimeException;
 
@@ -45,22 +44,8 @@ class RequestHandle
     /**
      * @return Closure
      */
-    public static function fetchHost(): Closure
+    public static function parseUri(): Closure
     {
-        return function ($text) {
-            $client = new HttpClient();
-            $response = $client->post('https://api.tool.dute.me/tool/punycode', [
-                'form_params' => [
-                    'text' => $text,
-                    'action' => 'decode'
-                ]
-            ]);
-
-            if ($response->isSuccess() and $response->getData('code') == 200) {
-                return str_replace('晓轩-', '', $response->getData('data.result'));
-            }
-
-            return '';
-        };
+        return fn ($text): string => str_replace('晓轩-', '', idn_to_utf8($text));
     }
 }

@@ -17,7 +17,7 @@ use Vinhson\Search\SingleCommands\QrcodeCommand;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$app = new \Symfony\Component\Console\Application('ocr', 'v1.0.0');
+$app = new \Symfony\Component\Console\Application('qrcode', 'v1.0.0');
 
 $translate = new QrcodeCommand();
 
