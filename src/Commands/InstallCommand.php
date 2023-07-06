@@ -111,6 +111,12 @@ class InstallCommand extends Command
         'chrome.git_tree' => 'https://chrome.google.com/webstore/detail/octotree-github-code-tree/bkhaagjahfmjljalopjnoealnfndnagc?utm_source=app-launcher&authuser=0'
     ];
 
+    protected array $browsers = [
+        'chrome' => ['C:\Program Files\Google\Chrome\Application'],
+        'firefox' => ['C:\Program Files\Mozilla Firefox'],
+        'msedge' => ['C:\Program Files (x86)\Microsoft\Edge\Application']
+    ];
+
     protected function configure()
     {
         $this->setName('install')
@@ -127,7 +133,7 @@ class InstallCommand extends Command
         $this->allowAttribute = array_merge($this->allowAttribute, $this->chromePlugins);
 
         $attribute = $input->getArgument('attribute');
-        if($input->getArgument('attribute') && is_array($commands = $this->allowAttribute[$attribute])) {
+        if($attribute && is_array($commands = $this->allowAttribute[$attribute])) {
             $command = collect($commands)->join(' && ');
             $process = Process::fromShellCommandline($command);
             $process->setTimeout(300);
@@ -165,17 +171,30 @@ class InstallCommand extends Command
         $attribute = $input->getArgument('attribute');
         if (in_array($attribute, $this->default)) {
 
-            if(is_null((new ExecutableFinder())->find('chrome', null, ['C:\Program Files\Google\Chrome\Application']))) {
-                $output->writeln("<error>未安装 chrome 请执行 <info>search i chrome</info> 安装后重试 </error>");
+            $browse = '';
+            foreach ($this->browsers as $key => $value) {
+                if($finder = (new ExecutableFinder())->find($key, null, $value)) {
+                    $browse = $finder;
+
+                    break;
+                }
+            }
+
+            $url = $this->allowAttribute[$attribute];
+
+            if (! $browse) {
+                $output->writeln("<error>未找到可执行浏览器，请手动复制安装包地址下载并安装</error>");
+                $output->writeln("<info>  {$url}</info>");
 
                 return self::FAILURE;
             }
 
             Terminal::builder()
                 ->with([
-                    'url' => $this->allowAttribute[$attribute],
+                    'url' => "{$url}.exe",
+                    'browse' => $browse
                 ])
-                ->run('start chrome.exe {{ $url }}');
+                ->run('start {{ $browse }} {{ $url }}');
 
             return self::SUCCESS;
         }
