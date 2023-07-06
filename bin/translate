@@ -15,7 +15,15 @@ namespace Vinhson\Search;
 
 use Vinhson\Search\SingleCommands\TranslateCommand;
 
-require __DIR__ . '/../vendor/autoload.php';
+$autoloads = [
+    __DIR__ . '/../vendor/autoload.php',
+    __DIR__ . '/../../../autoload.php'
+];
+foreach ($autoloads as $autoload) {
+    if (file_exists($autoload)) {
+        require_once $autoload;
+    }
+}
 
 $app = new \Symfony\Component\Console\Application('translate', 'v1.0.0');
 

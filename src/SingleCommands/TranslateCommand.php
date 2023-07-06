@@ -41,6 +41,8 @@ class TranslateCommand extends SingleCommandApplication
     {
         $this->env = ['msg' => "翻译{$input->getArgument('data')}"];
 
+        $output->writeln("<comment>翻译结果：</comment>");
+
         return $this->exec($input, $output);
     }
 }
