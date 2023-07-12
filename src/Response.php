@@ -62,4 +62,9 @@ class Response
     {
         return $this->response->getReasonPhrase();
     }
+
+    public function getResponse()
+    {
+        return $this->response;
+    }
 }

@@ -24,18 +24,26 @@ class HttpClient
 
     public static function getClient(): Client
     {
-        $handler = HandlerStack::create();
-        $handler->push(RequestHandle::withHost(RequestHandle::parseUri()));
-
         if (! self::$client) {
             self::$client = new Client([
                 'time' => self::$time,
                 'verify' => false,
-                'handler' => $handler
+                'handler' => self::getHandlers()
             ]);
         }
 
         return self::$client;
+    }
+
+    /**
+     * @return HandlerStack
+     */
+    protected static function getHandlers(): HandlerStack
+    {
+        $handler = HandlerStack::create();
+        $handler->push(RequestHandle::withHost(RequestHandle::parseUri()));
+
+        return $handler;
     }
 
     public function setTimeout(int $time): HttpClient

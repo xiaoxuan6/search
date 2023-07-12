@@ -12,7 +12,6 @@
 
 namespace Vinhson\Search\Commands;
 
-use Vinhson\Search\Di;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Exception\ExceptionInterface;
@@ -65,7 +64,6 @@ class ConfigCommand extends Command
 
             case 'get':
                 $this->process(['git', 'config', $key], function ($type, $buffer) use ($key, $output): void {
-                    Di::set(trim($buffer));
                     $output->writeln("git config {$key}：<info>{$buffer}</info>");
                 });
 

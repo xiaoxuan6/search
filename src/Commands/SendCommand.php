@@ -12,7 +12,6 @@
 
 namespace Vinhson\Search\Commands;
 
-use Vinhson\Search\Di;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Exception\ExceptionInterface;
@@ -39,16 +38,7 @@ class SendCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->call('config', [
-            'attribute' => 'get',
-            '--key' => 'send.token',
-        ]);
-
-        if (! $token = Di::get()) {
-            $output->writeln(PHP_EOL . "<error>Invalid token, Please set git config `send.token`</error>");
-
-            return self::FAILURE;
-        }
+        $token = cache('send.token', 'Invalid token, Please set git config `send.token`');
 
         $response = $this->client->get(
             sprintf(
