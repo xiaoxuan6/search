@@ -1,0 +1,35 @@
+#!/usr/bin/env php
+<?php
+
+/*
+ * This file is part of james.xue/search.
+ *
+ * (c) vinhson <15227736751@qq.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ *
+ */
+
+namespace Vinhson\Search;
+
+use Vinhson\Search\SingleCommands\ApiCommand;
+
+$autoloads = [
+    __DIR__ . '/../vendor/autoload.php',
+    __DIR__ . '/../../../autoload.php'
+];
+foreach ($autoloads as $autoload) {
+    if (file_exists($autoload)) {
+        require_once $autoload;
+    }
+}
+
+$app = new \Symfony\Component\Console\Application('ocr', 'v1.0.0');
+
+$translate = new ApiCommand();
+
+$app->add($translate);
+
+$app->setDefaultCommand($translate->getName(), true);
+$app->run();
