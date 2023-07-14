@@ -15,11 +15,11 @@ namespace Vinhson\Search\SingleCommands;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 
-class ApiCommand extends SingleCommandApplication
+class ActionPushCommand extends SingleCommandApplication
 {
     protected function configure()
     {
-        $this->setName('api')
+        $this->setName('push')
             ->addArgument('data', InputArgument::REQUIRED, '提交数据内容');
     }
 
@@ -29,6 +29,11 @@ class ApiCommand extends SingleCommandApplication
      */
     public function createProcess(InputInterface $input): Process
     {
-        return create_process('search actions:push "!data!" "api"', ['data' => $input->getArgument('data')]);
+        $filename = trim($this->getName(), 'bin/');
+
+        return create_process(
+            'search actions:push "!data!" "!filename!"',
+            ['data' => $input->getArgument('data'), 'filename' => $filename]
+        );
     }
 }
