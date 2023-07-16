@@ -120,7 +120,7 @@ if (! function_exists('create_process')) {
      * @param $env
      * @return Process
      */
-    function create_process($command, $env)
+    function create_process($command, $env): Process
     {
         $process = Process::fromShellCommandline($command, null, $env);
         $process->run();
