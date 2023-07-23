@@ -29,7 +29,7 @@ class ActionPushCommand extends SingleCommandApplication
      */
     public function createProcess(InputInterface $input): Process
     {
-        $filename = trim($this->getName(), 'bin/');
+        $filename = pathinfo(basename($this->getName()), PATHINFO_FILENAME);
 
         return create_process(
             'search actions:push "!data!" "!filename!"',
