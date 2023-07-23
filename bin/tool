@@ -27,9 +27,9 @@ foreach ($autoloads as $autoload) {
 
 $app = new \Symfony\Component\Console\Application('tool', 'v1.0.0');
 
-$translate = new ActionPushCommand();
+$tool = new ActionPushCommand();
 
-$app->add($translate);
+$app->add($tool);
 
-$app->setDefaultCommand($translate->getName(), true);
+$app->setDefaultCommand($tool->getName(), true);
 $app->run();

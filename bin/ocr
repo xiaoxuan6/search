@@ -27,9 +27,9 @@ foreach ($autoloads as $autoload) {
 
 $app = new \Symfony\Component\Console\Application('ocr', 'v1.0.0');
 
-$translate = new OCRCommand();
+$ocr = new OCRCommand();
 
-$app->add($translate);
+$app->add($ocr);
 
-$app->setDefaultCommand($translate->getName(), true);
+$app->setDefaultCommand($ocr->getName(), true);
 $app->run();

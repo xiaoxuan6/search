@@ -27,9 +27,9 @@ foreach ($autoloads as $autoload) {
 
 $app = new \Symfony\Component\Console\Application('api', 'v1.0.0');
 
-$translate = new ActionPushCommand();
+$api = new ActionPushCommand();
 
-$app->add($translate);
+$app->add($api);
 
-$app->setDefaultCommand($translate->getName(), true);
+$app->setDefaultCommand($api->getName(), true);
 $app->run();

@@ -27,9 +27,9 @@ foreach ($autoloads as $autoload) {
 
 $app = new \Symfony\Component\Console\Application('qrcode', 'v1.0.0');
 
-$translate = new QrcodeCommand();
+$qrcode = new QrcodeCommand();
 
-$app->add($translate);
+$app->add($qrcode);
 
-$app->setDefaultCommand($translate->getName(), true);
+$app->setDefaultCommand($qrcode->getName(), true);
 $app->run();

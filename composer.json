@@ -46,7 +46,9 @@
         "bin/search",
         "bin/translate",
         "bin/ocr",
-        "bin/qrcode"
+        "bin/qrcode",
+        "bin/api",
+        "bin/tool"
     ],
     "require-dev": {
         "friendsofphp/php-cs-fixer": "*",
