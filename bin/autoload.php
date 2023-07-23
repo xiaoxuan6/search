@@ -1,4 +1,3 @@
-#!/usr/bin/env php
 <?php
 
 /*
@@ -11,13 +10,13 @@
  *
  */
 
-namespace Vinhson\Search;
+$autoloads = [
+    __DIR__ . '/../vendor/autoload.php',
+    __DIR__ . '/../../../autoload.php'
+];
 
-use Exception;
-
-include_once __DIR__ . '/autoload.php';
-
-try {
-    (new Application())->run();
-} catch (Exception $e) {
+foreach ($autoloads as $autoload) {
+    if (file_exists($autoload)) {
+        require_once $autoload;
+    }
 }

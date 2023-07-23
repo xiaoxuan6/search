@@ -13,17 +13,8 @@
 
 namespace Vinhson\Search;
 
+include_once __DIR__ . '/autoload.php';
 use Vinhson\Search\SingleCommands\ActionPushCommand;
-
-$autoloads = [
-    __DIR__ . '/../vendor/autoload.php',
-    __DIR__ . '/../../../autoload.php'
-];
-foreach ($autoloads as $autoload) {
-    if (file_exists($autoload)) {
-        require_once $autoload;
-    }
-}
 
 $app = new \Symfony\Component\Console\Application('tool', 'v1.0.0');
 
