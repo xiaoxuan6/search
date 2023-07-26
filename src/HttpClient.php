@@ -22,6 +22,8 @@ class HttpClient
 
     protected static int $time = 30;
 
+    protected static bool $disableRequestHandle = true;
+
     public static function getClient(): Client
     {
         if (! self::$client) {
@@ -41,9 +43,24 @@ class HttpClient
     protected static function getHandlers(): HandlerStack
     {
         $handler = HandlerStack::create();
-        $handler->push(RequestHandle::withHost(RequestHandle::parseUri()));
+
+        if(self::$disableRequestHandle) {
+            $handler->push(RequestHandle::withHost(RequestHandle::parseUri()));
+        }
 
         return $handler;
+    }
+
+    public static function make(): HttpClient
+    {
+        return (new self())->disableRequestHandle();
+    }
+
+    public function disableRequestHandle($disable = false): HttpClient
+    {
+        self::$disableRequestHandle = $disable;
+
+        return $this;
     }
 
     public function setTimeout(int $time): HttpClient
