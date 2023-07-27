@@ -56,7 +56,7 @@ class HttpClient
         return (new self())->disableRequestHandle();
     }
 
-    public function disableRequestHandle($disable = false): HttpClient
+    public function disableRequestHandle(bool $disable = false): HttpClient
     {
         self::$disableRequestHandle = $disable;
 

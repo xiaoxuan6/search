@@ -12,10 +12,12 @@
 
 namespace Vinhson\Search\Commands;
 
+use InvalidArgumentException;
+use Vinhson\Search\Api\Application;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption};
 
-class QrcodeCommand extends BaseCommand
+class QrcodeCommand extends Command
 {
     protected function configure()
     {
@@ -32,6 +34,7 @@ class QrcodeCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $data = $input->getArgument('data');
         if($background = $input->getOption('background')) {
 
             if(! is_valid_url($background)) {
@@ -44,49 +47,20 @@ class QrcodeCommand extends BaseCommand
                 }
             }
 
-            $response = $this->client->upload(
-                sprintf("%s%s", cache('qrcode.attachmentUrl'), '/attachment/1B/tmp_upload'),
-                [
-                    [
-                        'name' => 'name',
-                        'contents' => realpath($background)
-                    ],
-                    [
-                        'name' => 'file',
-                        'contents' => fopen($background, 'rb')
-                    ]
-                ],
-                [
-                    'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
-                ]
-            );
+            try {
+                $response = (new Application())->qrcode->generateWithBackground($data, $background);
 
-            if($response->isSuccess() and $response->getData('status')) {
+                $output->writeln("<comment>二维码生成成功：</comment>" . PHP_EOL . "<info>{$response}</info>");
 
-                $data = [
-                    "text" => $input->getArgument('data'),
-                    "tolerance" => 30,
-                    "background_image" => $response->getData('data.info'),
-                    "left" => 0,
-                    "top" => 0,
-                    "width" => 100,
-                    "height" => 100,
-                ];
+            } catch (InvalidArgumentException $exception) {
 
-                $url = cache('qrcode.attachmentUrl') . '/qrcode/bg_qr.html?' . http_build_query($data);
-                $this->client->get($url, ['sink' => './qrcode.png']);
+                $output->writeln("<comment>二维码生成失败：</comment>" . PHP_EOL . "<error>{$exception->getMessage()}</error>");
 
-                $output->writeln("二维码生成功：<info>./qrcode.png</info>");
-
-                return self::SUCCESS;
             }
 
-            $output->writeln("<error>二维码生成失败：{$response->getData('message')}</error>");
-
-            return self::FAILURE;
+            return self::SUCCESS;
         }
 
-        $data = $input->getArgument('data');
         $url = filter_var($data, FILTER_VALIDATE_URL);
         $ext = pathinfo($data, PATHINFO_EXTENSION);
         if (($url and in_array($ext, ['jpg', 'png', 'jpeg'])) or in_array($ext, ['jpg', 'png', 'jpeg'])) {
@@ -117,33 +91,22 @@ class QrcodeCommand extends BaseCommand
             }
         }
 
-        $response = $this->client->upload(
-            sprintf("%s/api/qrcode/decode", trim(cache('qrcode.url'), '/')),
-            [
-                [
-                    'name' => 'file',
-                    'contents' => fopen($file, 'rb')
-                ]
-            ],
-            [
-                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
-            ]
-        );
+        try {
+            $response = (new Application())->qrcode->decode($file);
 
-        if (! $response->isSuccess() or $response->getData('code') != 200) {
-            $output->writeln("识别结果：<error>{$response->getMessage('msg')}</error>");
+            $output->writeln("<comment>识别结果：</comment>" . PHP_EOL . "<info>{$response}</info>");
 
-            return;
+        } catch (InvalidArgumentException $exception) {
+
+            $output->writeln("<comment>识别结果：</comment>" . PHP_EOL . "<error>{$exception->getMessage()}</error>");
+
         }
-
-        $output->writeln("<comment>识别结果：</comment>" . PHP_EOL . "<info>{$response->getData('result')}</info>");
-
     }
 
-    private function generate($data, OutputInterface $output): void
+    private function generate(string $data, OutputInterface $output): void
     {
-        $this->client->get(sprintf("%s/api/qrcode/encode?text=%s&m=1&type=jpg&size=15", cache('qrcode.url'), $data), ['sink' => './qrcode.png']);
+        $response = (new Application())->qrcode->generate($data);
 
-        $output->writeln("二维码生成成功：<info>./qrcode.png</info>");
+        $output->writeln("二维码生成成功：<info>{$response}</info>");
     }
 }

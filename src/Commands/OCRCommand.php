@@ -12,37 +12,17 @@
 
 namespace Vinhson\Search\Commands;
 
+use Vinhson\Search\Api\Application;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 
-class OCRCommand extends BaseCommand
+class OCRCommand extends Command
 {
-    private string $authorization;
-
-    private array $userInfo = [
-        'qimei36' => '',
-        'qua2' => ''
-    ];
-
     protected function configure()
     {
         $this->setName('ocr')
             ->setDescription('图片文字提取')
             ->addArgument('filename', InputArgument::REQUIRED, '图片路径');
-    }
-
-    protected function interact(InputInterface $input, OutputInterface $output)
-    {
-        $userInfo = $this->userInfo + ['guid' => cache('ocr.guid')];
-
-        $response = $this->client->get(sprintf("%s/api/getToken?userInfo=%s", trim(cache('ocr.url'), '/'), http_build_query($userInfo)));
-        if (! $response->isSuccess() or $response->getMessage('ret') != 0) {
-            $output->writeln("<error>获取 token 失败：{$response->getMessage('msg')}</error>");
-
-            die();
-        }
-
-        $this->authorization = $response->getData('token');
     }
 
     /**
@@ -64,25 +44,7 @@ class OCRCommand extends BaseCommand
             }
         }
 
-        $response = $this->client->upload(
-            sprintf("%s/cgi-bin/tools/ocr", trim(cache('ocr.url'), '/')),
-            [
-                [
-                    'name' => 'file_data',
-                    'contents' => fopen($filename, 'rb')
-                ],
-                [
-                    'name' => 'userInfo',
-                    'contents' => json_encode($this->userInfo + ['guid' => cache('ocr.guid')], JSON_UNESCAPED_UNICODE)
-                ]
-            ],
-            [
-                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
-                'Authorization' => $this->authorization,
-                'Timestamp' => time()
-            ]
-        );
-
+        $response = (new Application())->ocr->handle($filename);
         if (! $response->isSuccess()) {
             $output->writeln("<error>{$response->getMessage('msg')}</error>");
 
@@ -90,7 +52,6 @@ class OCRCommand extends BaseCommand
         }
 
         $output->writeln(PHP_EOL . "<comment>检测结果：</comment>");
-
         if ($response->getData('header.retCode') != 0) {
 
             preg_match('/Message=(.*?), RequestId/', $response->getData('header.reason'), $m);

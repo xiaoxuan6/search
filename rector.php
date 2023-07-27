@@ -28,6 +28,7 @@ return static function (RectorConfig $rectorConfig) {
         __DIR__ . '/src/Commands/EnvCommand.php',
         __DIR__ . '/src/Commands/Actions/FileUploadCommand.php',
         __DIR__ . '/src/Response.php',
+        __DIR__ . '/src/Api/Config/Client.php'
     ]);
 
     $rectorConfig->sets([

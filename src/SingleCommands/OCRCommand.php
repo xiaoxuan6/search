@@ -59,7 +59,7 @@ class OCRCommand extends SingleCommandApplication
         $filename = $input->getArgument('filename');
         $process = create_process('search ocr !filename!', ['filename' => $filename]);
 
-        if(file_exists($filename)) {
+        if($input->getOption('disable_file') and file_exists($filename)) {
             @unlink($filename);
         }
 

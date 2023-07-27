@@ -125,3 +125,32 @@ translate test
 ```
 
 </details>
+
+# Api
+
+```bash
+$app = new Vinhson\Search\Api\Application();
+```
+
+<details>
+<summary><b>OCR</b></summary>
+
+```bash
+$app->ocr->handle("./a.png");
+```
+
+</details>
+
+<details>
+<summary><b>Qrcode</b></summary>
+
+```bash
+// 生成二维码
+$app->qrcode->generate("https://github.com/xiaoxuan6/search");
+// 生成带背景的二维码
+$app->qrcode->generate("https://github.com/xiaoxuan6/search", "https://background.com/a.png");
+// 解析二维码
+$app->qrcode->decode("./qrcode.png");
+```
+
+</details>

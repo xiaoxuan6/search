@@ -12,6 +12,7 @@
 
 namespace Vinhson\Search\SingleCommands;
 
+use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -24,17 +25,12 @@ abstract class SingleCommandApplication extends \Symfony\Component\Console\Singl
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        /*** @var $process Process */
         $process = $this->createProcess($input);
 
-        if ($process->isSuccessful()) {
-            $output->writeln("<info>{$process->getOutput()}</info>");
+        $output->writeln("<info>{$process->getOutput()}</info>");
 
-            return self::SUCCESS;
-        }
-
-        $output->writeln("<error>{$process->getErrorOutput()}</error>");
-
-        return self::FAILURE;
+        return self::SUCCESS;
     }
 
     abstract public function createProcess(InputInterface $input);
