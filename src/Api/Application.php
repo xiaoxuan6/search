@@ -22,6 +22,7 @@ use Vinhson\Search\Api\Config\ServiceProvider;
  *
  * @property Client $ocr
  * @property Qrcode\Client $qrcode
+ * @property Image\Client $image
  */
 class Application extends Container
 {
@@ -30,6 +31,7 @@ class Application extends Container
         Http\ServiceProvider::class,
         OCR\ServiceProvider::class,
         Qrcode\ServiceProvider::class,
+        Image\ServiceProvider::class,
     ];
 
     public function __construct(array $values = [])

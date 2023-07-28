@@ -85,7 +85,7 @@ class Client extends BaseClient
      * 生成带有背景的二维码
      *
      * @param $data
-     * @param $background
+     * @param string $background
      * @return mixed
      */
     public function generateWithBackground($data, string $background)

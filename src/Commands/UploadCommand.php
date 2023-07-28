@@ -12,12 +12,13 @@
 
 namespace Vinhson\Search\Commands;
 
+use Vinhson\Search\Api\Application;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Console\Question\Question;
 use Vinhson\Search\Commands\Support\UploadSupport;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Exception\ExceptionInterface;
-use Symfony\Component\Console\Input\{InputArgument, InputInterface};
+use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption};
 
 class UploadCommand extends Command
 {
@@ -30,7 +31,8 @@ class UploadCommand extends Command
         $this->setName('upload')
             ->setDescription('上传本地图片/文件到远程')
             ->addArgument('filename', InputArgument::REQUIRED, '本地图片/文件路径')
-            ->addArgument('password', InputArgument::OPTIONAL, '设置密码');
+            ->addArgument('password', InputArgument::OPTIONAL, '设置密码')
+            ->addOption('watermark', 'w', InputOption::VALUE_OPTIONAL, '水印文本', 'https://xiaoxuan6.github.io');
     }
 
     /**
@@ -74,10 +76,17 @@ class UploadCommand extends Command
             goto QUESTION;
         }
 
+        $filename = './watermark.png';
+        file_put_contents($filename, base64_decode((new Application())->image->watermark($path, $input->getOption('watermark'))));
+        $path = realpath($filename);
+
         $needles = is_win() ? ["!REALPATH!", "!FILENAME!"] : ["\$REALPATH", "\$FILENAME"];
         $command = (new UploadSupport($needles, $input->getArgument('password')))->disableShowDelUrl()->toString();
         $process = Process::fromShellCommandline($command);
         $process->run(null, ['REALPATH' => $path, 'FILENAME' => basename($file)]);
+
+        @unlink($filename);
+
         if ($process->isSuccessful()) {
 
             $this->call('actions:upload', [
