@@ -63,7 +63,6 @@ Options:
 
 Available commands:
   brew                 ubuntu 安装可执行文件
-  chat                 AI聊天机器人
   completion           Dump the shell completion script
   config               设置配置信息
   env                  初始化配置信息
@@ -89,8 +88,6 @@ Available commands:
  git
   git:push             [gh] git 提交数据
   git:workdir          [gw] 设置git工作目录
- proxy
-  proxy:local          [local] 将本地网址代理到外网
  un
   un:proxy             删除本地代理
  wechat
