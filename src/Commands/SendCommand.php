@@ -21,7 +21,7 @@ class SendCommand extends BaseCommand
 {
     use CallTrait;
 
-    public const URI = 'https://www.phprm.com/services/push/trigger/';
+    public const URI = 'https://xizhi.qqoq.net/%s.send';
 
     protected function configure()
     {
@@ -40,19 +40,20 @@ class SendCommand extends BaseCommand
     {
         $token = cache('send.token', 'Invalid token, Please set git config `send.token`');
 
-        $response = $this->client->get(
-            sprintf(
-                "%s%s?%s",
-                self::URI,
-                $token,
-                http_build_query([
-                    'head' => '通知',
-                    'body' => $input->getArgument('data')
-                ])
-            )
+        $response = $this->client->post(
+            sprintf(self::URI, $token),
+            [
+                'json' => [
+                    'content' => $input->getArgument('data'),
+                    'date' => null,
+                    'time' => null,
+                    'title' => '通知',
+                    'type' => null
+                ]
+            ]
         );
 
-        if (! $response->isSuccess() || ($response->isSuccess() and $response->getData('code') != 0)) {
+        if (! $response->isSuccess() || ($response->isSuccess() and $response->getData('code') != 200)) {
             $output->writeln("<error>发送失败：{$response->getMessage('message')}</error>");
 
             return self::FAILURE;
