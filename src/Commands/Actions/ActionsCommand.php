@@ -54,17 +54,22 @@ abstract class ActionsCommand extends BaseCommand
         $token = cache('workflow.token', 'Invalid token, Please set git config `workflow.token`');
 
         exec('git config user.name', $name);
-        $response = $this->client->post("https://api.github.com/repos/{$name[0]}/{$this->repos}/dispatches", [
-            'json' => [
-                'event_type' => $this->event_type,
-                'client_payload' => $this->client_payload
-            ],
-            'headers' => [
-                'Accept' => 'application/vnd.github+json',
-                'Authorization' => 'token ' . $token,
-                'X-GitHub-Api-Version' => '2022-11-28'
-            ]
-        ]);
+        $response = $this->client
+            ->disableRequestHandle(false)
+            ->post(
+                "https://api.github.com/repos/{$name[0]}/{$this->repos}/dispatches",
+                [
+                    'json' => [
+                        'event_type' => $this->event_type,
+                        'client_payload' => $this->client_payload
+                    ],
+                    'headers' => [
+                        'Accept' => 'application/vnd.github+json',
+                        'Authorization' => 'token ' . $token,
+                        'X-GitHub-Api-Version' => '2022-11-28'
+                    ]
+                ]
+            );
 
         if ($response->getStatusCode() == 204) {
             $output->writeln("<info>请求成功！</info>");

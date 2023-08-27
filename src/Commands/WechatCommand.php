@@ -18,16 +18,20 @@ use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 
 class WechatCommand extends BaseCommand
 {
-    /**
-     * 获取 access_token：
-     * @see https://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index
-     */
     protected function configure()
     {
         $this->setName('wechat:send')
             ->setDescription('给微信测试号发送消息')
             ->addArgument('data', InputArgument::REQUIRED, '发送消息内容')
-            ->addArgument('url', InputArgument::OPTIONAL, '链接地址');
+            ->addArgument('url', InputArgument::OPTIONAL, '链接地址')
+            ->setHelp("获取配置地址：https://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index
+
+参数：
+    wechat.appid        公众号 appid
+    wechat.appSecret    公众号 appSecret
+    wechat.templateId   公众号消息模板 id
+    wechat.user         公众号用户 id
+");
     }
 
     /**
@@ -41,24 +45,26 @@ class WechatCommand extends BaseCommand
         $access_token = cache()->remember();
         $url = sprintf("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s", $access_token);
 
-        $response = $this->client->post($url, [
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36'
-            ],
-            'json' => [
-                'touser' => cache('wechat.user'),
-                'template_id' => cache('wechat.templateId'),
-                'url' => $input->getArgument('url'),
-                'topcolor' => '#173177',
-                'data' => [
-                    'content' => [
-                        'value' => $input->getArgument('data'),
-                        'color' => '#173177'
+        $response = $this->client
+            ->disableRequestHandle(false)
+            ->post($url, [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36'
+                ],
+                'json' => [
+                    'touser' => cache('wechat.user'),
+                    'template_id' => cache('wechat.templateId'),
+                    'url' => $input->getArgument('url'),
+                    'topcolor' => '#173177',
+                    'data' => [
+                        'content' => [
+                            'value' => $input->getArgument('data'),
+                            'color' => '#173177'
+                        ]
                     ]
                 ]
-            ]
-        ]);
+            ]);
 
         if ($response->isSuccess() && $response->getData('errcode') == 0) {
             $output->writeln("<info>发送成功</info>");
