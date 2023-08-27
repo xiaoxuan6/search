@@ -2,6 +2,20 @@
 
 All notable changes to `james.xue/search` will be documented in this file.
 
+## v1.2.0 - 2023-08-27
+
+### What's Changed
+
+- Remove proxy local by @xiaoxuan6 in https://github.com/xiaoxuan6/search/pull/5
+- merge main by @xiaoxuan6 in https://github.com/xiaoxuan6/search/pull/6
+- build(deps-dev): update rector/rector requirement from ^0.17.0 to ^0.17.0 || ^0.18.0 by @dependabot in https://github.com/xiaoxuan6/search/pull/7
+
+### New Contributors
+
+- @xiaoxuan6 made their first contribution in https://github.com/xiaoxuan6/search/pull/5
+
+**Full Changelog**: https://github.com/xiaoxuan6/search/compare/v1.1.0...v1.2.0
+
 ## v0.56.0 - 2023-07-26
 
 **Full Changelog**: https://github.com/xiaoxuan6/search/compare/v0.55.2...v0.56.0
