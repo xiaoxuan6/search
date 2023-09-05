@@ -40,7 +40,7 @@ class UploadCommand extends ActionsCommand
     {
         $url = $input->getArgument('url');
         $ext = pathinfo($url, PATHINFO_EXTENSION);
-        $this->filename = time() . '.' . $ext;
+        $this->filename = time() . '.' . (! empty($ext) ? $ext : 'jpg');
         $this->client_payload = [
             'url' => $url,
             'filename' => $this->filename
