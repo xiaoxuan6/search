@@ -51,7 +51,7 @@ class InstallCommand extends Command
     protected array $default = [
         'redis', 'composer', 'git', 'shell', 'host', 'clash', 'cmder', 'cpolar',
         'xdebug', 'go', 'python', 'navicat', 'phpstorm', 'golang', 'pycharm', 'typora',
-        'postman'
+        'postman', 'utools', 'screenToGif'
     ];
 
     protected array $allowAttribute = [
@@ -74,6 +74,7 @@ class InstallCommand extends Command
         'golang' => 'https://download.jetbrains.com/go/goland-2021.1.3.exe?_ga=2.228833948.101944321.1680495951-28370356.1646482185&_gl=1*35ki8m*_ga*MjgzNzAzNTYuMTY0NjQ4MjE4NQ..*_ga_9J976DJZ68*MTY4MDQ5NTk1MC42LjEuMTY4MDQ5NjM1OS42MC4wLjA.',
         'pycharm' => 'https://download.jetbrains.com/python/pycharm-professional-2021.1.3.exe?_gl=1*4tozqx*_ga*MjgzNzAzNTYuMTY0NjQ4MjE4NQ..*_ga_9J976DJZ68*MTY4MDQ5NTk1MC42LjEuMTY4MDQ5NjQ4My4zOS4wLjA.&_ga=2.154408632.101944321.1680495951-28370356.1646482185',
         'utools' => 'https://res.u-tools.cn/version2/uTools-3.3.0.exe',
+        'screenToGif' => 'https://github.com/NickeManarin/ScreenToGif/releases/download/2.38.1/ScreenToGif.2.38.1.Package.x64.msix',
 
         // proxy and gitbash
         'make' => 'https://github.com/xiaoxuan6/static/releases/download/v1.0.0.beta/make.exe',
@@ -192,7 +193,7 @@ class InstallCommand extends Command
 
             Terminal::builder()
                 ->with([
-                    'url' => "{$url}.exe",
+                    'url' => "{$url}",
                     'browse' => $browse
                 ])
                 ->run('start {{ $browse }} {{ $url }}');

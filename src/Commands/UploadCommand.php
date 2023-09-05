@@ -12,14 +12,13 @@
 
 namespace Vinhson\Search\Commands;
 
-use Symfony\Component\Process\Process;
+use Vinhson\Search\Api\Application;
 use Symfony\Component\Console\Question\Question;
-use Vinhson\Search\Commands\Support\UploadSupport;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Exception\ExceptionInterface;
-use Symfony\Component\Console\Input\{InputArgument, InputInterface};
+use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption};
 
-class UploadCommand extends Command
+class UploadCommand extends BaseCommand
 {
     use CallTrait;
 
@@ -30,7 +29,9 @@ class UploadCommand extends Command
         $this->setName('upload')
             ->setDescription('上传本地图片/文件到远程')
             ->addArgument('filename', InputArgument::REQUIRED, '本地图片/文件路径')
-            ->addArgument('password', InputArgument::OPTIONAL, '设置密码');
+            ->addOption('only_cloud', 'only', InputOption::VALUE_OPTIONAL, '仅上传云服务器', false)
+            ->addOption('disable_watermark', 'disable', InputOption::VALUE_OPTIONAL, '是否添加水印', false)
+            ->addOption('watermark_text', 'text', InputOption::VALUE_OPTIONAL, '水印文字', 'https://xiaoxuan6.github.io');
     }
 
     /**
@@ -74,21 +75,67 @@ class UploadCommand extends Command
             goto QUESTION;
         }
 
-        $needles = is_win() ? ["!REALPATH!", "!FILENAME!"] : ["\$REALPATH", "\$FILENAME"];
-        $command = (new UploadSupport($needles, $input->getArgument('password')))->disableShowDelUrl()->toString();
-        $process = Process::fromShellCommandline($command);
-        $process->run(null, ['REALPATH' => $path, 'FILENAME' => basename($file)]);
-        if ($process->isSuccessful()) {
+        // 设置水印
+        if ($input->getOption('disable_watermark')) {
+            $filename = './watermark.png';
+            file_put_contents($filename, base64_decode((new Application())->image->watermark($path, $input->getOption('watermark_text'))));
+            $path = realpath($filename);
+        }
 
+        // 上传到云服务器
+        $response = $this->upload($path);
+        if (! empty($response)) {
+
+            $output->writeln("<info>图片云地址：</info>{$response}");
+
+            if ($input->getOption('only_cloud')) {
+                return self::SUCCESS;
+            }
+
+            // 备份到 github
             $this->call('actions:upload', [
-                'url' => trim($process->getOutput())
+                'url' => $response
             ], $output);
 
             return self::SUCCESS;
         }
 
-        $output->writeln(sprintf("<info>上传失败：%s</info>", $process->getErrorOutput()));
+        $output->writeln("<error>上传失败，请重试！</error>");
 
         return self::FAILURE;
+    }
+
+    /**
+     * @param $filename
+     * @return string
+     */
+    public function upload($filename): string
+    {
+        $response = $this->client->upload(
+            sprintf('%s/image/cloudStorage/upload', cache('image.picUrl')),
+            [
+                [
+                    'name' => 'file_id',
+                    'contents' => 0
+                ],
+                [
+                    'name' => 'file',
+                    'contents' => fopen($filename, 'rb')
+                ]
+            ],
+            [
+                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+                'X-Requested-With' => 'XMLHttpRequest'
+            ]
+        );
+
+        if (! $response->isSuccess()) {
+            return '';
+        }
+        if ($response->getData('retCode') != '000000') {
+            return '';
+        }
+
+        return $response->getData('result.url');
     }
 }
