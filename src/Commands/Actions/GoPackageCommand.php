@@ -32,9 +32,17 @@ class GoPackageCommand extends ActionsCommand
 
     public function beforeExecute(InputInterface $input, OutputInterface $output): void
     {
+        $demoUrl = '';
+        $description = $input->getArgument('description');
+        if (filter_var($description, FILTER_VALIDATE_URL)) {
+            $demoUrl = $description;
+            $description = '';
+        }
+
         $this->client_payload = [
             'url' => $input->getArgument('url'),
-            'description' => $input->getArgument('description')
+            'description' => $description,
+            'demo_url' => $demoUrl
         ];
     }
 }
