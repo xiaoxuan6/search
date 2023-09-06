@@ -2,6 +2,16 @@
 
 All notable changes to `james.xue/search` will be documented in this file.
 
+## v1.2.2 - 2023-09-06
+
+### What's Changed
+
+- feat: upload image cloud and copy github by @xiaoxuan6 in https://github.com/xiaoxuan6/search/pull/8
+- fix: remove translate by @xiaoxuan6 in https://github.com/xiaoxuan6/search/pull/9
+- feat: go package add demo url by @xiaoxuan6 in https://github.com/xiaoxuan6/search/pull/10
+
+**Full Changelog**: https://github.com/xiaoxuan6/search/compare/v1.2.1...v1.2.2
+
 ## v1.2.1 - 2023-09-04
 
 **Full Changelog**: https://github.com/xiaoxuan6/search/compare/v1.2.0...v1.2.1
