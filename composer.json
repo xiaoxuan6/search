@@ -45,7 +45,6 @@
     },
     "bin": [
         "bin/search",
-        "bin/translate",
         "bin/ocr",
         "bin/qrcode",
         "bin/api",
