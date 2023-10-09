@@ -13,7 +13,7 @@
 namespace Vinhson\Search\Commands\Actions;
 
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\{InputArgument, InputInterface};
+use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption};
 
 class GoPackageCommand extends ActionsCommand
 {
@@ -27,7 +27,8 @@ class GoPackageCommand extends ActionsCommand
             ->setAliases(['agp'])
             ->setDescription('收藏 go 开源第三方包')
             ->addArgument('url', InputArgument::REQUIRED, '开源包地址')
-            ->addArgument('description', InputArgument::OPTIONAL, '描述', '');
+            ->addArgument('description', InputArgument::OPTIONAL, '描述', '')
+            ->addOption('domain', 'd', InputOption::VALUE_OPTIONAL, '示例地址', '');
     }
 
     public function beforeExecute(InputInterface $input, OutputInterface $output): void
@@ -37,6 +38,10 @@ class GoPackageCommand extends ActionsCommand
         if (filter_var($description, FILTER_VALIDATE_URL)) {
             $demoUrl = $description;
             $description = '';
+        }
+
+        if ($url = $input->getOption('domain')) {
+            $demoUrl = $url;
         }
 
         $this->client_payload = [
