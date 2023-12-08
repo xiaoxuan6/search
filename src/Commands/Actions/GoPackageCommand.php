@@ -28,7 +28,8 @@ class GoPackageCommand extends ActionsCommand
             ->setDescription('收藏 go 开源第三方包')
             ->addArgument('url', InputArgument::REQUIRED, '开源包地址')
             ->addArgument('description', InputArgument::OPTIONAL, '描述', '')
-            ->addOption('domain', 'd', InputOption::VALUE_OPTIONAL, '示例地址', '');
+            ->addOption('domain', 'd', InputOption::VALUE_OPTIONAL, '示例地址', '')
+            ->addOption('language', 'l', InputOption::VALUE_OPTIONAL, '语言', 'Go');
     }
 
     public function beforeExecute(InputInterface $input, OutputInterface $output): void
@@ -47,7 +48,8 @@ class GoPackageCommand extends ActionsCommand
         $this->client_payload = [
             'url' => $input->getArgument('url'),
             'description' => $description,
-            'demo_url' => $demoUrl
+            'demo_url' => $demoUrl,
+            'language' => $input->getOption('language')
         ];
     }
 }
