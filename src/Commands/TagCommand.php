@@ -23,7 +23,7 @@ class TagCommand extends Command
     {
         $this->setName('tag')
             ->addArgument("message", InputArgument::OPTIONAL, "tag description")
-            ->addOption("name", 'n', InputOption::VALUE_OPTIONAL, 'tag name', '')
+            ->addOption("name", 'u', InputOption::VALUE_OPTIONAL, 'tag name', '')
             ->setDescription('git 设置版本号并推送远程');
     }
 
