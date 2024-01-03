@@ -2,6 +2,14 @@
 
 All notable changes to `james.xue/search` will be documented in this file.
 
+## v1.2.4 - 2024-01-03
+
+### What's Changed
+
+* build(deps): bump stefanzweifel/git-auto-commit-action from 4 to 5 by @dependabot in https://github.com/xiaoxuan6/search/pull/12
+
+**Full Changelog**: https://github.com/xiaoxuan6/search/compare/v1.2.3...v1.2.4
+
 ## v1.2.3 - 2023-10-09
 
 ### What's Changed
