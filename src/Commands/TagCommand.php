@@ -46,11 +46,6 @@ class TagCommand extends Command
                 goto TAG;
             }
 
-            if (! str_starts_with('v', $answer)) {
-                $output->writeln("<comment>无效的 tag name，tag name 必须以 `v` 开始</comment>");
-                goto TAG;
-            }
-
             $tagName = $answer;
             $command = 'git tag !tag! && git push origin !tag!';
         } else {
