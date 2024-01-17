@@ -33,7 +33,7 @@ class ConfigCommand extends Command
             ->setDescription('设置配置信息')
             ->addArgument('attribute', InputArgument::OPTIONAL, '属性：set、get、unset、flush', 'set')
             ->addOption('key', 'k', InputOption::VALUE_OPTIONAL, 'config key')
-            ->addOption('value', 'v', InputOption::VALUE_OPTIONAL, 'config value');
+            ->addOption('value', 'val', InputOption::VALUE_OPTIONAL, 'config value');
     }
 
     /**

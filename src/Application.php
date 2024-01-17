@@ -38,7 +38,7 @@ use Vinhson\Search\Commands\{Actions\FileUploadCommand,
 
 class Application
 {
-    public const VERSION = 'v1.2.5';
+    public const VERSION = 'v1.2.6';
 
     protected \Symfony\Component\Console\Application $app;
 
