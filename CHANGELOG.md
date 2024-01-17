@@ -2,6 +2,14 @@
 
 All notable changes to `james.xue/search` will be documented in this file.
 
+## v1.2.6 - 2024-01-17
+
+### What's Changed
+
+* build(deps-dev): update rector/rector requirement from ^0.17.0 || ^0.18.0 to ^0.17.0 || ^0.18.0 || ^0.19.0 by @dependabot in https://github.com/xiaoxuan6/search/pull/13
+
+**Full Changelog**: https://github.com/xiaoxuan6/search/compare/v1.2.5...v1.2.6
+
 ## v1.2.5 - 2024-01-04
 
 **Full Changelog**: https://github.com/xiaoxuan6/search/compare/v1.2.4...v1.2.5
