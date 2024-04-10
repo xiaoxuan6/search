@@ -34,8 +34,7 @@
         "pimple/pimple": "^3.5",
         "illuminate/collections": "^10.48",
         "laravel/prompts": "dev-main",
-        "illuminate/support": "^10.48",
-        "cerbero/command-validator": "^2.5"
+        "illuminate/support": "^10.48"
     },
     "scripts": {
         "pint": "vendor/bin/php-cs-fixer fix",
