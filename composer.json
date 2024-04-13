@@ -27,7 +27,7 @@
         "php": "^8.0",
         "ext-json": "*",
         "ext-intl": "*",
-        "guzzlehttp/guzzle": "^7.5",
+        "guzzlehttp/guzzle": "^7.5 | ^7.8",
         "symfony/process": "*",
         "titasgailius/terminal": "^1.2",
         "symfony/finder": "^5.4",
