@@ -30,7 +30,7 @@
         "guzzlehttp/guzzle": "^7.5",
         "symfony/process": "*",
         "titasgailius/terminal": "^1.2",
-        "symfony/finder": "^5.4",
+        "symfony/finder": "^5.4 || ^6.0",
         "pimple/pimple": "^3.5",
         "illuminate/collections": "^10.48",
         "laravel/prompts": "dev-main",
