@@ -2,6 +2,16 @@
 
 All notable changes to `james.xue/search` will be documented in this file.
 
+## v1.2.7 - 2024-04-13
+
+### What's Changed
+
+* build(deps-dev): update rector/rector requirement from ^0.17.0 || ^0.18.0 || ^0.19.0 to ^0.17.0 || ^0.18.0 || ^0.19.0 || ^1.0 by @dependabot in https://github.com/xiaoxuan6/search/pull/16
+* build(deps): bump dependabot/fetch-metadata from 1.6.0 to 2.0.0 by @dependabot in https://github.com/xiaoxuan6/search/pull/15
+* build(deps): update symfony/finder requirement from ^5.4 to ^5.4 || ^6.0 by @dependabot in https://github.com/xiaoxuan6/search/pull/17
+
+**Full Changelog**: https://github.com/xiaoxuan6/search/compare/v1.2.6...v1.2.7
+
 ## v1.2.6 - 2024-01-17
 
 ### What's Changed
