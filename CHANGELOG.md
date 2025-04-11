@@ -2,6 +2,10 @@
 
 All notable changes to `james.xue/search` will be documented in this file.
 
+## v1.3.2 - 2025-04-11
+
+**Full Changelog**: https://github.com/xiaoxuan6/search/compare/v1.3.1...v1.3.2
+
 ## v1.3.1 - 2025-04-11
 
 **Full Changelog**: https://github.com/xiaoxuan6/search/compare/v1.3.0...v1.3.1
