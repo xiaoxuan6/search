@@ -13,6 +13,7 @@
 namespace Vinhson\Search;
 
 use GuzzleHttp\{Client, HandlerStack};
+use Psr\Http\Message\ResponseInterface;
 use Vinhson\Search\Middlewares\RequestHandle;
 use GuzzleHttp\Exception\{GuzzleException, RequestException};
 
@@ -44,7 +45,7 @@ class HttpClient
     {
         $handler = HandlerStack::create();
 
-        if(self::$disableRequestHandle) {
+        if (self::$disableRequestHandle) {
             $handler->push(RequestHandle::withHost(RequestHandle::parseUri()));
         }
 
@@ -97,10 +98,13 @@ class HttpClient
     protected function require($method, $url, array $payload = []): Response
     {
         try {
+            /**
+             * @var ResponseInterface $response
+             */
             $response = self::getClient()->{$method}($url, $payload);
 
             return new Response($response);
-        } catch (RequestException | GuzzleException $exception) {
+        } catch (RequestException|GuzzleException $exception) {
             return new Response($exception);
         }
     }

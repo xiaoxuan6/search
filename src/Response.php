@@ -26,7 +26,7 @@ class Response
             $response = new ErrorResponse($response);
         }
         $this->response = $response;
-        $this->body = new Collection(json_decode($response->getBody()->getContents(), true) ?? []);
+        $this->body = new Collection(json_decode($response->getBody()->getContents(), true) ?? $response->getBody()->getContents());
     }
 
     public function isSuccess(): bool
@@ -46,7 +46,7 @@ class Response
 
     public function getMessage(string $key): string
     {
-        if (strpos($key, '.') !== false) {
+        if (str_contains($key, '.')) {
             return data_get($this->body, $key);
         }
 
@@ -63,7 +63,7 @@ class Response
         return $this->response->getReasonPhrase();
     }
 
-    public function getResponse()
+    public function getResponse(): ResponseInterface
     {
         return $this->response;
     }

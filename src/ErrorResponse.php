@@ -12,17 +12,17 @@
 
 namespace Vinhson\Search;
 
-use Psr\Http\Message\{ResponseInterface, StreamInterface};
 use GuzzleHttp\Exception\{GuzzleException, RequestException};
+use Psr\Http\Message\{MessageInterface, ResponseInterface, StreamInterface};
 
 class ErrorResponse implements ResponseInterface
 {
     /**
      * @var RequestException | GuzzleException
      */
-    protected $body;
+    protected GuzzleException|RequestException $body;
 
-    public function __construct($exception)
+    public function __construct(GuzzleException $exception)
     {
         $this->body = $exception;
     }
@@ -37,67 +37,64 @@ class ErrorResponse implements ResponseInterface
         return $this->body->getMessage();
     }
 
-    public function withStatus($code, $reasonPhrase = ''): void
+    public function withStatus(int $code, string $reasonPhrase = ''): ResponseInterface
     {
-        // TODO: Implement withStatus() method.
+        return $this;
     }
 
-    public function getProtocolVersion(): void
+    public function getProtocolVersion(): string
     {
-        // TODO: Implement getProtocolVersion() method.
+        return '';
     }
 
-    public function withProtocolVersion($version): void
+    public function withProtocolVersion($version): MessageInterface
     {
-        // TODO: Implement withProtocolVersion() method.
+        return $this;
     }
 
-    public function getHeaders(): void
+    public function getHeaders(): array
     {
-        // TODO: Implement getHeaders() method.
+        return [];
     }
 
-    public function hasHeader($name): void
+    public function hasHeader($name): bool
     {
-        // TODO: Implement hasHeader() method.
+        return true;
     }
 
-    public function getHeader($name): void
+    public function getHeader($name): array
     {
-        // TODO: Implement getHeader() method.
+        return [];
     }
 
-    public function getHeaderLine($name): void
+    public function getHeaderLine($name): string
     {
-        // TODO: Implement getHeaderLine() method.
+        return '';
     }
 
-    public function withHeader($name, $value): void
+    public function withHeader($name, $value): MessageInterface
     {
-        // TODO: Implement withHeader() method.
+        return $this;
     }
 
-    public function withAddedHeader($name, $value): void
+    public function withAddedHeader($name, $value): MessageInterface
     {
-        // TODO: Implement withAddedHeader() method.
+        return $this;
     }
 
-    public function withoutHeader($name): void
+    public function withoutHeader($name): MessageInterface
     {
-        // TODO: Implement withoutHeader() method.
+        return $this;
     }
 
-    /**
-     * @return ErrorResponse
-     */
-    public function getBody(): ErrorResponse
+    public function getBody(): StreamInterface
     {
-        return new self($this->body);
+        return new ErrorStream($this->body);
     }
 
-    public function withBody(StreamInterface $body): void
+    public function withBody(StreamInterface $body): MessageInterface
     {
-        // TODO: Implement withBody() method.
+        return $this;
     }
 
     public function getContents(): string
