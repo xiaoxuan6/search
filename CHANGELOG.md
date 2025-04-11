@@ -2,6 +2,17 @@
 
 All notable changes to `james.xue/search` will be documented in this file.
 
+## v1.3.0 - 2025-04-11
+
+### What's Changed
+
+* build(deps): bump dependabot/fetch-metadata from 2.0.0 to 2.1.0 by @dependabot in https://github.com/xiaoxuan6/search/pull/18
+* build(deps): bump dependabot/fetch-metadata from 2.1.0 to 2.2.0 by @dependabot in https://github.com/xiaoxuan6/search/pull/19
+* build(deps): bump dependabot/fetch-metadata from 2.2.0 to 2.3.0 by @dependabot in https://github.com/xiaoxuan6/search/pull/21
+* build(deps-dev): update rector/rector requirement from ^0.17.0 || ^0.18.0 || ^0.19.0 || ^1.0 to ^0.17.0 || ^0.18.0 || ^0.19.0 || ^1.0 || ^2.0 by @dependabot in https://github.com/xiaoxuan6/search/pull/20
+
+**Full Changelog**: https://github.com/xiaoxuan6/search/compare/v1.2.7...v1.3.0
+
 ## v1.2.7 - 2024-04-13
 
 ### What's Changed
