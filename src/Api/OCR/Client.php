@@ -13,7 +13,6 @@
 namespace Vinhson\Search\Api\OCR;
 
 use Vinhson\Search\Response;
-
 use InvalidArgumentException;
 use Vinhson\Search\Api\Application;
 use Vinhson\Search\Api\Kernel\BaseClient;
@@ -40,12 +39,12 @@ class Client extends BaseClient
         $response = $this->client->get(
             sprintf(
                 "%s/api/getToken?userInfo=%s",
-                trim($this->config->get('ocr.url'), '/'),
+                trim((string) $this->config->get('ocr.url'), '/'),
                 http_build_query($this->userInfo)
             )
         );
 
-        if(! $response->isSuccess() or $response->getMessage('ret') != 0) {
+        if (! $response->isSuccess() or $response->getMessage('ret') != 0) {
             throw new InvalidArgumentException("获取 token 失败：{$response->getMessage('msg')}");
         }
 
@@ -59,7 +58,7 @@ class Client extends BaseClient
     public function handle($filename): Response
     {
         return $this->client->upload(
-            sprintf("%s/cgi-bin/tools/ocr", trim($this->config->get('ocr.url'), '/')),
+            sprintf("%s/cgi-bin/tools/ocr", trim((string) $this->config->get('ocr.url'), '/')),
             [
                 [
                     'name' => 'file_data',

@@ -55,7 +55,7 @@ class UserCommand extends BaseCommand
                 $response->getData('address.Gender') == 'Male' ? '男' : '女',
                 $response->getData('address.Birthday'),
                 $response->getData('address.Chain_ID_Card'),
-                trim($response->getData('address.Telephone'), '+86 '),
+                trim((string) $response->getData('address.Telephone'), '+86 '),
                 $response->getData('address.Credit_Card_Number')
             ];
 

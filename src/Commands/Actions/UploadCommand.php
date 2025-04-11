@@ -39,7 +39,7 @@ class UploadCommand extends ActionsCommand
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $url = $input->getArgument('url');
-        $ext = pathinfo($url, PATHINFO_EXTENSION);
+        $ext = pathinfo((string) $url, PATHINFO_EXTENSION);
         $this->filename = time() . '.' . (! empty($ext) ? $ext : 'jpg');
         $this->client_payload = [
             'url' => $url,

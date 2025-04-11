@@ -35,12 +35,12 @@ class QrcodeCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $data = $input->getArgument('data');
-        if($background = $input->getOption('background')) {
+        if ($background = $input->getOption('background')) {
 
-            if(! is_valid_url($background)) {
+            if (! is_valid_url($background)) {
                 [$status, $background] = check_file($background);
 
-                if($status == false) {
+                if ($status == false) {
                     $output->writeln("无效的二维码背景图、<error>{$background}</error>");
 
                     return self::FAILURE;
@@ -62,7 +62,7 @@ class QrcodeCommand extends Command
         }
 
         $url = filter_var($data, FILTER_VALIDATE_URL);
-        $ext = pathinfo($data, PATHINFO_EXTENSION);
+        $ext = pathinfo((string) $data, PATHINFO_EXTENSION);
         if (($url and in_array($ext, ['jpg', 'png', 'jpeg'])) or in_array($ext, ['jpg', 'png', 'jpeg'])) {
             $this->analyze($url, $data, $output);
 
@@ -82,7 +82,7 @@ class QrcodeCommand extends Command
      */
     private function analyze($url, $file, OutputInterface $output): void
     {
-        if(! $url) {
+        if (! $url) {
             [$status, $file] = check_file($file);
             if (! $status) {
                 $output->writeln("<error>{$file}</error>");

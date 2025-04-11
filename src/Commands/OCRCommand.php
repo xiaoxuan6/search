@@ -34,7 +34,7 @@ class OCRCommand extends Command
     {
         $filename = $input->getArgument('filename');
 
-        if(! filter_var($filename, FILTER_VALIDATE_URL)) {
+        if (! filter_var($filename, FILTER_VALIDATE_URL)) {
 
             [$status, $filename] = check_file($filename);
             if (! $status) {
@@ -54,7 +54,7 @@ class OCRCommand extends Command
         $output->writeln(PHP_EOL . "<comment>检测结果：</comment>");
         if ($response->getData('header.retCode') != 0) {
 
-            preg_match('/Message=(.*?), RequestId/', $response->getData('header.reason'), $m);
+            preg_match('/Message=(.*?), RequestId/', (string) $response->getData('header.reason'), $m);
             $output->writeln("<error>{$m[1]}</error>");
 
             return self::FAILURE;

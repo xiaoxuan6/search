@@ -44,7 +44,7 @@ class ConfigCommand extends Command
         $key = $input->getOption('key');
         $value = $input->getOption('value');
 
-        if (mb_substr($key, 0, 7) != self::PREFIX) {
+        if (mb_substr((string) $key, 0, 7) != self::PREFIX) {
             $key = self::PREFIX . $key;
         }
 
@@ -97,7 +97,7 @@ class ConfigCommand extends Command
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $helper = $this->getHelper('question');
-        $attribute = strtolower($input->getArgument('attribute'));
+        $attribute = strtolower((string) $input->getArgument('attribute'));
 
         if (! in_array($attribute, self::$attribute)) {
             $choice = new ChoiceQuestion("<comment>请选择有效的属性：</comment>", self::$attribute, 0);

@@ -30,25 +30,29 @@
         "guzzlehttp/guzzle": "^7.5 | ^7.8",
         "symfony/process": "*",
         "titasgailius/terminal": "^1.2",
-        "symfony/finder": "^5.4 || ^6.0",
         "pimple/pimple": "^3.5",
         "illuminate/collections": "^10.48",
         "laravel/prompts": "dev-main",
         "illuminate/support": "^10.48"
     },
     "scripts": {
-        "pint": "vendor/bin/php-cs-fixer fix",
-        "rector": "vendor/bin/rector process --clear-cache --no-diffs --ansi",
+        "pint": "vendor/bin/php-cs-fixer fix --config=vendor/james.xue/packet/.php-cs-fixer.php --using-cache=no --verbose --ansi",
+        "rector": "vendor/bin/rector process --config=vendor/james.xue/packet/rector.php --no-diffs --ansi",
         "fix": [
             "@rector",
             "@pint"
-        ]
+        ],
+        "unused": "vendor/bin/composer-unused --ansi -v"
     },
     "bin": [
         "bin/search"
     ],
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "*",
-        "rector/rector": "^0.17.0 || ^0.18.0 || ^0.19.0 || ^1.0 || ^2.0"
+        "james.xue/packet": "^0.1.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true
+        }
     }
 }

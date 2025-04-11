@@ -30,7 +30,7 @@ class RequestHandle
 
                 $parse = parse_url($url);
                 $scheme = $parse['scheme'] ?? 'https';
-                if($host = $parse['host']) {
+                if ($host = $parse['host']) {
                     $request = $request->withUri($request->getUri()->withHost($host)->withScheme($scheme));
                 } else {
                     throw new RuntimeException('无效的域名');

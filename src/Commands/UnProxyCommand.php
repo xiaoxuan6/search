@@ -34,7 +34,7 @@ class UnProxyCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        switch (strtolower($input->getOption('type'))) {
+        switch (strtolower((string) $input->getOption('type'))) {
             case 'git':
                 $this->process(['git', 'config', '--global', '--unset', 'http.proxy']);
                 $this->process(['git', 'config', '--global', '--unset', 'https.proxy']);

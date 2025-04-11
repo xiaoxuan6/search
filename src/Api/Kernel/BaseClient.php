@@ -16,17 +16,14 @@ use Vinhson\Search\{Api\Application, Api\Config\Client, HttpClient};
 
 class BaseClient
 {
-    public Application $application;
-
     protected HttpClient $client;
 
     protected Client $config;
 
     public function __construct(
-        Application $application
+        public Application $application
     ) {
-        $this->application = $application;
-        $this->client = $application['client'];
-        $this->config = $application['config'];
+        $this->client = $this->application['client'];
+        $this->config = $this->application['config'];
     }
 }

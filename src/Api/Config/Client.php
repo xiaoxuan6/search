@@ -20,7 +20,7 @@ class Client
     {
         $collect = $this->fetchConfig();
 
-        if(strstr('.', $key) == false) {
+        if (strstr('.', $key) == false) {
             return data_get($collect->toArray(), $key, $default);
         }
 

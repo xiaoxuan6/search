@@ -135,7 +135,7 @@ class InstallCommand extends Command
         $this->allowAttribute = array_merge($this->allowAttribute, $this->chromePlugins);
 
         $attribute = $input->getArgument('attribute');
-        if($attribute && is_array($commands = $this->allowAttribute[$attribute])) {
+        if ($attribute && is_array($commands = $this->allowAttribute[$attribute])) {
             $command = collect($commands)->join(' && ');
             $process = Process::fromShellCommandline($command);
             $process->setTimeout(300);
@@ -175,7 +175,7 @@ class InstallCommand extends Command
 
             $browse = '';
             foreach ($this->browsers as $key => $value) {
-                if($finder = (new ExecutableFinder())->find($key, null, $value)) {
+                if ($finder = (new ExecutableFinder())->find($key, null, $value)) {
                     $browse = $finder;
 
                     break;
@@ -209,7 +209,7 @@ class InstallCommand extends Command
         }
 
         $url = in_array($url, array_merge($this->proxy, $this->exportBin)) ? $url : self::PROXY_URL . $url;
-        $name = $this->aliases[$attribute] ?? basename($url);
+        $name = $this->aliases[$attribute] ?? basename((string) $url);
         $command = sprintf("wget -O %s %s", $name, $url);
         $process = Process::fromShellCommandline($command, getcwd());
         $process->setTimeout($input->getArgument('timeout') ?? 3 * 60);
@@ -253,7 +253,7 @@ class InstallCommand extends Command
      * @param $filename
      * @param $gitPath
      */
-    protected function moveFile(OutputInterface $output, $filename, $gitPath)
+    protected function moveFile(OutputInterface $output, string $filename, $gitPath)
     {
         if (! file_exists("./{$filename}")) {
             $output->writeln("<error>{$filename} 文件不存在</error>");

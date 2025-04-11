@@ -50,7 +50,7 @@ if (! function_exists('cache')) {
      * @param null $key
      * @param string $message
      */
-    function cache($key = null, string $message = '')
+    function cache($key = null, string $message = ''): string|CacheService
     {
         if ($key) {
             $class = new class () {
@@ -87,7 +87,7 @@ if (! function_exists('tap_abort')) {
      */
     function tap_abort($val, $message)
     {
-        return tap($val, function ($item) use ($message) {
+        return tap($val, function ($item) use ($message): void {
             if (! $item) {
                 throw new RuntimeException($message);
             }
@@ -95,15 +95,15 @@ if (! function_exists('tap_abort')) {
     }
 }
 
-if(! function_exists('check_file')) {
+if (! function_exists('check_file')) {
     /**
      * @param $file
      * @return array
      */
     function check_file($file): array
     {
-        if (strpos($file, './') !== false) {
-            $file = getcwd() . trim($file, '.');
+        if (str_contains((string) $file, './')) {
+            $file = getcwd() . trim((string) $file, '.');
         }
 
         if (! $file or ! file_exists(realpath($file))) {

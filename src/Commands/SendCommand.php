@@ -15,7 +15,7 @@ namespace Vinhson\Search\Commands;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Exception\ExceptionInterface;
-use Symfony\Component\Console\Input\{InputArgument, InputInterface, InputOption};
+use Symfony\Component\Console\Input\{InputArgument, InputInterface};
 
 class SendCommand extends BaseCommand
 {
@@ -77,7 +77,7 @@ class SendCommand extends BaseCommand
                 goto DATA;
             }
 
-            $input->setArgument('data', trim($answer));
+            $input->setArgument('data', trim((string) $answer));
         }
     }
 }

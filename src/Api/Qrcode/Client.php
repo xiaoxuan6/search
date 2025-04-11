@@ -74,7 +74,7 @@ class Client extends BaseClient
             $this->headers
         );
 
-        if($response->isSuccess() and $response->getData('status')) {
+        if ($response->isSuccess() and $response->getData('status')) {
             return $response->getData('data.info');
         }
 
@@ -119,7 +119,7 @@ class Client extends BaseClient
     public function decode($file): string
     {
         $response = $this->client->upload(
-            sprintf("%s/api/qrcode/decode", trim($this->config->get('qrcode.url'), '/')),
+            sprintf("%s/api/qrcode/decode", trim((string) $this->config->get('qrcode.url'), '/')),
             [
                 [
                     'name' => 'file',

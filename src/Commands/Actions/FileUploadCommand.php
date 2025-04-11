@@ -84,7 +84,7 @@ class FileUploadCommand extends BaseCommand
             ->mapWithKeys(fn ($value, $key) => [$key => $value['browser_download_url']])
             ->filter(fn ($item) => str_contains($item, $basename));
 
-        if($item->isNotEmpty()) {
+        if ($item->isNotEmpty()) {
             $output->writeln("<error>文件 {$basename} 已存在，请修改文件名重试！ </error>");
 
             return self::FAILURE;

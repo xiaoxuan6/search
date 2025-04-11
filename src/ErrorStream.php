@@ -17,11 +17,8 @@ use GuzzleHttp\Exception\RequestException;
 
 class ErrorStream implements StreamInterface
 {
-    public RequestException $body;
-
-    public function __construct(RequestException $body)
+    public function __construct(public RequestException $body)
     {
-        $this->body = $body;
     }
 
     public function __toString(): string

@@ -17,14 +17,8 @@ use Psr\Http\Message\{MessageInterface, ResponseInterface, StreamInterface};
 
 class ErrorResponse implements ResponseInterface
 {
-    /**
-     * @var RequestException | GuzzleException
-     */
-    protected GuzzleException|RequestException $body;
-
-    public function __construct(GuzzleException $exception)
+    public function __construct(protected GuzzleException|RequestException $body)
     {
-        $this->body = $exception;
     }
 
     public function getStatusCode(): int

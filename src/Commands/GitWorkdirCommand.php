@@ -42,14 +42,14 @@ class GitWorkdirCommand extends Command
         $env = array_filter(preg_split('/\n/', $env), fn ($value): bool => str_starts_with($value, 'HOME='));
 
         $gitConfigPath = trim(trim(current($env) ?? '', 'HOME='));
-        if(! $gitConfigPath) {
+        if (! $gitConfigPath) {
             $output->writeln("<error>未找到 .gitconfig 所在位置</error>");
 
             return self::FAILURE;
         }
 
-        if($path = $input->getArgument('path') and str_starts_with($path, './')) {
-            $path = getcwd() . rtrim($path, './');
+        if ($path = $input->getArgument('path') and str_starts_with((string) $path, './')) {
+            $path = getcwd() . rtrim((string) $path, './');
         }
 
         $path = str_replace(['\\', ':'], ['/', ':/'], $path);

@@ -54,8 +54,8 @@ class UploadCommand extends BaseCommand
                 goto QUESTION;
             }
 
-            if (strpos($answer, './') !== false) {
-                $answer = getcwd() . trim($answer, '.');
+            if (str_contains((string) $answer, './')) {
+                $answer = getcwd() . trim((string) $answer, '.');
             }
 
             $input->setArgument('filename', $answer);

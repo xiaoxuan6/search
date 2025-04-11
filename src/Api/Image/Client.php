@@ -44,7 +44,7 @@ class Client extends BaseClient
         $imageContent = base64_encode(file_get_contents($file));
 
         $response = $this->client->post(
-            sprintf("%s/base/gtool/api/v1/SingleTextWatermark", trim($this->config->get('image.url'), '/')),
+            sprintf("%s/base/gtool/api/v1/SingleTextWatermark", trim((string) $this->config->get('image.url'), '/')),
             [
                 'json' => [
                     'format' => pathinfo($file, PATHINFO_EXTENSION),
@@ -79,7 +79,7 @@ class Client extends BaseClient
     public function pixel(string $image, int $pixelRatio = 10): string
     {
         $response = $this->client->post(
-            sprintf("%s/base/gtool/api/v1/PixelImage", trim($this->config->get('image.url'), '/')),
+            sprintf("%s/base/gtool/api/v1/PixelImage", trim((string) $this->config->get('image.url'), '/')),
             [
                 'json' => [
                     'format' => pathinfo($image, PATHINFO_EXTENSION),
@@ -107,7 +107,7 @@ class Client extends BaseClient
     public function frostedGlass(string $image, int $glassRatio = 5): string
     {
         $response = $this->client->post(
-            sprintf("%s/base/gtool/api/v1/AeroGlassImage", trim($this->config->get('image.url'), '/')),
+            sprintf("%s/base/gtool/api/v1/AeroGlassImage", trim((string) $this->config->get('image.url'), '/')),
             [
                 'json' => [
                     'format' => pathinfo($image, PATHINFO_EXTENSION),
