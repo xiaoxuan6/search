@@ -54,5 +54,7 @@
         "allow-plugins": {
             "ergebnis/composer-normalize": true
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

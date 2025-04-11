@@ -38,7 +38,7 @@ use Vinhson\Search\Commands\{Actions\FileUploadCommand,
 
 class Application
 {
-    public const VERSION = 'v1.2.7';
+    public const VERSION = 'v1.3.2';
 
     protected \Symfony\Component\Console\Application $app;
 
@@ -75,7 +75,7 @@ class Application
         $this->register();
     }
 
-    protected function register()
+    protected function register(): void
     {
         foreach ($this->province as $item) {
             $this->app->add(new $item());
