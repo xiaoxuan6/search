@@ -31,9 +31,9 @@
         "symfony/process": "*",
         "titasgailius/terminal": "^1.2",
         "pimple/pimple": "^3.5",
-        "illuminate/collections": "^10.48",
         "laravel/prompts": "dev-main",
-        "illuminate/support": "^10.48"
+        "illuminate/collections": "^10.48 | ^12.0",
+        "illuminate/support": "^10.48 | ^12.0"
     },
     "scripts": {
         "pint": "vendor/bin/php-cs-fixer fix --config=vendor/james.xue/packet/.php-cs-fixer.php --using-cache=no --verbose --ansi",
@@ -47,14 +47,14 @@
     "bin": [
         "bin/search"
     ],
-    "require-dev": {
-        "james.xue/packet": "^0.1.0"
-    },
     "config": {
         "allow-plugins": {
             "ergebnis/composer-normalize": true
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "require-dev": {
+        "james.xue/packet": "^0.1 | ^1.0"
+    }
 }
